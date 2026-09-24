@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="420" viewBox="0 0 420 420" fill="none" stroke="#12278f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".55">
+  <!-- </> -->
+  <path d="M40 60l-22 22 22 22M92 60l22 22-22 22M76 52l-20 60"/>
+  <!-- phone -->
+  <rect x="300" y="30" width="54" height="100" rx="12"/><path d="M318 42h18M322 118h10"/>
+  <!-- database -->
+  <ellipse cx="190" cy="178" rx="34" ry="11"/><path d="M156 178v46c0 6 15 11 34 11s34-5 34-11v-46M156 201c0 6 15 11 34 11s34-5 34-11"/>
+  <!-- cloud -->
+  <path d="M40 300h78a22 22 0 0 0 2-44 32 32 0 0 0-61 6 20 20 0 0 0-19 38z"/>
+  <!-- gear -->
+  <circle cx="340" cy="300" r="16"/><path d="M340 272v-10M340 338v-10M312 300h-10M378 300h-10M320 280l-7-7M367 327l-7-7M320 320l-7 7M367 273l-7 7"/>
+  <!-- braces -->
+  <path d="M232 330c-10 0-12 6-12 14v10c0 6-4 9-10 9 6 0 10 3 10 9v10c0 8 2 14 12 14M268 330c10 0 12 6 12 14v10c0 6 4 9 10 9-6 0-10 3-10 9v10c0 8-2 14-12 14"/>
+  <!-- rocket -->
+  <path d="M120 150c14-14 34-20 34-20s-6 20-20 34l-14 14-14-14zM106 164l-12 2-8 10 16 2M134 192l-2 12-10 8-2-16"/>
+  <!-- bolt + sparkles -->
+  <path d="M262 60l-16 26h14l-8 24 20-30h-14l10-20z"/>
+  <path d="M190 400v14M183 407h14M20 200v10M15 205h10M400 180v10M395 185h10"/>
+  <circle cx="110" cy="390" r="3" fill="#12278f"/><circle cx="270" cy="250" r="3" fill="#12278f"/><circle cx="400" cy="400" r="3" fill="#12278f"/>
+</svg>
