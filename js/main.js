@@ -33,10 +33,11 @@ $$("[data-phone]").forEach((phone) => {
 
 /* ---------- Split text into characters (words kept together) ---------- */
 function split(el) {
+  // Letters stay real text (no duplicate copy), so search engines and screen readers read the heading once.
   const text = el.textContent.trim();
-  el.innerHTML = `<span class="sr">${text}</span>` + text
+  el.innerHTML = text
     .split(" ")
-    .map((word) => `<span class="w" aria-hidden="true" style="display:inline-block;white-space:nowrap">${[...word].map((c) => `<span class="ch">${c}</span>`).join("")}</span>`)
+    .map((word) => `<span class="w" style="display:inline-block;white-space:nowrap">${[...word].map((c) => `<span class="ch">${c.replace("&", "&amp;")}</span>`).join("")}</span>`)
     .join('<span class="sp"> </span>');
   return $$(".ch", el);
 }
@@ -82,6 +83,13 @@ $$("[data-gig]").forEach((btn) =>
     $(".form-note").textContent = `Selected: ${btn.dataset.gig}. Add a few details and send.`;
   })
 );
+
+/* ---------- Service pages link here with ?service=… to pre-select the form ---------- */
+{
+  const wanted = new URLSearchParams(location.search).get("service");
+  const select = $("#type");
+  if (wanted && [...select.options].some((o) => o.value === wanted)) select.value = wanted;
+}
 
 /* ---------- Background pattern spotlight follows the cursor ---------- */
 if (window.matchMedia("(hover: hover)").matches) {

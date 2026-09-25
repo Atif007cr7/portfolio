@@ -621,3 +621,12 @@ main, .footer { overflow-x: clip; }
   .brand-badge { width: 36px; height: 36px; }
   .brand-word { font-size: 21px; }
 }
+
+/* whole service card is clickable via its heading link */
+.svc-link { color: inherit; text-decoration: none; }
+.svc-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.svc-link::before { content: "↗"; float: right; margin-left: 8px; font-size: 18px; opacity: .45; transition: opacity .3s, transform .4s var(--ease); }
+.svc-card:hover .svc-link::before { opacity: 1; transform: translate(3px, -3px); }
+.svc-link:focus-visible { outline: none; }
+.svc-link:focus-visible::after { outline: 3px solid var(--orange); outline-offset: 3px; }
+.foot-services a { display: block; }
