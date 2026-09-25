@@ -1,6 +1,6 @@
 # ansariatif.tech — SEO audit, keyword map & plan
 
-Audit date: 2026-09-25 · Canonical host: **https://www.ansariatif.tech** (apex `ansariatif.tech` 308-redirects to www on Vercel).
+Audit date: 2026-09-25 · Canonical host: **https://ansariatif.tech** (no www). In Vercel → Domains, `ansariatif.tech` must be the primary domain and `www.ansariatif.tech` must redirect (308) to it.
 
 ---
 
@@ -23,7 +23,7 @@ Audit date: 2026-09-25 · Canonical host: **https://www.ansariatif.tech** (apex 
 
 | Priority | Issue | Fix |
 |---|---|---|
-| CRITICAL | Canonical, `og:url`, `og:image`, JSON-LD `@id`/`url`, robots `Sitemap:` and sitemap `<loc>` all use `YOUR-DOMAIN.com`. Google may ignore the page's own URL or treat it as a duplicate of a domain you don't own. | Point everything at `https://www.ansariatif.tech/…`. |
+| CRITICAL | Canonical, `og:url`, `og:image`, JSON-LD `@id`/`url`, robots `Sitemap:` and sitemap `<loc>` all use `YOUR-DOMAIN.com`. Google may ignore the page's own URL or treat it as a duplicate of a domain you don't own. | Point everything at `https://ansariatif.tech/…`. |
 | CRITICAL | Animated headings render their text twice after JS (e.g. H1 "…ATIFATIF", H2 "Shipped & liveShipped & live"). | Split-letter animation must keep one text copy (aria-label on the heading, letters `aria-hidden`). |
 | HIGH | Hidden placeholder links (`wa.me/91XXXXXXXXXX`, `linkedin.com/in/your-profile`, `github.com/your-username`) are in the DOM. | Remove until real URLs exist; then add them to `sameAs`. |
 | HIGH | No custom 404 page; no clean-URL config. | `404.html` + `vercel.json` (`cleanUrls`, no trailing slash). |
@@ -133,7 +133,7 @@ Re-check field data in Search Console → Core Web Vitals after ~28 days of traf
 
 | Priority | Task | Status |
 |---|---|---|
-| CRITICAL | Fix canonical / OG / JSON-LD / robots / sitemap to `https://www.ansariatif.tech` | ✅ done |
+| CRITICAL | Fix canonical / OG / JSON-LD / robots / sitemap to `https://ansariatif.tech` | ✅ done |
 | CRITICAL | Fix duplicated heading text | ✅ done |
 | CRITICAL | Create phase-1 service pages (11) with unique content | ✅ done |
 | HIGH | Remove placeholder links | ✅ done |
@@ -164,8 +164,8 @@ Re-check field data in Search Console → Core Web Vitals after ~28 days of traf
 ## Google Search Console (do this after deploying)
 
 1. Go to https://search.google.com/search-console, **Add property → Domain**, and enter `ansariatif.tech`. Verify with the DNS TXT record at your domain registrar. A Domain property covers both `www` and the apex.
-2. **Sitemaps** → submit `https://www.ansariatif.tech/sitemap.xml`.
-3. **URL Inspection** → inspect `https://www.ansariatif.tech/` and 3–4 service pages → **Request indexing**.
+2. **Sitemaps** → submit `https://ansariatif.tech/sitemap.xml`.
+3. **URL Inspection** → inspect `https://ansariatif.tech/` and 3–4 service pages → **Request indexing**.
 4. After 2–4 weeks, check **Pages** (indexing), **Performance** (queries, impressions, CTR) and **Core Web Vitals**.
 5. Every month: find pages with impressions but low CTR (improve title/description) and queries ranking at positions 8–20 (improve and expand that page's content).
 

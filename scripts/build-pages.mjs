@@ -1,12 +1,14 @@
 // Generates service pages, 404.html, sitemap.xml and robots.txt, and syncs the
 // service links in index.html. No dependencies:  node scripts/build-pages.mjs
-import { writeFileSync, readFileSync } from "node:fs";
+import { writeFileSync, readFileSync, readdirSync, existsSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { services, projects } from "../content/services.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SITE = "https://www.ansariatif.tech";
+// Canonical production origin (no www). www.ansariatif.tech must redirect here in Vercel → Domains.
+const SITE = "https://ansariatif.tech";
 const EMAIL = "codewithatif@gmail.com";
 const TODAY = new Date().toISOString().slice(0, 10);
 const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
@@ -245,23 +247,55 @@ function notFound() {
 ${footer()}`;
 }
 
+// Write only when content changed, so unchanged pages keep their real last-modified date.
+function write(file, content) {
+  const full = join(ROOT, file);
+  if (existsSync(full) && readFileSync(full, "utf8") === content) return;
+  writeFileSync(full, content);
+}
+
+// Last-modified date: last git commit touching the file, or today if it has uncommitted changes.
+function lastModified(file) {
+  try {
+    const dirty = execFileSync("git", ["status", "--porcelain", "--", file], { cwd: ROOT, encoding: "utf8" }).trim();
+    if (dirty) return TODAY;
+    const date = execFileSync("git", ["log", "-1", "--format=%cs", "--", file], { cwd: ROOT, encoding: "utf8" }).trim();
+    return date || TODAY;
+  } catch {
+    return TODAY;
+  }
+}
+
 // ---- write pages ----
 for (const s of services) {
   for (const r of s.related) if (!bySlug[r]) throw new Error(`${s.slug}: unknown related slug ${r}`);
   if (s.title.length > 70) console.warn(`! title long (${s.title.length}): ${s.slug}`);
   if (s.description.length > 170) console.warn(`! description long (${s.description.length}): ${s.slug}`);
-  writeFileSync(join(ROOT, `${s.slug}.html`), servicePage(s));
+  write(`${s.slug}.html`, servicePage(s));
 }
-writeFileSync(join(ROOT, "404.html"), notFound());
+write("404.html", notFound());
 
 // ---- sitemap + robots ----
-const urls = [{ loc: `${SITE}/`, priority: "1.0" }, ...services.map((s) => ({ loc: `${SITE}/${s.slug}`, priority: "0.8" }))];
-writeFileSync(join(ROOT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
+// Every top-level .html page is included automatically unless it is the 404 page,
+// carries a noindex robots tag, or declares a canonical pointing somewhere else.
+const pages = readdirSync(ROOT)
+  .filter((f) => f.endsWith(".html") && f !== "404.html")
+  .map((file) => {
+    const html = readFileSync(join(ROOT, file), "utf8");
+    const path = file === "index.html" ? "/" : `/${file.slice(0, -5)}`;
+    const robots = html.match(/<meta name="robots" content="([^"]*)"/)?.[1] || "";
+    const canonical = html.match(/<link rel="canonical" href="([^"]*)"/)?.[1];
+    return { file, loc: SITE + path, indexable: !/noindex/i.test(robots) && canonical === SITE + path };
+  })
+  .filter((p) => p.indexable)
+  .sort((a, b) => (a.loc === `${SITE}/` ? -1 : b.loc === `${SITE}/` ? 1 : a.loc.localeCompare(b.loc)));
+
+write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <priority>${u.priority}</priority>\n  </url>`).join("\n")}
+${pages.map((p) => `  <url>\n    <loc>${p.loc}</loc>\n    <lastmod>${lastModified(p.file)}</lastmod>\n  </url>`).join("\n")}
 </urlset>
 `);
-writeFileSync(join(ROOT, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 // ---- sync service links into the homepage footer ----
 const indexPath = join(ROOT, "index.html");
@@ -269,4 +303,5 @@ const index = readFileSync(indexPath, "utf8");
 const synced = index.replace(/(<!-- services-links:start -->)[\s\S]*?(<!-- services-links:end -->)/, `$1${serviceLinks()}$2`);
 if (synced !== index) writeFileSync(indexPath, synced);
 
-console.log(`Built ${services.length} service pages, 404.html, sitemap.xml (${urls.length} URLs), robots.txt`);
+
+console.log(`Built ${services.length} service pages, 404.html, sitemap.xml (${pages.length} URLs), robots.txt`);
