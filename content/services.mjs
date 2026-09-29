@@ -1,5 +1,6 @@
 // Content for generated service pages. One object = one page at /<slug>.
 // Keep claims factual: no invented clients, numbers, reviews or timelines.
+// In intro paragraphs, [link text](/slug) becomes an internal link to another service page.
 // After editing, run:  node scripts/build-pages.mjs
 
 export const projects = {
@@ -21,7 +22,7 @@ export const services = [
     h1: "Website development that turns visitors into clients",
     intro: [
       "Your website is often the first thing a client checks before they call you. I build fast, mobile-first websites with a clean structure that Google can read and visitors can act on — contact forms, WhatsApp buttons, quote requests and bookings that actually reach you.",
-      "As a freelance web developer I handle the whole job: design, development, content structure, hosting, domain, SSL and ongoing maintenance, so you have one person to talk to instead of three vendors.",
+      "As a freelance web developer I handle the whole job: design, development, content structure, [hosting, domain, SSL and ongoing maintenance](/devops-server-management), so you have one person to talk to instead of three vendors.",
     ],
     offersTitle: "Websites I build",
     offers: [
@@ -48,13 +49,13 @@ export const services = [
     slug: "web-app-development",
     nav: "Web app development",
     formValue: "Website / web app",
-    title: "Custom Web Application Development | Freelance Developer Atif",
+    title: "Custom Web Application Development — Dashboards & SaaS | Atif",
     description: "Custom web application development: dashboards, portals, internal tools and SaaS apps with Laravel, FastAPI, Node.js or Next.js.",
     eyebrow: "Web application development",
     h1: "Custom web applications built around your workflow",
     intro: [
       "When spreadsheets, WhatsApp groups and off-the-shelf tools stop keeping up, a custom web application puts your process in one place: orders, inventory, bookings, reports, users and permissions, designed around how your team actually works.",
-      "I build the full application myself: the interface, the backend API, the database and the deployment. The same backend can also power a mobile app later.",
+      "I build the full application myself: the interface, the [backend API](/backend-development), the database and the deployment. The same backend can also power a [mobile app](/mobile-app-development) later.",
     ],
     offersTitle: "Web apps I build",
     offers: [
@@ -86,8 +87,8 @@ export const services = [
     eyebrow: "E-commerce development",
     h1: "E-commerce websites and apps that are built to sell",
     intro: [
-      "A store that is slow, confusing at checkout or hard to manage loses sales every day. I build custom e-commerce websites and mobile shopping apps with a fast catalogue, a simple cart and checkout, reliable payments and an admin panel your team can run without a developer.",
-      "I've built online ordering with Razorpay payments behind an API gateway, so I understand the parts that break stores in production: payment callbacks, stock, order status and notifications.",
+      "A store that is slow, confusing at checkout or hard to manage loses sales every day. I build custom e-commerce websites and [mobile shopping apps](/mobile-app-development) with a fast catalogue, a simple cart and checkout, reliable payments and an admin panel your team can run without a developer.",
+      "I've built online ordering with [Razorpay payments](/payment-gateway-integration) behind an API gateway, so I understand the parts that break stores in production: payment callbacks, stock, order status and notifications.",
     ],
     offersTitle: "What I build for online stores",
     offers: [
@@ -114,12 +115,12 @@ export const services = [
     slug: "mobile-app-development",
     nav: "Mobile app development",
     formValue: "Mobile app (Android & iOS)",
-    title: "Mobile App Development — Android & iOS | Freelance App Developer",
+    title: "Mobile App Development — Android & iOS App Developer | Atif",
     description: "Freelance mobile app development for Android & iOS: Flutter apps with backend, payments and Play Store & App Store publishing.",
     eyebrow: "Mobile app development",
     h1: "Mobile app development for Android and iOS",
     intro: [
-      "I build mobile apps for Android and iOS from one Flutter codebase, so you get both platforms without paying for two separate apps. You also get the part most app developers leave out: the backend, database, payments and the launch on Google Play and the App Store.",
+      "I build mobile apps for Android and iOS from one [Flutter codebase](/flutter-development), so you get both platforms without paying for two separate apps. You also get the part most app developers leave out: the [backend and database](/backend-development), payments and the launch on Google Play and the App Store.",
       "I've shipped apps in healthcare, food-tech, business SaaS and gaming, and I stay involved after launch for updates and new features.",
     ],
     offersTitle: "Apps I build",
@@ -152,8 +153,8 @@ export const services = [
     eyebrow: "Flutter development",
     h1: "Hire a Flutter developer who also builds the backend",
     intro: [
-      "Flutter is my main tool for mobile apps. Every product in my portfolio (healthcare, food ordering, inventory and a game) is built with Flutter and Dart. When you hire me you get a Flutter developer who also understands the other side of the app: APIs, databases, payments and deployment.",
-      "That matters, because most app problems in production aren't in the UI. They're in the connection between the app and the backend.",
+      "Flutter is my main tool for [mobile apps](/mobile-app-development). Every product in my portfolio (healthcare, food ordering, inventory and a game) is built with Flutter and Dart. When you hire me you get a Flutter developer who also understands the other side of the app: APIs, databases, payments and deployment.",
+      "That matters, because most app problems in production aren't in the UI. They're in the connection between the app and the [backend](/backend-development).",
     ],
     offersTitle: "Flutter work I take on",
     offers: [
@@ -185,8 +186,8 @@ export const services = [
     eyebrow: "Backend & API development",
     h1: "Backend and API development for web and mobile apps",
     intro: [
-      "The backend is where your business rules, data and money live. I design and build REST APIs, databases and server logic that power web apps and mobile apps reliably: authentication, roles, payments, notifications, reports and integrations.",
-      "I've built backends with Laravel, FastAPI and Serverpod, put them behind the Kong API gateway, and deployed them to production servers.",
+      "The backend is where your business rules, data and money live. I design and build REST APIs, databases and server logic that power [web apps](/web-app-development) and [mobile apps](/mobile-app-development) reliably: authentication, roles, payments, notifications, reports and integrations.",
+      "I've built backends with Laravel, FastAPI and Serverpod, put them behind the Kong API gateway, and [deployed them to production servers](/devops-server-management).",
     ],
     offersTitle: "Backend work I do",
     offers: [
@@ -218,7 +219,7 @@ export const services = [
     eyebrow: "API integration",
     h1: "API integration that connects your tools",
     intro: [
-      "Most businesses run on several tools that don't talk to each other. I connect them through APIs so data moves automatically: orders into your accounting tool, leads into your CRM, updates to customers on WhatsApp, and payments confirmed by webhook instead of by hand.",
+      "Most businesses run on several tools that don't talk to each other. I connect them through APIs so [data moves automatically](/business-automation): orders into your accounting tool, leads into your CRM, updates to customers on WhatsApp, and [payments confirmed by webhook](/payment-gateway-integration) instead of by hand.",
       "Good integrations aren't just 'call the API'. They handle retries, timeouts, duplicate events and logging, so nothing silently breaks at 2 a.m.",
     ],
     offersTitle: "Integrations I build",
@@ -250,7 +251,7 @@ export const services = [
     eyebrow: "Payment gateway integration",
     h1: "Payment gateway integration for websites and apps",
     intro: [
-      "Payments have to be correct every time. I integrate payment gateways into websites, web apps and Flutter mobile apps, including the server-side part many integrations get wrong: verifying payments with signatures and webhooks before an order is marked as paid.",
+      "Payments have to be correct every time. I integrate payment gateways into websites, [web apps](/web-app-development) and [Flutter mobile apps](/flutter-development), including the server-side part many integrations get wrong: verifying payments with signatures and webhooks before an order is marked as paid.",
       "I've integrated Razorpay in a production food-ordering platform, from app checkout to backend order updates.",
     ],
     offersTitle: "Payment work I do",
@@ -277,13 +278,13 @@ export const services = [
     slug: "ai-development",
     nav: "AI development",
     formValue: "AI / LLM integration",
-    title: "AI Development & AI Integration Services | Freelance Developer",
+    title: "AI Development & Integration — Chatbots, RAG & Automation | Atif",
     description: "AI development & integration: LLM chatbots, smart search (RAG), document Q&A and AI automation for your website, app or internal tools.",
     eyebrow: "AI development & integration",
     h1: "AI development and integration for real business use",
     intro: [
-      "AI is useful when it's connected to your data and your workflow, not as a demo. I integrate large language models into existing websites, apps and internal tools: assistants that answer from your documents, search that understands meaning, and automations that read, classify and draft for your team.",
-      "I work with hosted AI APIs and private local models, and build the backend around them with Python (FastAPI) and vector databases.",
+      "AI is useful when it's connected to your data and your workflow, not as a demo. I integrate large language models into existing websites, apps and internal tools: assistants that answer from your documents, search that understands meaning, and [automations](/business-automation) that read, classify and draft for your team.",
+      "I work with hosted AI APIs and private local models, and build the [backend](/backend-development) around them with Python (FastAPI) and vector databases.",
     ],
     offersTitle: "AI features I build",
     offers: [
@@ -309,13 +310,13 @@ export const services = [
     slug: "business-automation",
     nav: "Business automation",
     formValue: "Automation / testing",
-    title: "Business & Workflow Automation Services | Freelance Developer",
+    title: "Business & Workflow Automation with Python & Playwright | Atif",
     description: "Business & workflow automation with Python, Playwright and APIs: automate data entry, reports, browser tasks and notifications.",
     eyebrow: "Business automation",
     h1: "Business and workflow automation that saves hours",
     intro: [
-      "If someone on your team copies data between tools, downloads the same report every morning or checks websites by hand, that work can usually be automated. I build reliable automations with Python, Playwright and APIs that run on a schedule, alert you when something changes and log everything they do.",
-      "Where it helps, I add AI to read, classify or summarise. Where it doesn't, a simple script is often the better answer.",
+      "If someone on your team copies data between tools, downloads the same report every morning or checks websites by hand, that work can usually be automated. I build reliable automations with Python, Playwright and [APIs](/api-integration) that run on a schedule, alert you when something changes and log everything they do.",
+      "Where it helps, I [add AI](/ai-development) to read, classify or summarise. Where it doesn't, a simple script is often the better answer.",
     ],
     offersTitle: "What I automate",
     offers: [
@@ -341,12 +342,12 @@ export const services = [
     slug: "devops-server-management",
     nav: "DevOps & server management",
     formValue: "Cloud / AWS / server management",
-    title: "DevOps, AWS & Server Management Services | Freelance Developer",
+    title: "DevOps & Server Management — AWS, Docker & cPanel | Atif",
     description: "DevOps & server management: deploy and maintain apps on AWS, Docker, Hostinger and cPanel with SSL, backups and monitoring.",
     eyebrow: "DevOps & server management",
     h1: "DevOps, cloud deployment and server management",
     intro: [
-      "Code only helps your business when it's running reliably. I deploy and manage websites, backend APIs and databases on AWS, with S3 storage and Docker, or on Hostinger (hPanel) and cPanel hosting, with domains, SSL, backups and monitoring set up properly.",
+      "Code only helps your business when it's running reliably. I deploy and manage [websites](/web-development), [backend APIs and databases](/backend-development) on AWS, with S3 storage and Docker, or on Hostinger (hPanel) and cPanel hosting, with domains, SSL, backups and monitoring set up properly.",
       "I also take over servers that 'just work' until they don't: undocumented setups, expiring certificates, full disks and missing backups.",
     ],
     offersTitle: "What I set up and manage",

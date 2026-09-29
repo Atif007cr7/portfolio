@@ -1,5 +1,5 @@
 // Generates service pages, 404.html, sitemap.xml and robots.txt, and syncs the
-// service links in index.html. No dependencies:  node scripts/build-pages.mjs
+// service links and structured data in index.html. No dependencies:  node scripts/build-pages.mjs
 import { writeFileSync, readFileSync, readdirSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -7,14 +7,28 @@ import { dirname, join } from "node:path";
 import { services, projects } from "../content/services.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-// Canonical production origin (no www). www.ansariatif.tech must redirect here in Vercel → Domains.
-const SITE = "https://ansariatif.tech";
+// Canonical production origin. Vercel serves www and 308-redirects ansariatif.tech here,
+// so every canonical, sitemap and structured-data URL must use www.
+const SITE = "https://www.ansariatif.tech";
 const EMAIL = "codewithatif@gmail.com";
+// Site name for Google (WebSite structured data, og:site_name): one unique name, used consistently.
+const NAME = "Ansari Mohd Atif";
+const ALT_NAMES = ["Ansari Atif", "Atif"];
+// Public profiles that represent you (LinkedIn, GitHub, Upwork…). Added to Person.sameAs.
+const SAME_AS = [];
+const OG_ALT = "Ansari Mohd Atif (Atif), freelance developer for apps, web, cloud and automation";
 const TODAY = new Date().toISOString().slice(0, 10);
 const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const json = (o) => JSON.stringify(o, null, 2).replace(/</g, "\\u003c");
+// Escapes text and turns [link text](/slug) into an internal link. Unknown slugs fail the build.
+const rich = (s, from) => esc(s).replace(/\[([^\]]+)\]\(\/([a-z0-9-]*)\)/g, (_, text, slug) => {
+  if (slug && !bySlug[slug]) throw new Error(`${from}: unknown link /${slug}`);
+  return `<a href="/${slug}">${text}</a>`;
+});
+// Plain text from a small HTML fragment (for structured data built from visible content).
+const text = (html) => html.replace(/<[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&").trim();
 
 const PROCESS = [
   ["Discovery call", "We talk through your goals, users and must-haves. You get honest advice, including when something isn't worth building."],
@@ -33,26 +47,29 @@ function head({ title, description, path, schema }) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
-  <meta name="author" content="Ansari Mohd Atif">
+  <meta name="author" content="${NAME}">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="${url}">
   <meta name="theme-color" content="#1f3fd8">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Atif — Freelance Developer">
+  <meta property="og:site_name" content="${NAME}">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${url}">
   <meta property="og:image" content="${SITE}/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${OG_ALT}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
   <meta name="twitter:image" content="${SITE}/assets/og-image.png">
+  <meta name="twitter:image:alt" content="${OG_ALT}">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+  <link rel="icon" href="/assets/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/page.css">
 ${schema ? `  <script type="application/ld+json">\n${json(schema)}\n  </script>\n` : ""}</head>`;
@@ -101,7 +118,7 @@ const footer = () => `
         <p class="foot-seo">Atif (Ansari Mohd Atif) is a freelance full-stack developer for websites, web apps, e-commerce, Flutter mobile apps, backend APIs, databases, AI, automation and DevOps, working with clients in India and internationally.</p>
       </div>
       <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
-      <div class="foot-bottom small-caps"><span>© <span id="year">${TODAY.slice(0, 4)}</span> Ansari Mohd Atif</span><a href="#top">Back to top ↑</a></div>
+      <div class="foot-bottom small-caps"><span>© <span id="year">${TODAY.slice(0, 4)}</span> ${NAME}</span><a href="#top">Back to top ↑</a></div>
     </div>
   </footer>
   <div class="fabs">
@@ -146,7 +163,7 @@ function servicePage(s) {
       <div class="wrap">
         <nav class="crumbs small-caps" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">${esc(s.eyebrow)}</li></ol></nav>
         <h1 class="sp-h1">${esc(s.h1)}</h1>
-        <div class="sp-intro">${s.intro.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
+        <div class="sp-intro">${s.intro.map((p) => `<p>${rich(p, s.slug)}</p>`).join("")}</div>
         <div class="sp-ctas">
           <a class="chip chip-hot chip-big" href="${quote}">Request a quote ↗</a>
           <a class="chip chip-big" href="#process">How it works</a>
@@ -266,7 +283,55 @@ function lastModified(file) {
   }
 }
 
+// ---- homepage structured data ----
+// Built from services.mjs and the FAQ that is visible on the homepage, so they can't drift apart.
+const KNOWS_ABOUT = [
+  "Web Development", "E-commerce Development", "Web Application Development", "Mobile App Development",
+  "Flutter", "Dart", "PHP", "Laravel", "Python", "FastAPI", "Django", "Node.js", "Next.js", "JavaScript",
+  "PostgreSQL", "MySQL", "MongoDB", "Firebase", "AWS", "Docker", "REST APIs", "API Integration",
+  "Payment Gateway Integration", "Razorpay", "Serverpod", "Kong API Gateway", "Playwright", "Business Automation",
+  "AI Integration", "Large Language Models", "Vector Databases", "DevOps", "Server Management", "Database Management",
+];
+
+function homeSchema(index) {
+  const faqSection = index.match(/<section[^>]*\bid="faq"[^>]*>([\s\S]*?)<\/section>/)?.[1] || "";
+  const faqs = [...faqSection.matchAll(/<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g)].map(([, q, a]) => [text(q), text(a)]);
+  if (!faqs.length) throw new Error("index.html: no FAQ found in #faq");
+  const person = { "@id": `${SITE}/#person` };
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: NAME, alternateName: ALT_NAMES, inLanguage: "en", publisher: person },
+      {
+        "@type": "Person",
+        ...person,
+        name: NAME,
+        alternateName: ALT_NAMES,
+        url: `${SITE}/`,
+        email: `mailto:${EMAIL}`,
+        jobTitle: "Freelance Full-Stack Developer",
+        ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
+        knowsAbout: KNOWS_ABOUT,
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Software development services",
+          itemListElement: services.map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", "@id": `${SITE}/${s.slug}#service`, name: s.eyebrow, url: `${SITE}/${s.slug}` } })),
+        },
+      },
+      { "@type": "FAQPage", "@id": `${SITE}/#faq`, mainEntity: faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) },
+    ],
+  };
+}
+
 // ---- write pages ----
+// Google shows one title link and snippet per page: titles, descriptions and H1s must be unique.
+for (const key of ["title", "description", "h1"]) {
+  const seen = new Set();
+  for (const s of services) {
+    if (seen.has(s[key])) throw new Error(`${s.slug}: duplicate ${key} "${s[key]}"`);
+    seen.add(s[key]);
+  }
+}
 for (const s of services) {
   for (const r of s.related) if (!bySlug[r]) throw new Error(`${s.slug}: unknown related slug ${r}`);
   if (s.title.length > 70) console.warn(`! title long (${s.title.length}): ${s.slug}`);
@@ -274,6 +339,18 @@ for (const s of services) {
   write(`${s.slug}.html`, servicePage(s));
 }
 write("404.html", notFound());
+
+// ---- sync the homepage: footer service links + structured data ----
+// Runs before the sitemap so index.html's lastmod reflects these changes.
+const indexPath = join(ROOT, "index.html");
+const index = readFileSync(indexPath, "utf8");
+for (const marker of ["services-links", "schema"]) {
+  if (!index.includes(`<!-- ${marker}:start -->`)) throw new Error(`index.html: missing <!-- ${marker}:start --> marker`);
+}
+const synced = index
+  .replace(/(<!-- services-links:start -->)[\s\S]*?(<!-- services-links:end -->)/, (_, a, b) => a + serviceLinks() + b)
+  .replace(/(<!-- schema:start -->)[\s\S]*?(<!-- schema:end -->)/, (_, a, b) => `${a}\n  <script type="application/ld+json">\n${json(homeSchema(index))}\n  </script>\n  ${b}`);
+if (synced !== index) writeFileSync(indexPath, synced);
 
 // ---- sitemap + robots ----
 // Every top-level .html page is included automatically unless it is the 404 page,
@@ -297,11 +374,14 @@ ${pages.map((p) => `  <url>\n    <loc>${p.loc}</loc>\n    <lastmod>${lastModifie
 `);
 write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-// ---- sync service links into the homepage footer ----
-const indexPath = join(ROOT, "index.html");
-const index = readFileSync(indexPath, "utf8");
-const synced = index.replace(/(<!-- services-links:start -->)[\s\S]*?(<!-- services-links:end -->)/, `$1${serviceLinks()}$2`);
-if (synced !== index) writeFileSync(indexPath, synced);
-
+// ---- checks ----
+// The homepage drops out of the sitemap silently if its canonical is wrong, so fail loudly instead.
+if (!pages.some((p) => p.file === "index.html")) throw new Error(`index.html: canonical must be ${SITE}/`);
+// Any absolute URL to this site that isn't on the canonical origin points at a redirect.
+const hostPattern = new RegExp(`https?://(?:www\\.)?${new URL(SITE).hostname.replace(/^www\./, "").replace(/\./g, "\\.")}[^"'\\s<)]*`, "g");
+for (const file of readdirSync(ROOT).filter((f) => /\.(html|xml|txt)$/.test(f))) {
+  const bad = (readFileSync(join(ROOT, file), "utf8").match(hostPattern) || []).filter((u) => !u.startsWith(SITE));
+  if (bad.length) throw new Error(`${file}: URLs not on ${SITE}: ${[...new Set(bad)].join(", ")}`);
+}
 
 console.log(`Built ${services.length} service pages, 404.html, sitemap.xml (${pages.length} URLs), robots.txt`);
