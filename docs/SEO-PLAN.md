@@ -34,6 +34,8 @@ Canonical host: **https://www.ansariatif.tech** (apex `ansariatif.tech` 308-redi
 | MEDIUM | Four titles ended in the boilerplate "\| Freelance Developer". | Descriptive titles, consistent `\| Atif` brand. | ✅ 2026-09-30 |
 | MEDIUM | Service pages linked to each other only via "Related services" and the footer. | 1–3 in-copy links per intro with descriptive anchor text. | ✅ 2026-09-30 |
 | MEDIUM | Placeholder links (`wa.me/91XXXXXXXXXX`, etc.). | Removed until real URLs exist. | ✅ 2026-09-25 |
+| MEDIUM | Homepage copy linked to service pages only from the services grid; `/flutter-development` had no in-content link from the homepage at all. | Descriptive links added in the about copy, gig titles and FAQ answers (16 links). | ✅ 2026-10-10 |
+| LOW | Service pages' closing line lowercased acronyms ("ai development", "api integration"). Pricing/FAQ labels were identical on all 11 pages. | `lower()` helper keeps acronyms; labels and the cost line now name the service. | ✅ 2026-10-10 |
 | LOW | Homepage LCP is the hero tagline, which the GSAP intro fades in 0.5 s after the scripts load (≈3.5 s in simulated slow 4G, lower on real phones). | Leave unless Search Console → Core Web Vitals flags the homepage. Then start the `.hero-foot` fade at `0` instead of `0.5` in `js/main.js`. | ⏳ monitor |
 | INFO | Service-page CTAs link to `/?service=…#contact`. Google sees these as duplicates of `/` and folds them into the canonical ("Alternate page with proper canonical tag" in Search Console). | Expected and harmless. No action. | — |
 | INFO | FAQ rich results are limited to authoritative government/health sites, so `FAQPage` markup won't show dropdowns. | Kept (harmless, matches visible FAQ). | — |

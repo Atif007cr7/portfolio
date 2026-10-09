@@ -161,7 +161,7 @@ export const services = [
     eyebrow: "Flutter development",
     h1: "Hire a Flutter developer who also builds the backend",
     intro: [
-      "Flutter is my main tool for [mobile apps](/mobile-app-development). Every product in my portfolio (healthcare, food ordering, inventory and a game) is built with Flutter and Dart. When you hire me you get a Flutter developer who also understands the other side of the app: APIs, databases, payments and deployment.",
+      "Flutter is my main tool for [mobile apps](/mobile-app-development). My healthcare, food-ordering, inventory and game apps are all built with Flutter and Dart. When you hire me you get a Flutter developer who also understands the other side of the app: APIs, databases, payments and deployment.",
       "That matters, because most app problems in production aren't in the UI. They're in the connection between the app and the [backend](/backend-development).",
     ],
     offersTitle: "Flutter work I take on",

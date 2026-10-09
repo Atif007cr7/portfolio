@@ -113,6 +113,9 @@ const projectLinks = (w) => {
   return links.length ? `<div class="proj-links">${links.map(([href, label]) => `<a class="proj-link" href="${esc(href)}" target="_blank" rel="noopener">${label} <span aria-hidden="true">↗</span></a>`).join("")}</div>` : "";
 };
 
+// Lowercases a label for use mid-sentence, keeping acronyms and product names ("AI development", not "ai development").
+const lower = (s) => s.split(" ").map((w) => (/^(AI|API|DevOps|Flutter)$/.test(w) ? w : w.toLowerCase())).join(" ");
+
 const serviceLinks = (cls = "") => services.map((s) => `<a${cls} href="/${s.slug}">${esc(s.nav)}</a>`).join("");
 
 const footer = () => `
@@ -224,13 +227,13 @@ ${work.length ? `
     <section class="paper sp-section" aria-labelledby="price-title">
       <div class="wrap sp-two">
         <div>
-          <p class="small-caps kicker">Pricing</p>
+          <p class="small-caps kicker">${esc(s.eyebrow)} pricing</p>
           <h2 id="price-title" class="sp-h2">Pricing approach</h2>
-          <p class="sp-lead">Every project is quoted after a short discovery call, as a fixed price for a clear scope or an hourly/monthly estimate for ongoing work. The main things that affect cost:</p>
+          <p class="sp-lead">Every project is quoted after a short discovery call, as a fixed price for a clear scope or an hourly/monthly estimate for ongoing work. The main things that affect ${esc(lower(s.eyebrow))} cost:</p>
           <ul class="sp-checks dark">${s.costFactors.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>
         </div>
         <div>
-          <p class="small-caps kicker">FAQ</p>
+          <p class="small-caps kicker">${esc(s.eyebrow)} FAQ</p>
           <h2 class="sp-h2">Common questions</h2>
           <div class="faq sp-faq">${s.faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>
         </div>
@@ -248,7 +251,7 @@ ${work.length ? `
     <section class="sp-final">
       <div class="wrap">
         <p class="sp-final-big">Start your project.</p>
-        <p class="sp-final-sub">Freelance ${esc(s.eyebrow.toLowerCase())} for startups and businesses in India and worldwide.</p>
+        <p class="sp-final-sub">Freelance ${esc(lower(s.eyebrow))} for startups and businesses in India and worldwide.</p>
         <div class="sp-ctas center"><a class="chip chip-hot chip-big" href="${quote}">Request a quote ↗</a><a class="chip chip-big" href="mailto:${EMAIL}">${EMAIL}</a></div>
       </div>
     </section>
@@ -318,6 +321,7 @@ function homeSchema(index) {
         url: `${SITE}/`,
         email: `mailto:${EMAIL}`,
         jobTitle: "Freelance Full-Stack Developer",
+        address: { "@type": "PostalAddress", addressCountry: "IN" },
         ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
         knowsAbout: KNOWS_ABOUT,
         hasOfferCatalog: {
