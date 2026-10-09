@@ -15,7 +15,8 @@ const EMAIL = "codewithatif@gmail.com";
 const NAME = "Ansari Mohd Atif";
 const ALT_NAMES = ["Ansari Atif", "Atif"];
 // Public profiles that represent you (LinkedIn, GitHub, Upwork…). Added to Person.sameAs.
-const SAME_AS = [];
+const LINKEDIN = "https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/";
+const SAME_AS = [LINKEDIN];
 const OG_ALT = "Ansari Mohd Atif (Atif), freelance developer for apps, web, cloud and automation";
 const TODAY = new Date().toISOString().slice(0, 10);
 const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
@@ -105,6 +106,10 @@ const nav = () => `
   </div>
 `;
 
+// Project facts in display order. A row is only rendered when the project has that field.
+const PROJECT_FACTS = [["Platform", "platform"], ["My role", "role"], ["Stack", "stack"], ["Publisher", "by"]];
+const projectLink = (w) => w.url ? `<a class="proj-link" href="${esc(w.url)}" target="_blank" rel="noopener">${w.url.includes("play.google.com") ? "View on Google Play" : "Visit website"} <span aria-hidden="true">↗</span></a>` : "";
+
 const serviceLinks = (cls = "") => services.map((s) => `<a${cls} href="/${s.slug}">${esc(s.nav)}</a>`).join("");
 
 const footer = () => `
@@ -114,7 +119,7 @@ const footer = () => `
       <div class="foot-cols foot-cols-services">
         <div><h2 class="small-caps foot-h">Services</h2>${serviceLinks()}</div>
         <div><h2 class="small-caps foot-h">Work</h2><a href="/#work">Portfolio</a><a href="/#gigs">Gigs</a><a href="/#skills">Skills</a><a href="/#faq">FAQ</a></div>
-        <div><h2 class="small-caps foot-h">Contact</h2><a href="mailto:${EMAIL}">${EMAIL}</a><a href="/#contact">Start a project</a></div>
+        <div><h2 class="small-caps foot-h">Contact</h2><a href="mailto:${EMAIL}">${EMAIL}</a><a href="${LINKEDIN}" target="_blank" rel="me noopener">LinkedIn</a><a href="/#contact">Start a project</a></div>
         <p class="foot-seo">Atif (Ansari Mohd Atif) is a freelance full-stack developer for websites, web apps, e-commerce, Flutter mobile apps, backend APIs, databases, AI, automation and DevOps, working with clients in India and internationally.</p>
       </div>
       <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
@@ -208,7 +213,7 @@ ${work.length ? `
       <div class="wrap">
         <p class="small-caps kicker">Portfolio</p>
         <h2 id="work-title" class="sp-h2">Relevant work</h2>
-        <div class="sp-work">${work.map((w) => `<article class="sp-proj"><p class="small-caps">${esc(w.type)}</p><h3>${esc(w.name)}</h3><dl class="facts"><div><dt>Platform</dt><dd>${esc(w.platform)}</dd></div><div><dt>My role</dt><dd>${esc(w.role)}</dd></div><div><dt>Stack</dt><dd>${esc(w.stack)}</dd></div></dl></article>`).join("")}</div>
+        <div class="sp-work">${work.map((w) => `<article class="sp-proj"><p class="small-caps">${esc(w.type)}</p><h3>${esc(w.name)}</h3><dl class="facts">${PROJECT_FACTS.filter(([, k]) => w[k]).map(([label, k]) => `<div><dt>${label}</dt><dd>${esc(w[k])}</dd></div>`).join("")}</dl>${projectLink(w)}</article>`).join("")}</div>
         <p class="sp-more"><a class="chip" href="/#work">See all projects ↗</a></p>
       </div>
     </section>

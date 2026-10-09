@@ -69,7 +69,7 @@ Primary keyword first; variations are used naturally in copy, not repeated. Serv
 
 | Where | Types |
 |---|---|
-| `/` | `WebSite` (site name + alternates), `Person` (with `hasOfferCatalog` of all services, `sameAs` once profiles are added), `FAQPage` (generated from the visible FAQ) |
+| `/` | `WebSite` (site name + alternates), `Person` (with `hasOfferCatalog` of all services and `sameAs` → LinkedIn), `FAQPage` (generated from the visible FAQ) |
 | Service pages | `Service` (provider = Person), `BreadcrumbList` |
 | Later | `ProfilePage` on an About page; `Article` (with author → Person) on blog posts. Never add `Review`/`AggregateRating` without real reviews. |
 
@@ -78,8 +78,8 @@ Primary keyword first; variations are used naturally in copy, not repeated. Serv
 The guide is explicit: *"Creating content that people find compelling and useful will likely influence your website's presence in search results more than any of the other suggestions."* The technical base is now right. What's missing is proof and first-hand content, and only you have it.
 
 1. **Deploy this change**, then in Search Console: Sitemaps → resubmit `https://www.ansariatif.tech/sitemap.xml`; URL Inspection → `https://www.ansariatif.tech/` and 3–4 service pages → Request indexing.
-2. **Public profiles → `SAME_AS`** in `scripts/build-pages.mjs` (LinkedIn, GitHub, Upwork/Fiverr…), and put `https://www.ansariatif.tech` in each profile's website field. This is the quickest way to connect your name to the site.
-3. **Case studies** (`/work/<project>`) for SR Health Care, iModa, OneFoodDialer, Inventory Management: the problem, what you built, screenshots (with descriptive `alt` text), Play Store / App Store links and a verifiable outcome. Currently the site has no `<img>` at all, so it can't appear in Google Images.
+2. **Public profiles → `SAME_AS`** in `scripts/build-pages.mjs`. LinkedIn added 2026-10-10 (structured data + footer link). Still to add: GitHub, Upwork/Fiverr. Put `https://www.ansariatif.tech` in each profile's website field (LinkedIn included). This is the quickest way to connect your name to the site.
+3. **Project links** added 2026-10-10: Play Store / website links for Metropolis Partner Connect, oneapp, StartWell Meals, Yummy Tiffins, OneFoodDialer, MyJobsMate and ANSOFTT HRMS (`projects` in `content/services.mjs` + homepage cards). The new entries still need `role` and `stack`. Next, **case studies** (`/work/<project>`) for the strongest of them: the problem, what you built, screenshots (with descriptive `alt` text), Play Store / App Store links and a verifiable outcome. Currently the site has no `<img>` at all, so it can't appear in Google Images.
 4. **About page** with a real photo, background, location and how you work (who is behind the site, which Google's helpful-content guidance asks about). Then add `ProfilePage` markup and a `Person.image`.
 5. **First 3 articles** from real experience (each links to its service page and back): Razorpay + Flutter + Laravel with webhooks; Flutter + Laravel/FastAPI architecture; what app development costs in India (your real ranges).
 6. **Google Business Profile** as a service-area business (address hidden) if you want to appear for "app developer near me"–style searches in your city.

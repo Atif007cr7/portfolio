@@ -3,10 +3,18 @@
 // In intro paragraphs, [link text](/slug) becomes an internal link to another service page.
 // After editing, run:  node scripts/build-pages.mjs
 
+// `url` is the public listing or site; `by` is the publisher shown on that listing.
+// `role` and `stack` are optional: leave them out until they're confirmed.
 export const projects = {
+  metropolis: { name: "Metropolis Partner Connect", type: "Healthcare partner app", platform: "Android", by: "Metropolis Healthcare Ltd.", url: "https://play.google.com/store/apps/details?id=com.metropolis.partnerportal" },
+  oneapp: { name: "oneapp", type: "Housing society & payments app", platform: "Android", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.cubeone.app" },
+  startwell: { name: "StartWell Meals", type: "School tiffin app", platform: "Android", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.futurescape.startwell" },
+  yummy: { name: "Yummy Tiffins", type: "Online tiffin service", platform: "Android", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.yummytiffins" },
+  myjobsmate: { name: "MyJobsMate", type: "AI career platform", platform: "Web", stack: "Next.js", url: "https://www.myjobsmate.com/" },
+  hrms: { name: "ANSOFTT HRMS", type: "HR management app", platform: "Android", by: "AN INTL", url: "https://play.google.com/store/apps/details?id=com.an.hrms" },
   health: { name: "SR Health Care", type: "Healthcare app", platform: "Android · iOS", role: "App, backend, database, store launch", stack: "Flutter · REST API · SQL" },
   imoda: { name: "iModa", type: "Mobile product", platform: "Android · iOS", role: "App development, API integration, release", stack: "Flutter · Dart · REST API" },
-  food: { name: "OneFoodDialer", type: "Food-tech platform", platform: "Mobile · web backend", role: "App, backend, payments, API gateway", stack: "Flutter · Laravel · Razorpay · Kong" },
+  food: { name: "OneFoodDialer", type: "Food-tech platform", platform: "Mobile · web backend", role: "App, backend, payments, API gateway", stack: "Flutter · Laravel · Razorpay · Kong", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.onefooddialer" },
   inventory: { name: "Inventory Management", type: "Business SaaS", platform: "Mobile · dashboard", role: "Full stack: app, API, database", stack: "Flutter · FastAPI · SQL" },
   arcade: { name: "Arcade Game", type: "Mobile game", platform: "Mobile", role: "Game design & development", stack: "Flutter · Dart" },
 };
@@ -68,7 +76,7 @@ export const services = [
     ],
     included: ["Requirement mapping and user roles", "Secure authentication and permissions", "REST API and database design", "Responsive UI for desktop and mobile", "Payment and third-party integrations", "Deployment, backups and documentation"],
     stack: ["Laravel", "PHP", "Python", "FastAPI", "Django", "Node.js", "Next.js", "PostgreSQL", "MySQL", "MongoDB", "Docker", "AWS"],
-    work: ["inventory", "food"],
+    work: ["myjobsmate", "inventory", "food"],
     costFactors: ["Number of user roles and screens", "Complexity of business rules and workflows", "Integrations (payments, APIs, email, WhatsApp)", "Reporting and data exports", "Hosting, scaling and security requirements"],
     faqs: [
       ["What's the difference between a website and a web application?", "A website mainly presents information. A web application lets users log in and do things: manage orders, track inventory, book slots or view reports. It needs a backend, a database and user permissions."],
@@ -134,7 +142,7 @@ export const services = [
     ],
     included: ["UI from your design, or designed with you", "Android and iOS from one codebase", "Backend API, database and admin panel", "Push notifications and payments", "Play Store and App Store publishing", "Source code and documentation"],
     stack: ["Flutter", "Dart", "Java", "Firebase", "Laravel", "FastAPI", "Node.js", "Serverpod", "Razorpay", "AWS"],
-    work: ["health", "imoda", "food", "inventory", "arcade"],
+    work: ["metropolis", "oneapp", "startwell", "yummy", "food", "health", "imoda", "inventory", "arcade"],
     costFactors: ["Number of screens and user roles", "Whether a backend and admin panel are needed", "Payments, maps, chat or other integrations", "Offline support and real-time features", "Design work and number of revisions"],
     faqs: [
       ["Do you build native or cross-platform apps?", "Mostly cross-platform with Flutter, which gives near-native performance on Android and iOS from one codebase. I use native Java for Android-specific modules when a project needs it."],
@@ -297,7 +305,7 @@ export const services = [
     ],
     included: ["Use-case scoping and feasibility check", "Data preparation and embeddings", "LLM integration with guardrails", "Backend API (FastAPI / Node.js)", "Evaluation on real examples", "Cost and usage monitoring"],
     stack: ["Python", "FastAPI", "LLM APIs", "Vector databases", "Local models", "Node.js", "PostgreSQL", "Docker"],
-    work: [],
+    work: ["myjobsmate"],
     costFactors: ["Use case and required accuracy", "Amount and format of your data", "Hosted API vs local model", "Integration into existing systems", "Ongoing model usage costs"],
     faqs: [
       ["Can you add AI to my existing app?", "Yes. I usually add AI as a backend service (for example with FastAPI) that your current web or mobile app calls, so your app doesn't need a rewrite."],
