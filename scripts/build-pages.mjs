@@ -108,7 +108,10 @@ const nav = () => `
 
 // Project facts in display order. A row is only rendered when the project has that field.
 const PROJECT_FACTS = [["Platform", "platform"], ["My role", "role"], ["Stack", "stack"], ["Publisher", "by"]];
-const projectLink = (w) => w.url ? `<a class="proj-link" href="${esc(w.url)}" target="_blank" rel="noopener">${w.url.includes("play.google.com") ? "View on Google Play" : "Visit website"} <span aria-hidden="true">↗</span></a>` : "";
+const projectLinks = (w) => {
+  const links = [[w.url, w.url?.includes("play.google.com") ? "Google Play" : "Website"], [w.ios, "App Store"]].filter(([href]) => href);
+  return links.length ? `<div class="proj-links">${links.map(([href, label]) => `<a class="proj-link" href="${esc(href)}" target="_blank" rel="noopener">${label} <span aria-hidden="true">↗</span></a>`).join("")}</div>` : "";
+};
 
 const serviceLinks = (cls = "") => services.map((s) => `<a${cls} href="/${s.slug}">${esc(s.nav)}</a>`).join("");
 
@@ -213,7 +216,7 @@ ${work.length ? `
       <div class="wrap">
         <p class="small-caps kicker">Portfolio</p>
         <h2 id="work-title" class="sp-h2">Relevant work</h2>
-        <div class="sp-work">${work.map((w) => `<article class="sp-proj"><p class="small-caps">${esc(w.type)}</p><h3>${esc(w.name)}</h3><dl class="facts">${PROJECT_FACTS.filter(([, k]) => w[k]).map(([label, k]) => `<div><dt>${label}</dt><dd>${esc(w[k])}</dd></div>`).join("")}</dl>${projectLink(w)}</article>`).join("")}</div>
+        <div class="sp-work">${work.map((w) => `<article class="sp-proj"><p class="small-caps">${esc(w.type)}</p><h3>${esc(w.name)}</h3><dl class="facts">${PROJECT_FACTS.filter(([, k]) => w[k]).map(([label, k]) => `<div><dt>${label}</dt><dd>${esc(w[k])}</dd></div>`).join("")}</dl>${projectLinks(w)}</article>`).join("")}</div>
         <p class="sp-more"><a class="chip" href="/#work">See all projects ↗</a></p>
       </div>
     </section>

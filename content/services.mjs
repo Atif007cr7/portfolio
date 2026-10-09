@@ -3,14 +3,14 @@
 // In intro paragraphs, [link text](/slug) becomes an internal link to another service page.
 // After editing, run:  node scripts/build-pages.mjs
 
-// `url` is the public listing or site; `by` is the publisher shown on that listing.
+// `url` is the Google Play listing or site, `ios` the App Store listing; `by` is the publisher shown there.
 // `role` and `stack` are optional: leave them out until they're confirmed.
 export const projects = {
-  metropolis: { name: "Metropolis Partner Connect", type: "Healthcare partner app", platform: "Android", by: "Metropolis Healthcare Ltd.", url: "https://play.google.com/store/apps/details?id=com.metropolis.partnerportal" },
-  oneapp: { name: "oneapp", type: "Housing society & payments app", platform: "Android", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.cubeone.app" },
-  startwell: { name: "StartWell Meals", type: "School tiffin app", platform: "Android", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.futurescape.startwell" },
-  yummy: { name: "Yummy Tiffins", type: "Online tiffin service", platform: "Android", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.yummytiffins" },
-  myjobsmate: { name: "MyJobsMate", type: "AI career platform", platform: "Web", stack: "Next.js", url: "https://www.myjobsmate.com/" },
+  metropolis: { name: "Metropolis Partner Connect", type: "Healthcare partner app", platform: "Android · iOS", by: "Metropolis Healthcare Ltd.", url: "https://play.google.com/store/apps/details?id=com.metropolis.partnerportal", ios: "https://apps.apple.com/in/app/metropolis-partner-connect/id6754966807" },
+  oneapp: { name: "oneapp", type: "Housing society & payments app", platform: "Android · iOS", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.cubeone.app", ios: "https://apps.apple.com/in/app/oneapp-society-payments/id1492930711" },
+  startwell: { name: "StartWell Meals", type: "School tiffin app", platform: "Android · iOS", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.futurescape.startwell", ios: "https://apps.apple.com/in/app/startwell-meals/id6753936198" },
+  yummy: { name: "Yummy Tiffins", type: "Online tiffin service", platform: "Android · iOS", by: "Futurescape Technologies Pvt Ltd", url: "https://play.google.com/store/apps/details?id=com.yummytiffins", ios: "https://apps.apple.com/in/app/yummy-tiffins/id6499258873" },
+  myjobsmate: { name: "MyJobsMate", type: "AI career platform", platform: "Web · mobile app", stack: "Next.js", url: "https://www.myjobsmate.com/" },
   hrms: { name: "ANSOFTT HRMS", type: "HR management app", platform: "Android", by: "AN INTL", url: "https://play.google.com/store/apps/details?id=com.an.hrms" },
   health: { name: "SR Health Care", type: "Healthcare app", platform: "Android · iOS", role: "App, backend, database, store launch", stack: "Flutter · REST API · SQL" },
   imoda: { name: "iModa", type: "Mobile product", platform: "Android · iOS", role: "App development, API integration, release", stack: "Flutter · Dart · REST API" },
