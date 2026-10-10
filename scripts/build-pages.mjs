@@ -1,4 +1,4 @@
-// Generates service pages, 404.html, sitemap.xml and robots.txt, and syncs the
+// Generates service pages, 404.html, privacy-policy.html, sitemap.xml and robots.txt, and syncs the
 // service links and structured data in index.html. No dependencies:  node scripts/build-pages.mjs
 import { writeFileSync, readFileSync, readdirSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -129,7 +129,7 @@ const footer = () => `
         <p class="foot-seo">Atif (Ansari Mohd Atif) is a freelance full-stack developer for websites, web apps, e-commerce, Flutter mobile apps, backend APIs, databases, AI, automation and DevOps, working with clients in India and internationally.</p>
       </div>
       <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
-      <div class="foot-bottom small-caps"><span>© <span id="year">${TODAY.slice(0, 4)}</span> ${NAME}</span><a href="#top">Back to top ↑</a></div>
+      <div class="foot-bottom small-caps"><span>© <span id="year">${TODAY.slice(0, 4)}</span> ${NAME}</span><a href="/privacy-policy">Privacy policy</a><a href="#top">Back to top ↑</a></div>
     </div>
   </footer>
   <div class="fabs">
@@ -275,6 +275,66 @@ function notFound() {
 ${footer()}`;
 }
 
+// Privacy policy for the kids' game: no accounts, nothing collected by us, third-party ads only.
+// Each section is [heading, blocks]; a block is a paragraph (string) or a bullet list (array).
+// Bump PRIVACY_UPDATED by hand whenever the wording changes.
+const PRIVACY_UPDATED = "10 October 2026";
+const PRIVACY = [
+  ["The short version", [[
+    "The Game has no login, sign-up or account.",
+    "We do not collect, store or share personal information about players.",
+    "The Game shows ads, which are delivered by a third-party advertising network.",
+  ]]],
+  ["Information we collect", [
+    "We do not collect any personal information. The Game does not ask for a name, email address, phone number, photos, contacts or location, and there is no account to create.",
+    "Any game progress or settings are saved only on the device and are not sent to us.",
+  ]],
+  ["Advertising", [
+    "The Game is free and is supported by ads. Ads are served by a third-party advertising network, not by us. To show ads and measure how they perform, the ad network may automatically collect some technical information from the device, such as:",
+    ["IP address", "Device type, operating system and language", "An advertising or device identifier, where one is available", "Which ads were shown or tapped"],
+    "This information is collected and handled by the ad network under its own privacy policy. We do not receive it in a form that identifies a player.",
+  ]],
+  ["Children's privacy", [
+    "The Game is made for children, so it is built to work without personal information: there is no account, no sign-up and nothing a child has to enter about themselves. We do not knowingly collect personal information from children.",
+    `If you are a parent or guardian and believe your child's personal information has been shared with us, email <a href="mailto:${EMAIL}">${EMAIL}</a> and we will delete it.`,
+  ]],
+  ["Your choices", [
+    "You can reset or delete the advertising identifier, or limit ad tracking, in the device's privacy settings. Uninstalling the Game removes anything it saved on the device.",
+  ]],
+  ["Sharing and selling data", [
+    "Because we do not collect personal information, we have nothing to sell, rent or share.",
+  ]],
+  ["Changes to this policy", [
+    "If the Game or this policy changes, we will update this page and the date at the top.",
+  ]],
+  ["Contact", [
+    `Questions about this policy? Email <a href="mailto:${EMAIL}">${EMAIL}</a>.`,
+  ]],
+];
+
+function privacyPolicy() {
+  return `${head({ title: "Privacy Policy | Atif", description: "Privacy policy for the kids' game by Ansari Mohd Atif: no login, no personal information collected by us, and how third-party ads work.", path: "/privacy-policy" })}${nav()}
+  <main id="main">
+    <section class="sp-hero" id="top">
+      <div class="wrap">
+        <p class="small-caps kicker">Legal</p>
+        <h1 class="sp-h1">Privacy policy</h1>
+        <div class="sp-intro"><p>This policy applies to the kids' game (the “Game”) published by ${NAME} (“we”, “us”). Last updated ${PRIVACY_UPDATED}.</p></div>
+      </div>
+    </section>
+
+    <section class="paper sp-section">
+      <div class="wrap">
+        <div class="sp-legal">${PRIVACY.map(([h, blocks]) => `
+          <h2>${h}</h2>${blocks.map((b) => `
+          ${Array.isArray(b) ? `<ul>${b.map((i) => `<li>${i}</li>`).join("")}</ul>` : `<p>${b}</p>`}`).join("")}`).join("")}
+        </div>
+      </div>
+    </section>
+  </main>
+${footer()}`;
+}
+
 // Write only when content changed, so unchanged pages keep their real last-modified date.
 function write(file, content) {
   const full = join(ROOT, file);
@@ -351,6 +411,7 @@ for (const s of services) {
   write(`${s.slug}.html`, servicePage(s));
 }
 write("404.html", notFound());
+write("privacy-policy.html", privacyPolicy());
 
 // ---- sync the homepage: footer service links + structured data ----
 // Runs before the sitemap so index.html's lastmod reflects these changes.
