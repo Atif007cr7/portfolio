@@ -62,6 +62,17 @@
 .sp-rel:hover em { transform: translate(3px, -3px); }
 .sp-404 { margin-top: 50px; }
 
+/* links to blog posts (service pages, end of each post) */
+.sp-posts-title { margin: 44px 0 14px; }
+.sp-posts { display: grid; gap: 12px; }
+.sp-post { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: center; padding: 22px 24px; border-radius: 22px; background: var(--cream-2); color: var(--ink); text-decoration: none; transition: transform .4s var(--ease), background .3s; }
+.sp-post span { grid-column: 1; opacity: .6; }
+.sp-post strong { grid-column: 1; font-family: var(--display); font-stretch: 110%; font-weight: 900; text-transform: uppercase; font-size: clamp(18px, 1.8vw, 24px); line-height: 1.05; }
+.sp-post em { grid-column: 2; grid-row: 1 / span 2; font-style: normal; font-size: 24px; transition: transform .4s var(--ease); }
+.sp-post:hover { background: var(--orange); transform: translateY(-4px); }
+.sp-post:hover em { transform: translate(3px, -3px); }
+.chip[aria-current="page"] { background: var(--ink); color: var(--cream); }
+
 .sp-legal { max-width: 780px; }
 .sp-legal h2 { font-family: var(--display); font-stretch: 115%; font-weight: 900; text-transform: uppercase; font-size: clamp(22px, 2.4vw, 30px); line-height: 1; color: var(--blue); margin: 44px 0 14px; }
 .sp-legal h2:first-child { margin-top: 0; }

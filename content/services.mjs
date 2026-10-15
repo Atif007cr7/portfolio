@@ -1,6 +1,7 @@
 // Content for generated service pages. One object = one page at /<slug>.
 // Keep claims factual: no invented clients, numbers, reviews or timelines.
-// In intro paragraphs, [link text](/slug) becomes an internal link to another service page.
+// In intro paragraphs and FAQ answers, [link text](/slug) becomes an internal link to another page
+// (a service page or a blog post such as /blog/<post-slug>). Unknown links fail the build.
 // After editing, run:  node scripts/build-pages.mjs
 
 // `url` is the Google Play listing or site, `ios` the App Store listing; `by` is the publisher shown there.
@@ -180,7 +181,7 @@ export const services = [
     faqs: [
       ["Why Flutter instead of separate native apps?", "One codebase for Android and iOS means lower cost, faster releases and one set of bugs to fix. For most business apps the performance is indistinguishable from native."],
       ["Can you work with my existing Flutter code?", "Yes. I'll review the code, flag risks and continue development, or refactor the parts that are slowing you down."],
-      ["What is Serverpod?", "Serverpod is a backend framework written in Dart. It lets the app and server share models and code, which is a good fit for Flutter-first teams. I also build backends with Laravel, FastAPI and Node.js."],
+      ["What is Serverpod?", "Serverpod is a backend framework written in Dart. It lets the app and server share models and code, which is a good fit for Flutter-first teams. For a hands-on example, see my [Serverpod and Flutter tutorial with BLoC and clean architecture](/blog/serverpod-flutter-bloc-clean-architecture). I also build backends with Laravel, FastAPI and Node.js."],
       ["Can I hire you part-time or for a fixed scope?", "Both work. Fixed scope suits a defined app or feature. Ongoing monthly support suits continuous development."],
     ],
     related: ["mobile-app-development", "backend-development", "api-integration", "payment-gateway-integration"],
@@ -211,7 +212,7 @@ export const services = [
     work: ["food", "inventory", "health"],
     costFactors: ["Number of endpoints and business rules", "Data model complexity and migrations", "Integrations (payments, messaging, third-party APIs)", "Performance, security and compliance needs", "Hosting and DevOps setup"],
     faqs: [
-      ["Which backend framework should I use?", "It depends on your team and product. Laravel is great for business apps and admin panels, FastAPI for Python-heavy or AI features, Node.js for real-time and JavaScript teams, and Serverpod for Flutter-first products. I'll recommend one based on your needs, not habit."],
+      ["Which backend framework should I use?", "It depends on your team and product. Laravel is great for business apps and admin panels, FastAPI for Python-heavy or AI features, Node.js for real-time and JavaScript teams, and [Serverpod for Flutter-first products](/blog/serverpod-flutter-bloc-clean-architecture). I'll recommend one based on your needs, not habit."],
       ["Can you build just the API for my existing app?", "Yes. I can build or extend an API for an existing web or mobile frontend and document it so your team can use it."],
       ["Do you design the database too?", "Yes. Database design, migrations, indexing and backups are part of every backend I build."],
       ["Can you improve a slow backend?", "Yes. I profile slow endpoints and queries, add indexes and caching, and fix the root causes."],

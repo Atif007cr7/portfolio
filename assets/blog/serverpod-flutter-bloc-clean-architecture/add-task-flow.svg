@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="t d">
+  <title id="t">What happens when you add a task</title>
+  <desc id="d">Sequence of calls when the user adds a task. TasksPage adds a TaskAdded event to TaskBloc. TaskBloc calls the AddTask use case, which calls addTask on the repository. The repository calls client.task.create through the remote data source. The generated client sends an HTTP request to TaskEndpoint, which inserts the row with Task.db.insertRow into PostgreSQL. The saved row, now with an id, travels back: PostgreSQL to the endpoint, the endpoint returns a Task as JSON, the client returns a Task, the repository maps it to a TaskEntity, the use case returns it to the BLoC, and the BLoC emits a new state with the task at the top of the list, which rebuilds TasksPage.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#ffe9bd"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#c8ff5e"/></marker>
+    <style>
+      text { font-family: Archivo, "Helvetica Neue", Arial, sans-serif; fill: #ffe9bd; }
+      .k { font-size: 13px; font-weight: 800; letter-spacing: 1.6px; }
+      .hd { font-size: 16px; font-weight: 900; fill: #0b1030; text-anchor: middle; }
+      .m { font-family: Menlo, Consolas, "Courier New", monospace; font-size: 13.5px; font-weight: 600; text-anchor: middle; }
+      .ret { fill: #c8ff5e; }
+      .life { stroke: #ffe9bd; stroke-opacity: .35; stroke-width: 2; stroke-dasharray: 2 6; }
+      .go { stroke: #ffe9bd; stroke-width: 2.5; marker-end: url(#a); }
+      .back { stroke: #c8ff5e; stroke-width: 2.5; stroke-dasharray: 7 5; marker-end: url(#r); }
+      .n { font-size: 14px; font-weight: 700; }
+    </style>
+  </defs>
+  <rect width="1200" height="760" rx="28" fill="#1f3fd8"/>
+  <text x="40" y="44" class="k">WHAT HAPPENS WHEN YOU TAP “ADD”</text>
+
+  <!-- groups -->
+  <rect x="44" y="62" width="632" height="76" rx="16" fill="#0b1030" fill-opacity=".28"/>
+  <rect x="684" y="62" width="152" height="76" rx="16" fill="#0b1030" fill-opacity=".55"/>
+  <rect x="844" y="62" width="312" height="76" rx="16" fill="#0b1030" fill-opacity=".28"/>
+  <text x="58" y="82" class="k" style="font-size:11px">FLUTTER APP</text>
+  <text x="698" y="82" class="k" style="font-size:11px">GENERATED</text>
+  <text x="858" y="82" class="k" style="font-size:11px">SERVER</text>
+
+  <!-- lifelines -->
+  <g class="life">
+    <path d="M120 130 V712"/><path d="M280 130 V712"/><path d="M440 130 V712"/><path d="M600 130 V712"/>
+    <path d="M760 130 V712"/><path d="M920 130 V712"/><path d="M1080 130 V712"/>
+  </g>
+
+  <!-- headers -->
+  <rect x="54" y="92" width="132" height="38" rx="19" fill="#ffe9bd"/><text x="120" y="117" class="hd">TasksPage</text>
+  <rect x="214" y="92" width="132" height="38" rx="19" fill="#ffe9bd"/><text x="280" y="117" class="hd">TaskBloc</text>
+  <rect x="374" y="92" width="132" height="38" rx="19" fill="#ff5b2e"/><text x="440" y="117" class="hd">AddTask</text>
+  <rect x="534" y="92" width="132" height="38" rx="19" fill="#7fd6ff"/><text x="600" y="117" class="hd">Repository</text>
+  <rect x="694" y="92" width="132" height="38" rx="19" fill="#fff4de"/><text x="760" y="117" class="hd" style="font-size:15px">taskly_client</text>
+  <rect x="854" y="92" width="132" height="38" rx="19" fill="#fff4de"/><text x="920" y="117" class="hd" style="font-size:15px">TaskEndpoint</text>
+  <rect x="1014" y="92" width="132" height="38" rx="19" fill="#c8ff5e"/><text x="1080" y="117" class="hd">PostgreSQL</text>
+
+  <!-- requests -->
+  <path class="go" d="M124 176 H274"/><text x="200" y="166" class="m">add(TaskAdded)</text>
+  <path class="go" d="M284 220 H434"/><text x="360" y="210" class="m">call(title)</text>
+  <path class="go" d="M444 264 H594"/><text x="520" y="254" class="m">addTask(title)</text>
+  <path class="go" d="M604 308 H754"/><text x="680" y="298" class="m">task.create()</text>
+  <path class="go" d="M764 352 H914"/><text x="840" y="342" class="m">HTTP request</text>
+  <path class="go" d="M924 396 H1074"/><text x="1000" y="386" class="m">insertRow</text>
+
+  <!-- responses -->
+  <path class="back" d="M1076 440 H926"/><text x="1000" y="430" class="m ret">row with id</text>
+  <path class="back" d="M916 484 H766"/><text x="840" y="474" class="m ret">Task (JSON)</text>
+  <path class="back" d="M756 528 H606"/><text x="680" y="518" class="m ret">Task</text>
+  <path class="back" d="M596 572 H446"/><text x="520" y="562" class="m ret">TaskEntity</text>
+  <path class="back" d="M436 616 H286"/><text x="360" y="606" class="m ret">TaskEntity</text>
+  <path class="back" d="M276 660 H126"/><text x="200" y="650" class="m ret">emit(state)</text>
+
+  <text x="40" y="742" class="n">Solid arrows are calls. Dashed arrows are results. The page rebuilds when the BLoC emits a state with the new task at the top.</text>
+</svg>

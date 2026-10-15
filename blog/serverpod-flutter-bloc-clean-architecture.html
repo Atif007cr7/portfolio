@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Serverpod Flutter Tutorial: BLoC &amp; Clean Architecture | Atif</title>
+  <meta name="description" content="A step-by-step Serverpod 4 tutorial: a Dart backend on PostgreSQL and a Flutter app built with BLoC and clean architecture, tested on both sides.">
+  <meta name="author" content="Ansari Mohd Atif">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture">
+  <meta name="theme-color" content="#1f3fd8">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Ansari Mohd Atif">
+  <meta property="og:title" content="Serverpod Flutter Tutorial: BLoC &amp; Clean Architecture | Atif">
+  <meta property="og:description" content="A step-by-step Serverpod 4 tutorial: a Dart backend on PostgreSQL and a Flutter app built with BLoC and clean architecture, tested on both sides.">
+  <meta property="og:url" content="https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture">
+  <meta property="og:image" content="https://www.ansariatif.tech/assets/blog/serverpod-flutter-bloc-clean-architecture/cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Serverpod × Flutter: a full-stack Dart app with BLoC and clean architecture, showing the presentation, domain and data layers above a Serverpod and PostgreSQL backend">
+  <meta property="article:published_time" content="2026-10-16">
+  <meta property="article:modified_time" content="2026-10-16">
+  <meta property="article:author" content="https://www.ansariatif.tech/">
+  <meta property="article:tag" content="Serverpod">
+  <meta property="article:tag" content="Flutter">
+  <meta property="article:tag" content="Dart">
+  <meta property="article:tag" content="BLoC">
+  <meta property="article:tag" content="Clean architecture">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Serverpod Flutter Tutorial: BLoC &amp; Clean Architecture | Atif">
+  <meta name="twitter:description" content="A step-by-step Serverpod 4 tutorial: a Dart backend on PostgreSQL and a Flutter app built with BLoC and clean architecture, tested on both sides.">
+  <meta name="twitter:image" content="https://www.ansariatif.tech/assets/blog/serverpod-flutter-bloc-clean-architecture/cover.png">
+  <meta name="twitter:image:alt" content="Serverpod × Flutter: a full-stack Dart app with BLoC and clean architecture, showing the presentation, domain and data layers above a Serverpod and PostgreSQL backend">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="alternate" type="application/rss+xml" title="Ansari Mohd Atif — blog" href="/blog/feed.xml">
+  <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/page.css">
+  <link rel="stylesheet" href="/css/blog.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture#article",
+      "headline": "Build a full-stack Dart app with Serverpod, Flutter, BLoC and clean architecture",
+      "description": "A step-by-step Serverpod 4 tutorial: a Dart backend on PostgreSQL and a Flutter app built with BLoC and clean architecture, tested on both sides.",
+      "url": "https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture",
+      "mainEntityOfPage": "https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture",
+      "image": [
+        "https://www.ansariatif.tech/assets/blog/serverpod-flutter-bloc-clean-architecture/cover.png"
+      ],
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "author": {
+        "@type": "Person",
+        "@id": "https://www.ansariatif.tech/#person",
+        "name": "Ansari Mohd Atif",
+        "url": "https://www.ansariatif.tech/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "@id": "https://www.ansariatif.tech/#person",
+        "name": "Ansari Mohd Atif",
+        "url": "https://www.ansariatif.tech/"
+      },
+      "isPartOf": {
+        "@type": "Blog",
+        "@id": "https://www.ansariatif.tech/blog#blog",
+        "url": "https://www.ansariatif.tech/blog"
+      },
+      "keywords": [
+        "Serverpod",
+        "Flutter",
+        "Dart",
+        "BLoC",
+        "Clean architecture"
+      ],
+      "inLanguage": "en"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ansariatif.tech/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://www.ansariatif.tech/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Build a full-stack Dart app with Serverpod, Flutter, BLoC and clean architecture",
+          "item": "https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="nav">
+    <div class="nav-row">
+      <nav class="nav-group" aria-label="Main navigation">
+        <a class="chip hide-m" href="/#services">Services</a>
+        <a class="chip hide-m" href="/#work">Work</a>
+        <a class="chip hide-m" href="/#gigs">Gigs</a>
+        <a class="chip hide-m" href="/#faq">FAQ</a>
+        <button class="chip show-m menu-open" aria-expanded="false" aria-controls="menu">Menu</button>
+      </nav>
+      <a href="/" class="brand" aria-label="Atif — home">
+        <span class="brand-badge" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="ring" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs><text class="emblem-ring"><textPath href="#ring">MOBILE ✦ WEB ✦ CLOUD ✦ AUTOMATION ✦</textPath></text><path class="emblem-a" d="M60 34 L77 80 H68.5 L65 70 H55 L51.5 80 H43 Z M57.5 63 H62.5 L60 56 Z"/></svg></span>
+        <span class="brand-word">ATIF<i>.</i></span>
+      </a>
+      <div class="nav-group right">
+        <a class="chip hide-m" href="/blog" aria-current="page">Blog</a>
+        <a class="chip chip-hot" href="/#contact">Hire me <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="dots" aria-hidden="true"></div>
+  </header>
+  <div class="menu" id="menu" hidden>
+    <nav aria-label="Mobile navigation">
+      <a href="/">Home</a><a href="/#services">Services</a><a href="/#work">Work</a><a href="/#gigs">Gigs</a><a href="/blog">Blog</a><a href="/#contact">Contact</a>
+    </nav>
+    <button class="chip menu-close">Close</button>
+  </div>
+
+  <main id="main">
+    <article class="post">
+      <header class="sp-hero post-hero" id="top">
+        <div class="wrap">
+          <nav class="crumbs small-caps" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/blog">Blog</a></li></ol></nav>
+          <p class="small-caps post-kicker">Serverpod · Flutter · Dart · BLoC · Clean architecture</p>
+          <h1 class="post-h1">Build a full-stack Dart app with Serverpod, Flutter, BLoC and clean architecture</h1>
+          <p class="post-dek">A step-by-step Serverpod 4 tutorial: a Dart backend on PostgreSQL and a Flutter app built with BLoC and clean architecture, tested on both sides.</p>
+          <p class="post-meta small-caps"><span>By <a href="/" rel="author">Ansari Mohd Atif</a></span><span><time datetime="2026-10-16">16 October 2026</time></span><span>15 min read</span></p>
+        </div>
+      </header>
+
+      <div class="paper post-body">
+        <div class="wrap">
+          <figure class="post-cover"><img src="/assets/blog/serverpod-flutter-bloc-clean-architecture/cover.png" alt="Serverpod × Flutter: a full-stack Dart app with BLoC and clean architecture, showing the presentation, domain and data layers above a Serverpod and PostgreSQL backend" width="1200" height="630" fetchpriority="high"></figure>
+          <div class="post-layout">
+            <nav class="toc" aria-labelledby="toc-title"><p class="small-caps" id="toc-title">On this page</p><ol><li><a href="#what-you-ll-build">What you'll build</a></li><li><a href="#why-serverpod-for-a-flutter-app">Why Serverpod for a Flutter app?</a></li><li><a href="#step-1-create-the-serverpod-project">Step 1: Create the Serverpod project</a></li><li><a href="#step-2-define-the-task-model">Step 2: Define the Task model</a></li><li><a href="#step-3-write-the-endpoint">Step 3: Write the endpoint</a></li><li><a href="#step-4-test-the-endpoint">Step 4: Test the endpoint</a></li><li><a href="#step-5-plan-the-flutter-app-with-clean-architecture">Step 5: Plan the Flutter app with clean architecture</a></li><li><a href="#step-6-the-domain-layer">Step 6: The domain layer</a></li><li><a href="#step-7-the-data-layer">Step 7: The data layer</a></li><li><a href="#step-8-the-presentation-layer-with-bloc">Step 8: The presentation layer with BLoC</a></li><li><a href="#step-9-wire-it-up-in-main-dart">Step 9: Wire it up in main.dart</a></li><li><a href="#step-10-test-the-bloc">Step 10: Test the BLoC</a></li><li><a href="#run-it-on-an-android-emulator-or-a-phone">Run it on an Android emulator or a phone</a></li><li><a href="#common-mistakes">Common mistakes</a></li><li><a href="#faq">FAQ</a></li><li><a href="#where-to-go-next">Where to go next</a></li></ol></nav>
+            <div class="prose">
+<p>Serverpod lets you write your backend in Dart, the same language as your Flutter app. The server and the app share the same model classes, and the code that moves data between them is generated for you. In this tutorial you'll build a small task app end to end: a Serverpod server that stores tasks in PostgreSQL, and a Flutter app organised with clean architecture and BLoC.</p>
+<p>It's written for students and developers who know basic Flutter (widgets, <code>async</code> and <code>await</code>) and want to see how a real project is laid out: where each file goes, why it goes there, and how to test it.</p>
+<aside class="note"><p><strong>Versions used:</strong> Serverpod 4.0.4 (it needs Flutter 3.44.4 or later, which ships Dart 3.12.2), flutter_bloc 9.1.1, equatable 3.0.0, bloc_test 10.0.0 and mocktail 1.0.5. Older Serverpod versions set projects up differently (the CLI came from <code>dart pub global activate</code> and the database ran in Docker), so follow this guide with version 4.</p></aside>
+<h2 id="what-you-ll-build">What you'll build</h2>
+<p>The app is called <strong>Taskly</strong>. You can add a task, tick it off and delete it. Tasks are saved in PostgreSQL, so they survive an app restart. It's small on purpose: the goal is to see every layer clearly, not to build lots of features.</p>
+<figure class="post-fig"><a class="post-fig-link" href="/assets/blog/serverpod-flutter-bloc-clean-architecture/architecture.svg"><img src="/assets/blog/serverpod-flutter-bloc-clean-architecture/architecture.svg" alt="Architecture diagram: the Flutter app's presentation, domain and data layers, the generated taskly_client package, and the Serverpod server with TaskEndpoint, Task.db and PostgreSQL" width="1200" height="760" loading="lazy" decoding="async"></a><figcaption>Only the data layer knows Serverpod exists. The domain layer in the middle depends on nothing.</figcaption></figure>
+<p>Here's the diagram in words:</p>
+<ul><li><strong>Serverpod server:</strong> a <code>Task</code> model mapped to a database table, and a <code>TaskEndpoint</code> with four methods: <code>list</code>, <code>create</code>, <code>toggleDone</code> and <code>remove</code>.</li><li><strong>Generated client:</strong> Serverpod turns the endpoint into typed Dart methods, so the app calls <code>client.task.create('Buy milk')</code> instead of building HTTP requests and parsing JSON.</li><li><strong>Flutter app:</strong> three layers. The presentation layer (widgets and the BLoC) and the data layer (which talks to the client) both depend on the domain layer, which is plain Dart.</li></ul>
+<h2 id="why-serverpod-for-a-flutter-app">Why Serverpod for a Flutter app?</h2>
+<p>You can pair Flutter with any backend; I also build them with Laravel, FastAPI and Node.js (see <a href="/backend-development">backend development</a>). Serverpod is worth a look when the team is Flutter-first:</p>
+<ul><li><strong>One language.</strong> Dart on the phone and on the server, so models and validation rules can be shared.</li><li><strong>No API glue code.</strong> You write a method on the server and Serverpod generates the matching client method. Rename a field and the app fails to compile, instead of failing in front of a user.</li><li><strong>A database built in.</strong> Models with a <code>table</code> key get type-safe queries (<code>Task.db.find(...)</code>) and migrations.</li><li><strong>A fast dev loop.</strong> One command runs the server, the database and the app, and hot reloads both sides when you save.</li></ul>
+<p>It's a weaker fit when most of your API's users aren't Dart apps, or when your team already runs a mature backend in another language. Then the generated client, Serverpod's biggest advantage, matters less.</p>
+<h2 id="step-1-create-the-serverpod-project">Step 1: Create the Serverpod project</h2>
+<p>Install the Serverpod command-line tool and check that it works. If you installed an older version with <code>dart pub global activate</code>, run <code>dart pub global deactivate serverpod_cli</code> first.</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-fn">dart</span> install serverpod_cli
+<span class="tok-fn">serverpod</span> version</code></pre></div>
+<p>Create the project:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-fn">serverpod</span> create taskly</code></pre></div>
+<p>The setup screen asks a few questions. Keep the <strong>database</strong>; you can leave authentication, Redis and the web server off for this tutorial. You get one workspace with three packages:</p>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="text"><code>taskly/
+├── taskly_server/    # endpoints, models, config and migrations
+├── taskly_client/    # generated code the app uses to call the server
+└── taskly_flutter/   # the Flutter app</code></pre></div>
+<p>You write code in <code>taskly_server</code> and <code>taskly_flutter</code>. Serverpod writes <code>taskly_client</code> for you, so never edit it by hand: it's overwritten every time code is generated.</p>
+<p>Start everything from the project root, and leave it running for the rest of the tutorial:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-fn">cd</span> taskly
+<span class="tok-fn">serverpod</span> start</code></pre></div>
+<p><code>serverpod start</code> runs the server, an embedded PostgreSQL database and the Flutter app (in your browser by default) in one terminal. When you save a file, it regenerates code and hot reloads. Three keys matter here: <strong>M</strong> creates and applies a database migration, <strong>R</strong> restarts, and <strong>Q</strong> quits.</p>
+<h2 id="step-2-define-the-task-model">Step 2: Define the Task model</h2>
+<p>Serverpod models are YAML files ending in <code>.spy.yaml</code>, placed anywhere under the server's <code>lib</code> folder. I keep each feature's files together. Create the task model:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_server/lib/src/tasks/task.spy.yaml</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="yaml"><code><span class="tok-com">### A single to-do item.</span>
+<span class="tok-key">class</span>: <span class="tok-type">Task</span>
+<span class="tok-key">table</span>: task
+<span class="tok-key">fields</span>:
+  <span class="tok-com">### What needs doing.</span>
+  <span class="tok-key">title</span>: <span class="tok-type">String</span>
+  <span class="tok-com">### Whether the task is finished.</span>
+  <span class="tok-key">isDone</span>: bool, default=<span class="tok-kw">false</span>
+  <span class="tok-com">### When the task was created.</span>
+  <span class="tok-key">createdAt</span>: <span class="tok-type">DateTime</span>, default=<span class="tok-kw">now</span></code></pre></div>
+<ul><li><code>class: Task</code> generates a <code>Task</code> Dart class for both the server and the app.</li><li><code>table: task</code> also stores it in a database table. Serverpod adds an <code>id</code> field (an auto-incrementing <code>int</code>) for you.</li><li><code>default=false</code> and <code>default=now</code> mean you can create a task with only a title. Lines starting with <code>###</code> become doc comments in the generated code.</li></ul>
+<p>Next, a model for errors. Serverpod can send your own exception types to the app, where you catch them by type like any Dart exception:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_server/lib/src/tasks/task_exception.spy.yaml</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="yaml"><code><span class="tok-com">### Thrown when a request about tasks can't be completed.</span>
+<span class="tok-key">exception</span>: <span class="tok-type">TaskException</span>
+<span class="tok-key">fields</span>:
+  <span class="tok-key">message</span>: <span class="tok-type">String</span></code></pre></div>
+<p>Save both files and <code>serverpod start</code> regenerates the code. The database doesn't change on its own, though: press <strong>M</strong> in the terminal to create a migration and apply it. That creates the <code>task</code> table.</p>
+<h2 id="step-3-write-the-endpoint">Step 3: Write the endpoint</h2>
+<p>An endpoint is a class that extends <code>Endpoint</code>. Each public method takes a <code>Session</code> first, returns a <code>Future</code>, and becomes a method on the generated client:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_server/lib/src/tasks/task_endpoint.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:serverpod/serverpod.dart'</span>;
+
+<span class="tok-kw">import</span> <span class="tok-str">'../generated/protocol.dart'</span>;
+
+<span class="tok-com">/// Called from the app as `client.task`.</span>
+<span class="tok-kw">class</span> <span class="tok-type">TaskEndpoint</span> <span class="tok-kw">extends</span> <span class="tok-type">Endpoint</span> {
+  <span class="tok-com">/// All tasks, newest first.</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">List</span>&lt;<span class="tok-type">Task</span>&gt;&gt; <span class="tok-fn">list</span>(<span class="tok-type">Session</span> session) <span class="tok-kw">async</span> {
+    <span class="tok-kw">return</span> <span class="tok-type">Task</span>.db.<span class="tok-fn">find</span>(session, orderBy: (t) =&gt; t.createdAt.<span class="tok-fn">desc</span>());
+  }
+
+  <span class="tok-com">/// Saves a new task and returns it with its database id.</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">Task</span>&gt; <span class="tok-fn">create</span>(<span class="tok-type">Session</span> session, <span class="tok-type">String</span> title) <span class="tok-kw">async</span> {
+    <span class="tok-kw">final</span> trimmed = title.<span class="tok-fn">trim</span>();
+    <span class="tok-kw">if</span> (trimmed.isEmpty) {
+      <span class="tok-kw">throw</span> <span class="tok-type">TaskException</span>(message: <span class="tok-str">'Write something first.'</span>);
+    }
+    <span class="tok-kw">if</span> (trimmed.length &gt; <span class="tok-num">200</span>) {
+      <span class="tok-kw">throw</span> <span class="tok-type">TaskException</span>(message: <span class="tok-str">'Keep tasks under 200 characters.'</span>);
+    }
+    <span class="tok-kw">return</span> <span class="tok-type">Task</span>.db.<span class="tok-fn">insertRow</span>(session, <span class="tok-type">Task</span>(title: trimmed));
+  }
+
+  <span class="tok-com">/// Flips a task between done and not done.</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">Task</span>&gt; <span class="tok-fn">toggleDone</span>(<span class="tok-type">Session</span> session, int id) <span class="tok-kw">async</span> {
+    <span class="tok-kw">final</span> task = <span class="tok-kw">await</span> <span class="tok-fn">_find</span>(session, id);
+    <span class="tok-kw">return</span> <span class="tok-type">Task</span>.db.<span class="tok-fn">updateRow</span>(session, task.<span class="tok-fn">copyWith</span>(isDone: !task.isDone));
+  }
+
+  <span class="tok-com">/// Deletes a task.</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">remove</span>(<span class="tok-type">Session</span> session, int id) <span class="tok-kw">async</span> {
+    <span class="tok-kw">final</span> task = <span class="tok-kw">await</span> <span class="tok-fn">_find</span>(session, id);
+    <span class="tok-kw">await</span> <span class="tok-type">Task</span>.db.<span class="tok-fn">deleteRow</span>(session, task);
+  }
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">Task</span>&gt; <span class="tok-fn">_find</span>(<span class="tok-type">Session</span> session, int id) <span class="tok-kw">async</span> {
+    <span class="tok-kw">final</span> task = <span class="tok-kw">await</span> <span class="tok-type">Task</span>.db.<span class="tok-fn">findById</span>(session, id);
+    <span class="tok-kw">if</span> (task == <span class="tok-kw">null</span>) {
+      <span class="tok-kw">throw</span> <span class="tok-type">TaskException</span>(message: <span class="tok-str">'That task no longer exists.'</span>);
+    }
+    <span class="tok-kw">return</span> task;
+  }
+}</code></pre></div>
+<p>A few things to notice:</p>
+<ul><li>The class is called <code>TaskEndpoint</code>, so the app calls it as <code>client.task</code>. Serverpod drops the <code>Endpoint</code> suffix.</li><li><strong>Validate on the server.</strong> The app will check for empty titles too, but a server must never trust its clients: anyone can call your API.</li><li><code>findById</code> returns <code>null</code> when there's no such row, so <code>_find</code> turns that into a <code>TaskException</code> the app understands. Methods starting with <code>_</code> are private and aren't exposed to the app.</li><li><code>copyWith</code> comes from the generated <code>Task</code> class.</li></ul>
+<p>What about other errors? An exception you don't catch reaches the app as a generic error with status 500 and no details, so internal messages never leak to users. Only exceptions you define in <code>.spy.yaml</code> files, like <code>TaskException</code>, arrive with their fields.</p>
+<p>The generated client changed, so press <strong>R</strong> in the <code>serverpod start</code> terminal to restart.</p>
+<h2 id="step-4-test-the-endpoint">Step 4: Test the endpoint</h2>
+<p>New Serverpod projects come with generated test tools. They call your endpoints like plain Dart functions, against a real test database that's rolled back after every test:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_server/test/integration/task_endpoint_test.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:taskly_server/src/generated/protocol.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:test/test.dart'</span>;
+
+<span class="tok-kw">import</span> <span class="tok-str">'test_tools/serverpod_test_tools.dart'</span>;
+
+<span class="tok-kw">void</span> <span class="tok-fn">main</span>() {
+  <span class="tok-fn">withServerpod</span>(<span class="tok-str">'Given the task endpoint'</span>, (sessionBuilder, endpoints) {
+    <span class="tok-fn">test</span>(<span class="tok-str">'when a task is created then it is listed'</span>, () <span class="tok-kw">async</span> {
+      <span class="tok-kw">await</span> endpoints.task.<span class="tok-fn">create</span>(sessionBuilder, <span class="tok-str">'Write the blog post'</span>);
+
+      <span class="tok-kw">final</span> tasks = <span class="tok-kw">await</span> endpoints.task.<span class="tok-fn">list</span>(sessionBuilder);
+
+      <span class="tok-fn">expect</span>(tasks.single.title, <span class="tok-str">'Write the blog post'</span>);
+      <span class="tok-fn">expect</span>(tasks.single.isDone, isFalse);
+    });
+
+    <span class="tok-fn">test</span>(<span class="tok-str">'when the title is blank then it throws TaskException'</span>, () <span class="tok-kw">async</span> {
+      <span class="tok-kw">await</span> <span class="tok-fn">expectLater</span>(
+        endpoints.task.<span class="tok-fn">create</span>(sessionBuilder, <span class="tok-str">'   '</span>),
+        <span class="tok-fn">throwsA</span>(<span class="tok-fn">isA</span>&lt;<span class="tok-type">TaskException</span>&gt;()),
+      );
+    });
+  });
+}</code></pre></div>
+<p>Run the tests from the server package:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-fn">cd</span> taskly_server
+<span class="tok-fn">dart</span> test</code></pre></div>
+<p>You don't need to start a database first. In new projects the test server manages its own PostgreSQL (that's the <code>dataPath</code> setting in <code>config/test.yaml</code>).</p>
+<h2 id="step-5-plan-the-flutter-app-with-clean-architecture">Step 5: Plan the Flutter app with clean architecture</h2>
+<p>Now the app. Clean architecture splits a feature into three layers, with one rule: <strong>dependencies point inwards, towards the domain.</strong></p>
+<div class="table"><table><thead><tr><th>Layer</th><th>What it holds</th><th>What it may import</th></tr></thead><tbody><tr><td>Presentation</td><td>Widgets, the BLoC, its events and states</td><td>Domain</td></tr><tr><td>Domain</td><td>Entities, repository interfaces, use cases</td><td>Nothing (plain Dart)</td></tr><tr><td>Data</td><td>Repository implementations, data sources, mappers</td><td>Domain and <code>taskly_client</code></td></tr></tbody></table></div>
+<p>Why bother? The domain layer describes what the app does without saying how. The BLoC asks a use case to &quot;add a task&quot; and doesn't know whether that means Serverpod, Firebase or a local database. So you can test the BLoC with a fake repository, and if the backend changes, only the data layer changes.</p>
+<aside class="note"><p><strong>Is it overkill?</strong> For a two-screen app, calling the generated client from a Cubit is fine. The layers pay off when the app grows, more people work on it, or you want tests that don't need a server. A task app is small enough to read in one sitting and big enough to show the structure.</p></aside>
+<p>Add the packages from inside <code>taskly_flutter</code>:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-fn">cd</span> taskly_flutter
+<span class="tok-fn">flutter</span> pub add flutter_bloc equatable
+<span class="tok-fn">flutter</span> pub add dev:bloc_test dev:mocktail</code></pre></div>
+<p>Then create this structure. <code>main.dart</code> and <code>client.dart</code> already exist, and the scaffolded <code>screens</code> folder can stay or go:</p>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="text"><code>taskly_flutter/lib/
+├── main.dart                     # composition root: creates and connects objects
+├── client.dart                   # created by serverpod create
+└── features/tasks/
+    ├── domain/
+    │   ├── task_entity.dart
+    │   ├── task_failure.dart
+    │   ├── task_repository.dart
+    │   └── task_use_cases.dart
+    ├── data/
+    │   ├── task_remote_data_source.dart
+    │   ├── task_mapper.dart
+    │   └── task_repository_impl.dart
+    └── presentation/
+        ├── bloc/
+        │   ├── task_bloc.dart
+        │   ├── task_event.dart
+        │   └── task_state.dart
+        └── tasks_page.dart</code></pre></div>
+<h2 id="step-6-the-domain-layer">Step 6: The domain layer</h2>
+<p>Start in the middle, with plain Dart. First the entity, which is the app's own idea of a task:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/domain/task_entity.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:equatable/equatable.dart'</span>;
+
+<span class="tok-kw">class</span> <span class="tok-type">TaskEntity</span> <span class="tok-kw">extends</span> <span class="tok-type">Equatable</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskEntity</span>({
+    <span class="tok-kw">required</span> <span class="tok-kw">this</span>.id,
+    <span class="tok-kw">required</span> <span class="tok-kw">this</span>.title,
+    <span class="tok-kw">required</span> <span class="tok-kw">this</span>.isDone,
+    <span class="tok-kw">required</span> <span class="tok-kw">this</span>.createdAt,
+  });
+
+  <span class="tok-kw">final</span> int id;
+  <span class="tok-kw">final</span> <span class="tok-type">String</span> title;
+  <span class="tok-kw">final</span> bool isDone;
+  <span class="tok-kw">final</span> <span class="tok-type">DateTime</span> createdAt;
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">List</span>&lt;<span class="tok-type">Object</span>&gt; <span class="tok-kw">get</span> props =&gt; [id, title, isDone, createdAt];
+}</code></pre></div>
+<p>Why not use the generated <code>Task</code> class everywhere? You could, but then every widget and the BLoC would depend on the server's model. <code>TaskEntity</code> has exactly the fields the app needs, an <code>id</code> that's never null, and value equality from <code>Equatable</code>. BLoC uses that equality to decide whether a new state is really different.</p>
+<p>Next, one error type for the whole feature, so the presentation layer never deals with Serverpod's exceptions:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/domain/task_failure.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-com">/// Something went wrong, with a message that's safe to show the user.</span>
+<span class="tok-kw">class</span> <span class="tok-type">TaskFailure</span> <span class="tok-kw">implements</span> <span class="tok-type">Exception</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskFailure</span>(<span class="tok-kw">this</span>.message);
+
+  <span class="tok-kw">final</span> <span class="tok-type">String</span> message;
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">String</span> <span class="tok-fn">toString</span>() =&gt; message;
+}</code></pre></div>
+<p>The repository interface says what the feature needs, not how it's done:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/domain/task_repository.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'task_entity.dart'</span>;
+
+<span class="tok-com">/// Stores tasks somewhere. Every method throws TaskFailure on errors.</span>
+<span class="tok-kw">abstract</span> <span class="tok-kw">interface</span> <span class="tok-kw">class</span> <span class="tok-type">TaskRepository</span> {
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">List</span>&lt;<span class="tok-type">TaskEntity</span>&gt;&gt; <span class="tok-fn">getTasks</span>();
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">TaskEntity</span>&gt; <span class="tok-fn">addTask</span>(<span class="tok-type">String</span> title);
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">TaskEntity</span>&gt; <span class="tok-fn">toggleTask</span>(int id);
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">deleteTask</span>(int id);
+}</code></pre></div>
+<p>Finally the use cases, one class per action. Most of them pass the call straight through. <code>AddTask</code> also holds a business rule, which is exactly the kind of logic use cases are for:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/domain/task_use_cases.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'task_entity.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'task_failure.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'task_repository.dart'</span>;
+
+<span class="tok-kw">class</span> <span class="tok-type">GetTasks</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">GetTasks</span>(<span class="tok-kw">this</span>._repository);
+  <span class="tok-kw">final</span> <span class="tok-type">TaskRepository</span> _repository;
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">List</span>&lt;<span class="tok-type">TaskEntity</span>&gt;&gt; <span class="tok-fn">call</span>() =&gt; _repository.<span class="tok-fn">getTasks</span>();
+}
+
+<span class="tok-kw">class</span> <span class="tok-type">AddTask</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">AddTask</span>(<span class="tok-kw">this</span>._repository);
+  <span class="tok-kw">final</span> <span class="tok-type">TaskRepository</span> _repository;
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">TaskEntity</span>&gt; <span class="tok-fn">call</span>(<span class="tok-type">String</span> title) <span class="tok-kw">async</span> {
+    <span class="tok-kw">final</span> trimmed = title.<span class="tok-fn">trim</span>();
+    <span class="tok-com">// Same rule as the server, checked here to save a round trip.</span>
+    <span class="tok-kw">if</span> (trimmed.isEmpty) <span class="tok-kw">throw</span> <span class="tok-kw">const</span> <span class="tok-type">TaskFailure</span>(<span class="tok-str">'Write something first.'</span>);
+    <span class="tok-kw">return</span> _repository.<span class="tok-fn">addTask</span>(trimmed);
+  }
+}
+
+<span class="tok-kw">class</span> <span class="tok-type">ToggleTask</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">ToggleTask</span>(<span class="tok-kw">this</span>._repository);
+  <span class="tok-kw">final</span> <span class="tok-type">TaskRepository</span> _repository;
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">TaskEntity</span>&gt; <span class="tok-fn">call</span>(int id) =&gt; _repository.<span class="tok-fn">toggleTask</span>(id);
+}
+
+<span class="tok-kw">class</span> <span class="tok-type">DeleteTask</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">DeleteTask</span>(<span class="tok-kw">this</span>._repository);
+  <span class="tok-kw">final</span> <span class="tok-type">TaskRepository</span> _repository;
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">call</span>(int id) =&gt; _repository.<span class="tok-fn">deleteTask</span>(id);
+}</code></pre></div>
+<p>A class with a <code>call</code> method can be used like a function, so the BLoC can write <code>await addTask('Buy milk')</code>.</p>
+<h2 id="step-7-the-data-layer">Step 7: The data layer</h2>
+<p>This is the only layer that imports <code>taskly_client</code>. Start with a thin data source around the generated endpoint:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/data/task_remote_data_source.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:taskly_client/taskly_client.dart'</span>;
+
+<span class="tok-com">/// The one class that calls the Serverpod task endpoint.</span>
+<span class="tok-kw">class</span> <span class="tok-type">TaskRemoteDataSource</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskRemoteDataSource</span>(<span class="tok-kw">this</span>._client);
+  <span class="tok-kw">final</span> <span class="tok-type">Client</span> _client;
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">List</span>&lt;<span class="tok-type">Task</span>&gt;&gt; <span class="tok-fn">fetchAll</span>() =&gt; _client.task.<span class="tok-fn">list</span>();
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">Task</span>&gt; <span class="tok-fn">create</span>(<span class="tok-type">String</span> title) =&gt; _client.task.<span class="tok-fn">create</span>(title);
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">Task</span>&gt; <span class="tok-fn">toggleDone</span>(int id) =&gt; _client.task.<span class="tok-fn">toggleDone</span>(id);
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">remove</span>(int id) =&gt; _client.task.<span class="tok-fn">remove</span>(id);
+}</code></pre></div>
+<p>With a REST backend, this is where you'd build URLs and parse JSON. Serverpod's generated client already does that, so the class stays small. It's still worth having: you can test the repository with a fake data source, and it's the natural place to add a local cache later.</p>
+<p>The mapper turns the generated <code>Task</code> into a <code>TaskEntity</code>:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/data/task_mapper.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:taskly_client/taskly_client.dart'</span>;
+
+<span class="tok-kw">import</span> <span class="tok-str">'../domain/task_entity.dart'</span>;
+
+<span class="tok-kw">extension</span> <span class="tok-type">TaskMapper</span> <span class="tok-kw">on</span> <span class="tok-type">Task</span> {
+  <span class="tok-type">TaskEntity</span> <span class="tok-fn">toEntity</span>() =&gt; <span class="tok-type">TaskEntity</span>(
+    id: id!, <span class="tok-com">// Rows read from the database always have an id.</span>
+    title: title,
+    isDone: isDone,
+    createdAt: createdAt.<span class="tok-fn">toLocal</span>(), <span class="tok-com">// Serverpod sends DateTime as UTC.</span>
+  );
+}</code></pre></div>
+<p>The repository implementation ties them together and turns Serverpod's errors into <code>TaskFailure</code>:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/data/task_repository_impl.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:taskly_client/taskly_client.dart'</span>;
+
+<span class="tok-kw">import</span> <span class="tok-str">'../domain/task_entity.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'../domain/task_failure.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'../domain/task_repository.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'task_mapper.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'task_remote_data_source.dart'</span>;
+
+<span class="tok-kw">class</span> <span class="tok-type">TaskRepositoryImpl</span> <span class="tok-kw">implements</span> <span class="tok-type">TaskRepository</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskRepositoryImpl</span>(<span class="tok-kw">this</span>._remote);
+  <span class="tok-kw">final</span> <span class="tok-type">TaskRemoteDataSource</span> _remote;
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">List</span>&lt;<span class="tok-type">TaskEntity</span>&gt;&gt; <span class="tok-fn">getTasks</span>() =&gt; <span class="tok-fn">_guard</span>(() <span class="tok-kw">async</span> {
+    <span class="tok-kw">final</span> tasks = <span class="tok-kw">await</span> _remote.<span class="tok-fn">fetchAll</span>();
+    <span class="tok-kw">return</span> tasks.<span class="tok-fn">map</span>((task) =&gt; task.<span class="tok-fn">toEntity</span>()).<span class="tok-fn">toList</span>();
+  });
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">TaskEntity</span>&gt; <span class="tok-fn">addTask</span>(<span class="tok-type">String</span> title) =&gt;
+      <span class="tok-fn">_guard</span>(() <span class="tok-kw">async</span> =&gt; (<span class="tok-kw">await</span> _remote.<span class="tok-fn">create</span>(title)).<span class="tok-fn">toEntity</span>());
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">TaskEntity</span>&gt; <span class="tok-fn">toggleTask</span>(int id) =&gt;
+      <span class="tok-fn">_guard</span>(() <span class="tok-kw">async</span> =&gt; (<span class="tok-kw">await</span> _remote.<span class="tok-fn">toggleDone</span>(id)).<span class="tok-fn">toEntity</span>());
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">deleteTask</span>(int id) =&gt; <span class="tok-fn">_guard</span>(() =&gt; _remote.<span class="tok-fn">remove</span>(id));
+
+  <span class="tok-com">/// Runs [call] and turns every Serverpod error into a [TaskFailure].</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-type">T</span>&gt; <span class="tok-fn">_guard</span>&lt;<span class="tok-type">T</span>&gt;(<span class="tok-type">Future</span>&lt;<span class="tok-type">T</span>&gt; <span class="tok-kw">Function</span>() call) <span class="tok-kw">async</span> {
+    <span class="tok-kw">try</span> {
+      <span class="tok-kw">return</span> <span class="tok-kw">await</span> <span class="tok-fn">call</span>();
+    } <span class="tok-kw">on</span> <span class="tok-type">TaskException</span> <span class="tok-kw">catch</span> (e) {
+      <span class="tok-com">// Our own exception from the server: the message is written for users.</span>
+      <span class="tok-kw">throw</span> <span class="tok-type">TaskFailure</span>(e.message);
+    } <span class="tok-kw">on</span> <span class="tok-type">ServerpodClientNetworkException</span> {
+      <span class="tok-kw">throw</span> <span class="tok-kw">const</span> <span class="tok-type">TaskFailure</span>(<span class="tok-str">'Cannot reach the server. Check your connection.'</span>);
+    } <span class="tok-kw">on</span> <span class="tok-type">ServerpodClientException</span> {
+      <span class="tok-kw">throw</span> <span class="tok-kw">const</span> <span class="tok-type">TaskFailure</span>(<span class="tok-str">'Something went wrong. Please try again.'</span>);
+    }
+  }
+}</code></pre></div>
+<p>The order of the <code>on</code> clauses matters: the most specific error comes first. <code>ServerpodClientNetworkException</code> means the app couldn't reach the server at all (offline, wrong URL, timeout). <code>ServerpodClientException</code> catches the rest, including the generic 500 error.</p>
+<h2 id="step-8-the-presentation-layer-with-bloc">Step 8: The presentation layer with BLoC</h2>
+<figure class="post-fig"><a class="post-fig-link" href="/assets/blog/serverpod-flutter-bloc-clean-architecture/add-task-flow.svg"><img src="/assets/blog/serverpod-flutter-bloc-clean-architecture/add-task-flow.svg" alt="Sequence diagram of adding a task: calls travel from TasksPage through TaskBloc, AddTask, the repository, taskly_client and TaskEndpoint to PostgreSQL, and the results travel back" width="1200" height="760" loading="lazy" decoding="async"></a><figcaption>Tapping Add goes through every layer and back. Each arrow is one method call.</figcaption></figure>
+<p>A BLoC receives <strong>events</strong> (things that happened, usually user actions) and emits <strong>states</strong> (what the screen should show). Widgets never call the repository: they add events and rebuild from states.</p>
+<p>The events come first, one class per user action. <code>sealed</code> tells the compiler this is the complete list:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/presentation/bloc/task_event.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">part</span> <span class="tok-kw">of</span> <span class="tok-str">'task_bloc.dart'</span>;
+
+<span class="tok-kw">sealed</span> <span class="tok-kw">class</span> <span class="tok-type">TaskEvent</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskEvent</span>();
+}
+
+<span class="tok-com">/// The screen opened, or the user wants to try again.</span>
+<span class="tok-kw">final</span> <span class="tok-kw">class</span> <span class="tok-type">TasksRequested</span> <span class="tok-kw">extends</span> <span class="tok-type">TaskEvent</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TasksRequested</span>();
+}
+
+<span class="tok-kw">final</span> <span class="tok-kw">class</span> <span class="tok-type">TaskAdded</span> <span class="tok-kw">extends</span> <span class="tok-type">TaskEvent</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskAdded</span>(<span class="tok-kw">this</span>.title);
+  <span class="tok-kw">final</span> <span class="tok-type">String</span> title;
+}
+
+<span class="tok-kw">final</span> <span class="tok-kw">class</span> <span class="tok-type">TaskToggled</span> <span class="tok-kw">extends</span> <span class="tok-type">TaskEvent</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskToggled</span>(<span class="tok-kw">this</span>.id);
+  <span class="tok-kw">final</span> int id;
+}
+
+<span class="tok-kw">final</span> <span class="tok-kw">class</span> <span class="tok-type">TaskDeleted</span> <span class="tok-kw">extends</span> <span class="tok-type">TaskEvent</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskDeleted</span>(<span class="tok-kw">this</span>.id);
+  <span class="tok-kw">final</span> int id;
+}</code></pre></div>
+<p>For the state I use one class with a <code>status</code> field, rather than a separate class for loading, loaded and error. A list screen should keep showing its tasks while it saves, or after an error, and a single class with <code>copyWith</code> makes that easy:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/presentation/bloc/task_state.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">part</span> <span class="tok-kw">of</span> <span class="tok-str">'task_bloc.dart'</span>;
+
+<span class="tok-kw">enum</span> <span class="tok-type">TaskStatus</span> { initial, loading, success, failure }
+
+<span class="tok-kw">final</span> <span class="tok-kw">class</span> <span class="tok-type">TaskState</span> <span class="tok-kw">extends</span> <span class="tok-type">Equatable</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TaskState</span>({
+    <span class="tok-kw">this</span>.status = <span class="tok-type">TaskStatus</span>.initial,
+    <span class="tok-kw">this</span>.tasks = <span class="tok-kw">const</span> [],
+    <span class="tok-kw">this</span>.errorMessage,
+  });
+
+  <span class="tok-kw">final</span> <span class="tok-type">TaskStatus</span> status;
+  <span class="tok-kw">final</span> <span class="tok-type">List</span>&lt;<span class="tok-type">TaskEntity</span>&gt; tasks;
+  <span class="tok-kw">final</span> <span class="tok-type">String</span>? errorMessage;
+
+  <span class="tok-type">TaskState</span> <span class="tok-fn">copyWith</span>({
+    <span class="tok-type">TaskStatus</span>? status,
+    <span class="tok-type">List</span>&lt;<span class="tok-type">TaskEntity</span>&gt;? tasks,
+    <span class="tok-type">String</span>? errorMessage,
+  }) {
+    <span class="tok-kw">return</span> <span class="tok-type">TaskState</span>(
+      status: status ?? <span class="tok-kw">this</span>.status,
+      tasks: tasks ?? <span class="tok-kw">this</span>.tasks,
+      <span class="tok-com">// Not `?? this.errorMessage`: every new state clears the old error.</span>
+      errorMessage: errorMessage,
+    );
+  }
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">List</span>&lt;<span class="tok-type">Object</span>?&gt; <span class="tok-kw">get</span> props =&gt; [status, tasks, errorMessage];
+}</code></pre></div>
+<p>The BLoC registers one handler per event. Each handler calls a use case and emits the next state:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/presentation/bloc/task_bloc.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:equatable/equatable.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:flutter_bloc/flutter_bloc.dart'</span>;
+
+<span class="tok-kw">import</span> <span class="tok-str">'../../domain/task_entity.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'../../domain/task_failure.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'../../domain/task_use_cases.dart'</span>;
+
+<span class="tok-kw">part</span> <span class="tok-str">'task_event.dart'</span>;
+<span class="tok-kw">part</span> <span class="tok-str">'task_state.dart'</span>;
+
+<span class="tok-kw">class</span> <span class="tok-type">TaskBloc</span> <span class="tok-kw">extends</span> <span class="tok-type">Bloc</span>&lt;<span class="tok-type">TaskEvent</span>, <span class="tok-type">TaskState</span>&gt; {
+  <span class="tok-type">TaskBloc</span>({
+    <span class="tok-kw">required</span> <span class="tok-kw">this</span>.getTasks,
+    <span class="tok-kw">required</span> <span class="tok-kw">this</span>.addTask,
+    <span class="tok-kw">required</span> <span class="tok-kw">this</span>.toggleTask,
+    <span class="tok-kw">required</span> <span class="tok-kw">this</span>.deleteTask,
+  }) : <span class="tok-kw">super</span>(<span class="tok-kw">const</span> <span class="tok-type">TaskState</span>()) {
+    <span class="tok-kw">on</span>&lt;<span class="tok-type">TasksRequested</span>&gt;(_onRequested);
+    <span class="tok-kw">on</span>&lt;<span class="tok-type">TaskAdded</span>&gt;(_onAdded);
+    <span class="tok-kw">on</span>&lt;<span class="tok-type">TaskToggled</span>&gt;(_onToggled);
+    <span class="tok-kw">on</span>&lt;<span class="tok-type">TaskDeleted</span>&gt;(_onDeleted);
+  }
+
+  <span class="tok-kw">final</span> <span class="tok-type">GetTasks</span> getTasks;
+  <span class="tok-kw">final</span> <span class="tok-type">AddTask</span> addTask;
+  <span class="tok-kw">final</span> <span class="tok-type">ToggleTask</span> toggleTask;
+  <span class="tok-kw">final</span> <span class="tok-type">DeleteTask</span> deleteTask;
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">_onRequested</span>(
+    <span class="tok-type">TasksRequested</span> event,
+    <span class="tok-type">Emitter</span>&lt;<span class="tok-type">TaskState</span>&gt; emit,
+  ) <span class="tok-kw">async</span> {
+    <span class="tok-fn">emit</span>(state.<span class="tok-fn">copyWith</span>(status: <span class="tok-type">TaskStatus</span>.loading));
+    <span class="tok-kw">await</span> <span class="tok-fn">_attempt</span>(emit, () <span class="tok-kw">async</span> {
+      <span class="tok-kw">final</span> tasks = <span class="tok-kw">await</span> <span class="tok-fn">getTasks</span>();
+      <span class="tok-fn">emit</span>(state.<span class="tok-fn">copyWith</span>(status: <span class="tok-type">TaskStatus</span>.success, tasks: tasks));
+    });
+  }
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">_onAdded</span>(<span class="tok-type">TaskAdded</span> event, <span class="tok-type">Emitter</span>&lt;<span class="tok-type">TaskState</span>&gt; emit) {
+    <span class="tok-kw">return</span> <span class="tok-fn">_attempt</span>(emit, () <span class="tok-kw">async</span> {
+      <span class="tok-kw">final</span> task = <span class="tok-kw">await</span> <span class="tok-fn">addTask</span>(event.title);
+      <span class="tok-fn">emit</span>(
+        state.<span class="tok-fn">copyWith</span>(
+          status: <span class="tok-type">TaskStatus</span>.success,
+          tasks: [task, ...state.tasks],
+        ),
+      );
+    });
+  }
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">_onToggled</span>(<span class="tok-type">TaskToggled</span> event, <span class="tok-type">Emitter</span>&lt;<span class="tok-type">TaskState</span>&gt; emit) {
+    <span class="tok-kw">return</span> <span class="tok-fn">_attempt</span>(emit, () <span class="tok-kw">async</span> {
+      <span class="tok-kw">final</span> updated = <span class="tok-kw">await</span> <span class="tok-fn">toggleTask</span>(event.id);
+      <span class="tok-fn">emit</span>(
+        state.<span class="tok-fn">copyWith</span>(
+          status: <span class="tok-type">TaskStatus</span>.success,
+          tasks: [
+            <span class="tok-kw">for</span> (<span class="tok-kw">final</span> task <span class="tok-kw">in</span> state.tasks)
+              task.id == updated.id ? updated : task,
+          ],
+        ),
+      );
+    });
+  }
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">_onDeleted</span>(<span class="tok-type">TaskDeleted</span> event, <span class="tok-type">Emitter</span>&lt;<span class="tok-type">TaskState</span>&gt; emit) {
+    <span class="tok-kw">return</span> <span class="tok-fn">_attempt</span>(emit, () <span class="tok-kw">async</span> {
+      <span class="tok-kw">await</span> <span class="tok-fn">deleteTask</span>(event.id);
+      <span class="tok-fn">emit</span>(
+        state.<span class="tok-fn">copyWith</span>(
+          status: <span class="tok-type">TaskStatus</span>.success,
+          tasks: state.tasks.<span class="tok-fn">where</span>((task) =&gt; task.id != event.id).<span class="tok-fn">toList</span>(),
+        ),
+      );
+    });
+  }
+
+  <span class="tok-com">/// Runs [action]. If it fails, keeps the current tasks and shows the error.</span>
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">_attempt</span>(
+    <span class="tok-type">Emitter</span>&lt;<span class="tok-type">TaskState</span>&gt; emit,
+    <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-kw">Function</span>() action,
+  ) <span class="tok-kw">async</span> {
+    <span class="tok-kw">try</span> {
+      <span class="tok-kw">await</span> <span class="tok-fn">action</span>();
+    } <span class="tok-kw">on</span> <span class="tok-type">TaskFailure</span> <span class="tok-kw">catch</span> (failure) {
+      <span class="tok-fn">emit</span>(
+        state.<span class="tok-fn">copyWith</span>(
+          status: <span class="tok-type">TaskStatus</span>.failure,
+          errorMessage: failure.message,
+        ),
+      );
+    }
+  }
+}</code></pre></div>
+<p>Notice that the BLoC imports nothing from Serverpod. It only knows the use cases and <code>TaskFailure</code>.</p>
+<p>Now the screen. <code>BlocConsumer</code> combines two things: a <strong>builder</strong> that rebuilds the UI from each state, and a <strong>listener</strong> for one-off effects such as a SnackBar, which you want to show once rather than on every rebuild:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/features/tasks/presentation/tasks_page.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:flutter/material.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:flutter_bloc/flutter_bloc.dart'</span>;
+
+<span class="tok-kw">import</span> <span class="tok-str">'bloc/task_bloc.dart'</span>;
+
+<span class="tok-kw">class</span> <span class="tok-type">TasksPage</span> <span class="tok-kw">extends</span> <span class="tok-type">StatelessWidget</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TasksPage</span>({<span class="tok-kw">super</span>.key});
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Widget</span> <span class="tok-fn">build</span>(<span class="tok-type">BuildContext</span> context) {
+    <span class="tok-kw">return</span> <span class="tok-type">Scaffold</span>(
+      appBar: <span class="tok-type">AppBar</span>(title: <span class="tok-kw">const</span> <span class="tok-type">Text</span>(<span class="tok-str">'Taskly'</span>)),
+      body: <span class="tok-type">BlocConsumer</span>&lt;<span class="tok-type">TaskBloc</span>, <span class="tok-type">TaskState</span>&gt;(
+        <span class="tok-com">// Show each new error once, as a SnackBar.</span>
+        listenWhen: (previous, current) =&gt;
+            current.errorMessage != <span class="tok-kw">null</span> &amp;&amp;
+            current.errorMessage != previous.errorMessage,
+        listener: (context, state) {
+          <span class="tok-type">ScaffoldMessenger</span>.<span class="tok-kw">of</span>(context).<span class="tok-fn">showSnackBar</span>(
+            <span class="tok-type">SnackBar</span>(content: <span class="tok-type">Text</span>(state.errorMessage!)),
+          );
+        },
+        builder: (context, state) =&gt; <span class="tok-type">Column</span>(
+          children: [
+            <span class="tok-kw">const</span> <span class="tok-type">_AddTaskField</span>(),
+            <span class="tok-type">Expanded</span>(child: <span class="tok-type">_TaskList</span>(state: state)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+<span class="tok-kw">class</span> <span class="tok-type">_AddTaskField</span> <span class="tok-kw">extends</span> <span class="tok-type">StatefulWidget</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">_AddTaskField</span>();
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">State</span>&lt;<span class="tok-type">_AddTaskField</span>&gt; <span class="tok-fn">createState</span>() =&gt; <span class="tok-type">_AddTaskFieldState</span>();
+}
+
+<span class="tok-kw">class</span> <span class="tok-type">_AddTaskFieldState</span> <span class="tok-kw">extends</span> <span class="tok-type">State</span>&lt;<span class="tok-type">_AddTaskField</span>&gt; {
+  <span class="tok-kw">final</span> _controller = <span class="tok-type">TextEditingController</span>();
+
+  <span class="tok-kw">void</span> <span class="tok-fn">_submit</span>() {
+    context.<span class="tok-fn">read</span>&lt;<span class="tok-type">TaskBloc</span>&gt;().<span class="tok-fn">add</span>(<span class="tok-type">TaskAdded</span>(_controller.text));
+    _controller.<span class="tok-fn">clear</span>();
+  }
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-kw">void</span> <span class="tok-fn">dispose</span>() {
+    _controller.<span class="tok-fn">dispose</span>();
+    <span class="tok-kw">super</span>.<span class="tok-fn">dispose</span>();
+  }
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Widget</span> <span class="tok-fn">build</span>(<span class="tok-type">BuildContext</span> context) {
+    <span class="tok-kw">return</span> <span class="tok-type">Padding</span>(
+      padding: <span class="tok-kw">const</span> <span class="tok-type">EdgeInsets</span>.<span class="tok-fn">all</span>(<span class="tok-num">16</span>),
+      child: <span class="tok-type">TextField</span>(
+        controller: _controller,
+        onSubmitted: (_) =&gt; <span class="tok-fn">_submit</span>(),
+        decoration: <span class="tok-type">InputDecoration</span>(
+          hintText: <span class="tok-str">'What needs doing?'</span>,
+          border: <span class="tok-kw">const</span> <span class="tok-type">OutlineInputBorder</span>(),
+          suffixIcon: <span class="tok-type">IconButton</span>(
+            icon: <span class="tok-kw">const</span> <span class="tok-type">Icon</span>(<span class="tok-type">Icons</span>.add),
+            tooltip: <span class="tok-str">'Add task'</span>,
+            onPressed: _submit,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+<span class="tok-kw">class</span> <span class="tok-type">_TaskList</span> <span class="tok-kw">extends</span> <span class="tok-type">StatelessWidget</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">_TaskList</span>({<span class="tok-kw">required</span> <span class="tok-kw">this</span>.state});
+
+  <span class="tok-kw">final</span> <span class="tok-type">TaskState</span> state;
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Widget</span> <span class="tok-fn">build</span>(<span class="tok-type">BuildContext</span> context) {
+    <span class="tok-kw">if</span> (state.tasks.isEmpty) {
+      <span class="tok-kw">return</span> <span class="tok-type">Center</span>(
+        child: <span class="tok-kw">switch</span> (state.status) {
+          <span class="tok-type">TaskStatus</span>.initial ||
+          <span class="tok-type">TaskStatus</span>.loading =&gt; <span class="tok-kw">const</span> <span class="tok-type">CircularProgressIndicator</span>(),
+          <span class="tok-type">TaskStatus</span>.failure =&gt; <span class="tok-type">TextButton</span>(
+            onPressed: () =&gt;
+                context.<span class="tok-fn">read</span>&lt;<span class="tok-type">TaskBloc</span>&gt;().<span class="tok-fn">add</span>(<span class="tok-kw">const</span> <span class="tok-type">TasksRequested</span>()),
+            child: <span class="tok-kw">const</span> <span class="tok-type">Text</span>(<span class="tok-str">'Try again'</span>),
+          ),
+          <span class="tok-type">TaskStatus</span>.success =&gt; <span class="tok-kw">const</span> <span class="tok-type">Text</span>(<span class="tok-str">'No tasks yet. Add one above.'</span>),
+        },
+      );
+    }
+
+    <span class="tok-kw">return</span> <span class="tok-type">ListView</span>.<span class="tok-fn">builder</span>(
+      itemCount: state.tasks.length,
+      itemBuilder: (context, index) {
+        <span class="tok-kw">final</span> task = state.tasks[index];
+        <span class="tok-kw">return</span> <span class="tok-type">CheckboxListTile</span>(
+          key: <span class="tok-type">ValueKey</span>(task.id),
+          value: task.isDone,
+          onChanged: (_) =&gt; context.<span class="tok-fn">read</span>&lt;<span class="tok-type">TaskBloc</span>&gt;().<span class="tok-fn">add</span>(<span class="tok-type">TaskToggled</span>(task.id)),
+          title: <span class="tok-type">Text</span>(
+            task.title,
+            style: task.isDone
+                ? <span class="tok-kw">const</span> <span class="tok-type">TextStyle</span>(decoration: <span class="tok-type">TextDecoration</span>.lineThrough)
+                : <span class="tok-kw">null</span>,
+          ),
+          secondary: <span class="tok-type">IconButton</span>(
+            icon: <span class="tok-kw">const</span> <span class="tok-type">Icon</span>(<span class="tok-type">Icons</span>.delete_outline),
+            tooltip: <span class="tok-str">'Delete'</span>,
+            onPressed: () =&gt; context.<span class="tok-fn">read</span>&lt;<span class="tok-type">TaskBloc</span>&gt;().<span class="tok-fn">add</span>(<span class="tok-type">TaskDeleted</span>(task.id)),
+          ),
+        );
+      },
+    );
+  }
+}</code></pre></div>
+<p>The <code>switch</code> on <code>state.status</code> is exhaustive: if you add a new status later, the compiler points at every place that needs to handle it.</p>
+<h2 id="step-9-wire-it-up-in-main-dart">Step 9: Wire it up in main.dart</h2>
+<p>Replace the scaffolded <code>main.dart</code>. This is the composition root, the one place that creates the concrete classes and hands them to each other:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/lib/main.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:flutter/material.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:flutter_bloc/flutter_bloc.dart'</span>;
+
+<span class="tok-kw">import</span> <span class="tok-str">'client.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'features/tasks/data/task_remote_data_source.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'features/tasks/data/task_repository_impl.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'features/tasks/domain/task_use_cases.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'features/tasks/presentation/bloc/task_bloc.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'features/tasks/presentation/tasks_page.dart'</span>;
+
+<span class="tok-kw">void</span> <span class="tok-fn">main</span>() <span class="tok-kw">async</span> {
+  <span class="tok-type">WidgetsFlutterBinding</span>.<span class="tok-fn">ensureInitialized</span>();
+  <span class="tok-kw">await</span> <span class="tok-fn">initializeClient</span>();
+
+  <span class="tok-kw">final</span> repository = <span class="tok-type">TaskRepositoryImpl</span>(<span class="tok-type">TaskRemoteDataSource</span>(client));
+
+  <span class="tok-fn">runApp</span>(
+    <span class="tok-type">BlocProvider</span>(
+      create: (_) =&gt; <span class="tok-type">TaskBloc</span>(
+        getTasks: <span class="tok-type">GetTasks</span>(repository),
+        addTask: <span class="tok-type">AddTask</span>(repository),
+        toggleTask: <span class="tok-type">ToggleTask</span>(repository),
+        deleteTask: <span class="tok-type">DeleteTask</span>(repository),
+      )..<span class="tok-fn">add</span>(<span class="tok-kw">const</span> <span class="tok-type">TasksRequested</span>()),
+      child: <span class="tok-kw">const</span> <span class="tok-type">TasklyApp</span>(),
+    ),
+  );
+}
+
+<span class="tok-kw">class</span> <span class="tok-type">TasklyApp</span> <span class="tok-kw">extends</span> <span class="tok-type">StatelessWidget</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">TasklyApp</span>({<span class="tok-kw">super</span>.key});
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Widget</span> <span class="tok-fn">build</span>(<span class="tok-type">BuildContext</span> context) {
+    <span class="tok-kw">return</span> <span class="tok-type">MaterialApp</span>(
+      title: <span class="tok-str">'Taskly'</span>,
+      theme: <span class="tok-type">ThemeData</span>(colorSchemeSeed: <span class="tok-type">Colors</span>.indigo),
+      home: <span class="tok-kw">const</span> <span class="tok-type">TasksPage</span>(),
+    );
+  }
+}</code></pre></div>
+<ul><li><code>initializeClient()</code> and <code>client</code> come from the scaffolded <code>lib/client.dart</code>. It works out the server URL and creates the generated <code>Client</code>.</li><li><code>BlocProvider</code> creates the <code>TaskBloc</code> once, makes it available below it through <code>context.read&lt;TaskBloc&gt;()</code>, and closes it when it's removed.</li><li><code>..add(const TasksRequested())</code> loads the tasks as soon as the BLoC is created.</li></ul>
+<p>Wiring by hand is enough for one feature. As the app grows, <code>RepositoryProvider</code> from flutter_bloc or a service locator such as get_it keeps <code>main.dart</code> short.</p>
+<p>Hot reload doesn't re-run <code>main()</code>, so press <strong>R</strong> in the <code>serverpod start</code> terminal. Add a few tasks, tick one off, delete one, then restart again: the tasks are still there, loaded from PostgreSQL.</p>
+<figure class="post-fig"><a class="post-fig-link" href="/assets/blog/serverpod-flutter-bloc-clean-architecture/taskly-app.webp"><img src="/assets/blog/serverpod-flutter-bloc-clean-architecture/taskly-app.webp" alt="The finished Taskly app in a phone-sized browser window: a list of four tasks loaded from PostgreSQL with two ticked off, and the same screen showing a 'Write something first.' SnackBar after adding a blank task" width="2400" height="1640" loading="lazy" decoding="async"></a><figcaption>The finished app, running against the Serverpod server from this tutorial.</figcaption></figure>
+<h2 id="step-10-test-the-bloc">Step 10: Test the BLoC</h2>
+<p>Because the BLoC only knows the <code>TaskRepository</code> interface, you can test it with a mock and no server at all:</p>
+<div class="code"><div class="code-bar"><span class="code-file">taskly_flutter/test/task_bloc_test.dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:bloc_test/bloc_test.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:flutter_test/flutter_test.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:mocktail/mocktail.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:taskly_flutter/features/tasks/domain/task_entity.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:taskly_flutter/features/tasks/domain/task_repository.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:taskly_flutter/features/tasks/domain/task_use_cases.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:taskly_flutter/features/tasks/presentation/bloc/task_bloc.dart'</span>;
+
+<span class="tok-kw">class</span> <span class="tok-type">MockTaskRepository</span> <span class="tok-kw">extends</span> <span class="tok-type">Mock</span> <span class="tok-kw">implements</span> <span class="tok-type">TaskRepository</span> {}
+
+<span class="tok-kw">void</span> <span class="tok-fn">main</span>() {
+  <span class="tok-kw">late</span> <span class="tok-type">MockTaskRepository</span> repository;
+  <span class="tok-kw">final</span> task = <span class="tok-type">TaskEntity</span>(
+    id: <span class="tok-num">1</span>,
+    title: <span class="tok-str">'Learn BLoC'</span>,
+    isDone: <span class="tok-kw">false</span>,
+    createdAt: <span class="tok-type">DateTime</span>(<span class="tok-num">2026</span>, <span class="tok-num">10</span>, <span class="tok-num">16</span>),
+  );
+
+  <span class="tok-fn">setUp</span>(() =&gt; repository = <span class="tok-type">MockTaskRepository</span>());
+
+  <span class="tok-type">TaskBloc</span> <span class="tok-fn">buildBloc</span>() =&gt; <span class="tok-type">TaskBloc</span>(
+    getTasks: <span class="tok-type">GetTasks</span>(repository),
+    addTask: <span class="tok-type">AddTask</span>(repository),
+    toggleTask: <span class="tok-type">ToggleTask</span>(repository),
+    deleteTask: <span class="tok-type">DeleteTask</span>(repository),
+  );
+
+  <span class="tok-fn">blocTest</span>&lt;<span class="tok-type">TaskBloc</span>, <span class="tok-type">TaskState</span>&gt;(
+    <span class="tok-str">'loads tasks when the screen opens'</span>,
+    setUp: () =&gt;
+        <span class="tok-kw">when</span>(() =&gt; repository.<span class="tok-fn">getTasks</span>()).<span class="tok-fn">thenAnswer</span>((_) <span class="tok-kw">async</span> =&gt; [task]),
+    build: buildBloc,
+    act: (bloc) =&gt; bloc.<span class="tok-fn">add</span>(<span class="tok-kw">const</span> <span class="tok-type">TasksRequested</span>()),
+    expect: () =&gt; [
+      <span class="tok-kw">const</span> <span class="tok-type">TaskState</span>(status: <span class="tok-type">TaskStatus</span>.loading),
+      <span class="tok-type">TaskState</span>(status: <span class="tok-type">TaskStatus</span>.success, tasks: [task]),
+    ],
+  );
+
+  <span class="tok-fn">blocTest</span>&lt;<span class="tok-type">TaskBloc</span>, <span class="tok-type">TaskState</span>&gt;(
+    <span class="tok-str">'rejects a blank title without calling the server'</span>,
+    build: buildBloc,
+    act: (bloc) =&gt; bloc.<span class="tok-fn">add</span>(<span class="tok-kw">const</span> <span class="tok-type">TaskAdded</span>(<span class="tok-str">'   '</span>)),
+    expect: () =&gt; <span class="tok-kw">const</span> [
+      <span class="tok-type">TaskState</span>(
+        status: <span class="tok-type">TaskStatus</span>.failure,
+        errorMessage: <span class="tok-str">'Write something first.'</span>,
+      ),
+    ],
+    verify: (_) =&gt; <span class="tok-fn">verifyNever</span>(() =&gt; repository.<span class="tok-fn">addTask</span>(<span class="tok-fn">any</span>())),
+  );
+}</code></pre></div>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-fn">flutter</span> test</code></pre></div>
+<p><code>blocTest</code> adds the events from <code>act</code> and checks that the BLoC emits exactly the states in <code>expect</code>, in order. The second test also proves the use case's rule works: a blank title never reaches the repository. Tests like these run in milliseconds, which is a big part of why the layers are worth it.</p>
+<h2 id="run-it-on-an-android-emulator-or-a-phone">Run it on an Android emulator or a phone</h2>
+<p><code>serverpod start</code> opens the app in your browser. To use an emulator or a real device, start only the server and run the app yourself:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-com"># Terminal 1, in the project root</span>
+<span class="tok-fn">serverpod</span> start <span class="tok-attr">--no-flutter</span>
+
+<span class="tok-com"># Terminal 2</span>
+<span class="tok-fn">cd</span> taskly_flutter
+<span class="tok-fn">flutter</span> run <span class="tok-attr">--dart-define=SERVER_URL=http://10.0.2.2:8080/</span></code></pre></div>
+<p>The Android emulator reaches your computer at <code>10.0.2.2</code>. You need the <code>SERVER_URL</code> value because the scaffolded <code>assets/config.json</code> points at <code>localhost</code>, which on the emulator means the emulator itself. The iOS simulator shares your computer's network, so <code>localhost</code> works there. On a real phone, put your computer's local network IP in <code>SERVER_URL</code> instead, for example <code>http://192.168.1.20:8080/</code> (find it with <code>ifconfig</code> on macOS and Linux or <code>ipconfig</code> on Windows), and keep the phone on the same Wi-Fi.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul><li><strong>Editing generated code.</strong> <code>taskly_client</code> and <code>taskly_server/lib/src/generated</code> are rewritten every time code is generated. Change the <code>.spy.yaml</code> file or the endpoint instead.</li><li><strong>Changing a table model without a migration.</strong> After you add or change fields on a model with a <code>table</code> key, press <strong>M</strong>. Until you do, the database and your code disagree.</li><li><strong>Expecting hot reload to pick up API changes.</strong> When an endpoint's methods or a model's fields change, the generated client changes too. Press <strong>R</strong>.</li><li><strong>Renaming endpoint parameters after release.</strong> The app sends parameters by name, so renaming one breaks every app version already installed on people's phones. Treat a released endpoint like a public API.</li><li><strong>Forgetting about double taps.</strong> BLoC handles events concurrently by default. If a fast double tap mustn't send two requests, give that handler the <code>droppable()</code> transformer from the bloc_concurrency package.</li><li><strong>Importing <code>taskly_client</code> outside the data layer.</strong> If a widget or the BLoC imports it, the layers start to leak.</li></ul>
+<p>You can check that last one from <code>taskly_flutter</code>. This command should print nothing:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-fn">grep</span> <span class="tok-attr">-rl</span> taskly_client lib/features/tasks/domain lib/features/tasks/presentation</code></pre></div>
+<h2 id="faq">FAQ</h2>
+<h3 id="is-serverpod-ready-for-production">Is Serverpod ready for production?</h3>
+<p>Serverpod is open source and on its fourth major version, with migrations, logging, health checks and test tools built in. You can host it yourself on any server that runs Dart, or use the managed Serverpod Cloud. As with any framework, check that the features you need, such as your sign-in providers and file storage, are covered before you commit.</p>
+<h3 id="should-i-use-bloc-or-cubit">Should I use Bloc or Cubit?</h3>
+<p>A Cubit exposes methods (<code>cubit.addTask('...')</code>) instead of events. It's less code and fine for simple screens. Use a Bloc when you want every user action recorded as an event, or need event transformers such as debounce or <code>droppable()</code>. The domain and data layers in this tutorial work unchanged with either.</p>
+<h3 id="can-i-use-riverpod-or-provider-instead-of-bloc">Can I use Riverpod or Provider instead of BLoC?</h3>
+<p>Yes. Only the presentation layer changes: the use cases, repository and data source stay exactly as they are. That's the point of keeping the layers separate.</p>
+<h2 id="where-to-go-next">Where to go next</h2>
+<ul><li><strong>Sign-in.</strong> Create the project with authentication, set <code>requireLogin</code> to <code>true</code> on the endpoint, and store the user's id on each task.</li><li><strong>Pagination.</strong> <code>Task.db.find</code> takes <code>limit</code> and <code>offset</code>, so the endpoint can return tasks a page at a time.</li><li><strong>Live updates.</strong> Streaming endpoints can push changes to every open copy of the app.</li><li><strong>Deployment.</strong> <code>serverpod cloud launch</code> deploys to Serverpod Cloud, or you can run the server on your own machine or VPS.</li></ul>
+<p>I build Flutter apps with Serverpod, Laravel and FastAPI backends for clients. If you're planning one and want help with the architecture or the build, have a look at my <a href="/flutter-development">Flutter development</a> service or <a href="/#contact">get in touch</a>.</p>
+              <aside class="post-author" aria-label="About the author">
+                <p class="small-caps">Written by</p>
+                <p class="post-author-name"><a href="/">Ansari Mohd Atif</a></p>
+                <p>Atif is a freelance full-stack developer from India. He builds Flutter apps and the backends behind them with Serverpod, Laravel, FastAPI and Node.js. <a href="https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/" target="_blank" rel="me noopener">LinkedIn</a></p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="sp-section sp-blue" aria-labelledby="next-title">
+      <div class="wrap sp-two">
+        <div>
+          <p class="small-caps kicker">Keep going</p>
+          <h2 id="next-title" class="sp-h2">Related services</h2>
+          
+          <div class="sp-related sp-related-stack"><a class="sp-rel" href="/flutter-development"><span>Flutter development</span><em aria-hidden="true">↗</em></a><a class="sp-rel" href="/backend-development"><span>Backend &amp; API development</span><em aria-hidden="true">↗</em></a><a class="sp-rel" href="/blog"><span>All articles</span><em aria-hidden="true">↗</em></a></div>
+        </div>
+        <div class="sp-cta-card">
+          <p class="small-caps">Working on an app?</p>
+          <p class="sp-cta-big">Let's build it properly.</p>
+          <p>I build Flutter apps and their backends for startups and businesses. Tell me what you're working on and I'll reply with next steps.</p>
+          <a class="chip chip-big" href="/#contact">Start a project ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="dots" aria-hidden="true"></div>
+      <div class="foot-cols foot-cols-services">
+        <div><h2 class="small-caps foot-h">Services</h2><a href="/web-development">Web development</a><a href="/web-app-development">Web app development</a><a href="/ecommerce-development">E-commerce development</a><a href="/mobile-app-development">Mobile app development</a><a href="/flutter-development">Flutter development</a><a href="/backend-development">Backend &amp; API development</a><a href="/api-integration">API integration</a><a href="/payment-gateway-integration">Payment gateway integration</a><a href="/ai-development">AI development</a><a href="/business-automation">Business automation</a><a href="/devops-server-management">DevOps &amp; server management</a></div>
+        <div><h2 class="small-caps foot-h">Work</h2><a href="/#work">Portfolio</a><a href="/#gigs">Gigs</a><a href="/#skills">Skills</a><a href="/#faq">FAQ</a><a href="/blog">Blog</a></div>
+        <div><h2 class="small-caps foot-h">Contact</h2><a href="mailto:codewithatif@gmail.com">codewithatif@gmail.com</a><a href="https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/" target="_blank" rel="me noopener">LinkedIn</a><a href="/#contact">Start a project</a></div>
+        <p class="foot-seo">Atif (Ansari Mohd Atif) is a freelance full-stack developer for websites, web apps, e-commerce, Flutter mobile apps, backend APIs, databases, AI, automation and DevOps, working with clients in India and internationally.</p>
+      </div>
+      <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
+      <div class="foot-bottom small-caps"><span>© <span id="year">2026</span> Ansari Mohd Atif</span><a href="/privacy-policy">Privacy policy</a><a href="#top">Back to top ↑</a></div>
+    </div>
+  </footer>
+  <div class="fabs">
+    <a class="fab" href="mailto:codewithatif@gmail.com" aria-label="Email me">✉</a>
+    <a class="fab" href="/#contact" aria-label="Start a project">↗</a>
+  </div>
+  <script src="/js/page.js" defer></script>
+</body>
+</html>

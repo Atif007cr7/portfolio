@@ -1,10 +1,11 @@
-// Generates service pages, 404.html, privacy-policy.html, sitemap.xml and robots.txt, and syncs the
+// Generates service pages, the blog, 404.html, privacy-policy.html, sitemap.xml and robots.txt, and syncs the
 // service links and structured data in index.html. No dependencies:  node scripts/build-pages.mjs
-import { writeFileSync, readFileSync, readdirSync, existsSync } from "node:fs";
+import { writeFileSync, readFileSync, readdirSync, existsSync, mkdirSync, unlinkSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { services, projects } from "../content/services.mjs";
+import { frontMatter, render, imageSize } from "./markdown.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 // Canonical production origin. Vercel serves www and 308-redirects ansariatif.tech here,
@@ -18,15 +19,45 @@ const ALT_NAMES = ["Ansari Atif", "Atif"];
 const LINKEDIN = "https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/";
 const SAME_AS = [LINKEDIN];
 const OG_ALT = "Ansari Mohd Atif (Atif), freelance developer for apps, web, cloud and automation";
-const TODAY = new Date().toISOString().slice(0, 10);
+const OG_IMAGE = { url: `${SITE}/assets/og-image.png`, width: 1200, height: 630, alt: OG_ALT };
+// Local date (YYYY-MM-DD), matching the git commit dates used for lastmod below.
+const TODAY = new Date().toLocaleDateString("en-CA");
 const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const json = (o) => JSON.stringify(o, null, 2).replace(/</g, "\\u003c");
-// Escapes text and turns [link text](/slug) into an internal link. Unknown slugs fail the build.
-const rich = (s, from) => esc(s).replace(/\[([^\]]+)\]\(\/([a-z0-9-]*)\)/g, (_, text, slug) => {
-  if (slug && !bySlug[slug]) throw new Error(`${from}: unknown link /${slug}`);
-  return `<a href="/${slug}">${text}</a>`;
+const list = (v) => (v ? v.split(",").map((s) => s.trim()).filter(Boolean) : []);
+const fmtDate = (d) => new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+
+// ---- blog posts ----
+// One Markdown file per post: content/blog/<slug>.md, images in assets/blog/<slug>/.
+// The syntax is documented in scripts/markdown.mjs. Add `draft: true` to keep a post out of the build.
+const BLOG = {
+  title: "Flutter, Dart & Backend Development Blog | Atif",
+  description: "Hands-on tutorials on Flutter, Dart, Serverpod, BLoC and backend development, written for students and developers by freelance developer Ansari Mohd Atif.",
+  h1: "Hands-on Flutter and backend tutorials",
+};
+const BLOG_SRC = join(ROOT, "content/blog");
+const posts = (existsSync(BLOG_SRC) ? readdirSync(BLOG_SRC) : [])
+  .filter((f) => f.endsWith(".md"))
+  .map((f) => {
+    const slug = f.slice(0, -3);
+    const { data, body } = frontMatter(readFileSync(join(BLOG_SRC, f), "utf8"), f);
+    if (!/^[a-z0-9-]+$/.test(slug)) throw new Error(`${f}: file names must be lowercase-with-hyphens`);
+    for (const k of ["title", "h1", "description", "date", "cover", "coverAlt"]) if (!data[k]) throw new Error(`${f}: missing ${k}`);
+    for (const k of ["date", "updated"]) if (data[k] && !/^\d{4}-\d{2}-\d{2}$/.test(data[k])) throw new Error(`${f}: ${k} must be YYYY-MM-DD`);
+    return { ...data, slug, body, file: f, path: `/blog/${slug}`, tags: list(data.tags), services: list(data.services), draft: data.draft === "true" };
+  })
+  .filter((p) => !p.draft)
+  .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
+
+// Every internal path a link may point to. Links anywhere else fail the build.
+const PATHS = new Set(["", "blog", "privacy-policy", ...services.map((s) => s.slug), ...posts.map((p) => p.path.slice(1))]);
+const knownPath = (href) => href.startsWith("/") && PATHS.has(href.slice(1).replace(/[?#].*$/, ""));
+// Escapes text and turns [link text](/path) into an internal link.
+const rich = (s, from) => esc(s).replace(/\[([^\]]+)\]\((\/[a-z0-9/-]*)\)/g, (_, text, href) => {
+  if (!knownPath(href)) throw new Error(`${from}: unknown link ${href}`);
+  return `<a href="${href}">${text}</a>`;
 });
 // Plain text from a small HTML fragment (for structured data built from visible content).
 const text = (html) => html.replace(/<[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&").trim();
@@ -39,7 +70,8 @@ const PROCESS = [
   ["Support & growth", "Fixes, updates and new features after launch, whenever you need them."],
 ];
 
-function head({ title, description, path, schema }) {
+// `meta` adds [property, content] pairs after the og:image tags; `css` adds stylesheets after page.css.
+function head({ title, description, path, schema, type = "website", image = OG_IMAGE, meta = [], css = [], links = [] }) {
   const url = SITE + path;
   return `<!DOCTYPE html>
 <html lang="en">
@@ -52,31 +84,31 @@ function head({ title, description, path, schema }) {
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="${url}">
   <meta name="theme-color" content="#1f3fd8">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="${type}">
   <meta property="og:site_name" content="${NAME}">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${url}">
-  <meta property="og:image" content="${SITE}/assets/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="${OG_ALT}">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="${image.url}">
+  <meta property="og:image:width" content="${image.width}">
+  <meta property="og:image:height" content="${image.height}">
+  <meta property="og:image:alt" content="${esc(image.alt)}">
+${meta.map(([p, c]) => `  <meta property="${p}" content="${esc(c)}">\n`).join("")}  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
-  <meta name="twitter:image" content="${SITE}/assets/og-image.png">
-  <meta name="twitter:image:alt" content="${OG_ALT}">
+  <meta name="twitter:image" content="${image.url}">
+  <meta name="twitter:image:alt" content="${esc(image.alt)}">
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+${links.map((l) => `  ${l}\n`).join("")}  <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/page.css">
-${schema ? `  <script type="application/ld+json">\n${json(schema)}\n  </script>\n` : ""}</head>`;
+${css.map((href) => `  <link rel="stylesheet" href="${href}">\n`).join("")}${schema ? `  <script type="application/ld+json">\n${json(schema)}\n  </script>\n` : ""}</head>`;
 }
 
-const nav = () => `
+const nav = (current) => `
 <body class="page">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="nav">
@@ -93,6 +125,7 @@ const nav = () => `
         <span class="brand-word">ATIF<i>.</i></span>
       </a>
       <div class="nav-group right">
+        <a class="chip hide-m" href="/blog"${current === "blog" ? ' aria-current="page"' : ""}>Blog</a>
         <a class="chip chip-hot" href="/#contact">Hire me <span aria-hidden="true">↗</span></a>
       </div>
     </div>
@@ -100,7 +133,7 @@ const nav = () => `
   </header>
   <div class="menu" id="menu" hidden>
     <nav aria-label="Mobile navigation">
-      <a href="/">Home</a><a href="/#services">Services</a><a href="/#work">Work</a><a href="/#gigs">Gigs</a><a href="/#contact">Contact</a>
+      <a href="/">Home</a><a href="/#services">Services</a><a href="/#work">Work</a><a href="/#gigs">Gigs</a><a href="/blog">Blog</a><a href="/#contact">Contact</a>
     </nav>
     <button class="chip menu-close">Close</button>
   </div>
@@ -124,7 +157,7 @@ const footer = () => `
       <div class="dots" aria-hidden="true"></div>
       <div class="foot-cols foot-cols-services">
         <div><h2 class="small-caps foot-h">Services</h2>${serviceLinks()}</div>
-        <div><h2 class="small-caps foot-h">Work</h2><a href="/#work">Portfolio</a><a href="/#gigs">Gigs</a><a href="/#skills">Skills</a><a href="/#faq">FAQ</a></div>
+        <div><h2 class="small-caps foot-h">Work</h2><a href="/#work">Portfolio</a><a href="/#gigs">Gigs</a><a href="/#skills">Skills</a><a href="/#faq">FAQ</a><a href="/blog">Blog</a></div>
         <div><h2 class="small-caps foot-h">Contact</h2><a href="mailto:${EMAIL}">${EMAIL}</a><a href="${LINKEDIN}" target="_blank" rel="me noopener">LinkedIn</a><a href="/#contact">Start a project</a></div>
         <p class="foot-seo">Atif (Ansari Mohd Atif) is a freelance full-stack developer for websites, web apps, e-commerce, Flutter mobile apps, backend APIs, databases, AI, automation and DevOps, working with clients in India and internationally.</p>
       </div>
@@ -141,10 +174,14 @@ const footer = () => `
 </html>
 `;
 
+// A list of links to blog posts (service pages, the end of each post).
+const postLinks = (items) => `<div class="sp-posts">${items.map((p) => `<a class="sp-post" href="${p.path}"><span class="small-caps">${esc(p.tags.slice(0, 3).join(" · "))}</span><strong>${esc(p.h1)}</strong><em aria-hidden="true">↗</em></a>`).join("")}</div>`;
+
 function servicePage(s) {
   const path = `/${s.slug}`;
   const quote = `/?service=${encodeURIComponent(s.formValue)}#contact`;
   const work = s.work.map((k) => projects[k]);
+  const reading = posts.filter((p) => p.services.includes(s.slug));
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -235,7 +272,7 @@ ${work.length ? `
         <div>
           <p class="small-caps kicker">${esc(s.eyebrow)} FAQ</p>
           <h2 class="sp-h2">Common questions</h2>
-          <div class="faq sp-faq">${s.faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>
+          <div class="faq sp-faq">${s.faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${rich(a, s.slug)}</p></details>`).join("")}</div>
         </div>
       </div>
     </section>
@@ -244,7 +281,9 @@ ${work.length ? `
       <div class="wrap">
         <p class="small-caps kicker">Related services</p>
         <h2 id="related-title" class="sp-h2">Often combined with</h2>
-        <div class="sp-related">${s.related.map((r) => `<a class="sp-rel" href="/${r}"><span>${esc(bySlug[r].nav)}</span><em aria-hidden="true">↗</em></a>`).join("")}</div>
+        <div class="sp-related">${s.related.map((r) => `<a class="sp-rel" href="/${r}"><span>${esc(bySlug[r].nav)}</span><em aria-hidden="true">↗</em></a>`).join("")}</div>${reading.length ? `
+        <p class="small-caps kicker sp-posts-title">From the blog</p>
+        ${postLinks(reading)}` : ""}
       </div>
     </section>
 
@@ -258,6 +297,206 @@ ${work.length ? `
   </main>
 ${footer()}`;
 }
+
+// ---- blog pages ----
+const FEED = `<link rel="alternate" type="application/rss+xml" title="${esc(NAME)} — blog" href="/blog/feed.xml">`;
+const blogImage = (from, src, alt, { eager = false } = {}) => {
+  if (!src.startsWith("/assets/")) throw new Error(`${from}: images must live under /assets (got ${src})`);
+  const file = join(ROOT, src);
+  if (!existsSync(file)) throw new Error(`${from}: image not found: ${src}`);
+  const [w, h] = imageSize(file);
+  return `<img src="${src}" alt="${esc(alt)}" width="${w}" height="${h}"${eager ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}>`;
+};
+// Links inside posts: internal ones must exist, external ones open in a new tab.
+const postLinkAttrs = (from) => (href) => {
+  if (/^https?:\/\//.test(href)) {
+    if (href.startsWith(SITE)) throw new Error(`${from}: use a relative link instead of ${href}`);
+    return ' target="_blank" rel="noopener"';
+  }
+  if (href.startsWith("#") || href.startsWith("mailto:")) return "";
+  if (!knownPath(href)) throw new Error(`${from}: unknown link ${href}`);
+  return "";
+};
+const readingTime = (words) => `${Math.max(1, Math.round(words / 200))} min read`;
+const author = { "@type": "Person", "@id": `${SITE}/#person`, name: NAME, url: `${SITE}/` };
+
+function postPage(p) {
+  const r = p.rendered;
+  const url = SITE + p.path;
+  const [cw, ch] = imageSize(join(ROOT, p.cover));
+  const others = posts.filter((o) => o !== p).slice(0, 3);
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: p.h1,
+        description: p.description,
+        url,
+        mainEntityOfPage: url,
+        image: [SITE + p.cover],
+        datePublished: p.date,
+        dateModified: p.updated || p.date,
+        author,
+        publisher: author,
+        isPartOf: { "@type": "Blog", "@id": `${SITE}/blog#blog`, url: `${SITE}/blog` },
+        keywords: p.tags,
+        inLanguage: "en",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
+          { "@type": "ListItem", position: 3, name: p.h1, item: url },
+        ],
+      },
+    ],
+  };
+  const meta = [
+    ["article:published_time", p.date],
+    ["article:modified_time", p.updated || p.date],
+    ["article:author", `${SITE}/`],
+    ...p.tags.map((t) => ["article:tag", t]),
+  ];
+
+  return `${head({ title: p.title, description: p.description, path: p.path, schema, type: "article", image: { url: SITE + p.cover, width: cw, height: ch, alt: p.coverAlt }, meta, css: ["/css/blog.css"], links: [FEED] })}${nav("blog")}
+  <main id="main">
+    <article class="post">
+      <header class="sp-hero post-hero" id="top">
+        <div class="wrap">
+          <nav class="crumbs small-caps" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/blog">Blog</a></li></ol></nav>
+          <p class="small-caps post-kicker">${esc(p.tags.join(" · "))}</p>
+          <h1 class="post-h1">${esc(p.h1)}</h1>
+          <p class="post-dek">${esc(p.description)}</p>
+          <p class="post-meta small-caps"><span>By <a href="/" rel="author">${NAME}</a></span><span><time datetime="${p.date}">${fmtDate(p.date)}</time></span>${p.updated ? `<span>Updated <time datetime="${p.updated}">${fmtDate(p.updated)}</time></span>` : ""}<span>${readingTime(r.words)}</span></p>
+        </div>
+      </header>
+
+      <div class="paper post-body">
+        <div class="wrap">
+          <figure class="post-cover">${blogImage(p.file, p.cover, p.coverAlt, { eager: true })}</figure>
+          <div class="post-layout">${r.toc.length > 2 ? `
+            <nav class="toc" aria-labelledby="toc-title"><p class="small-caps" id="toc-title">On this page</p><ol>${r.toc.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join("")}</ol></nav>` : ""}
+            <div class="prose">
+${r.html}
+              <aside class="post-author" aria-label="About the author">
+                <p class="small-caps">Written by</p>
+                <p class="post-author-name"><a href="/">${NAME}</a></p>
+                <p>Atif is a freelance full-stack developer from India. He builds Flutter apps and the backends behind them with Serverpod, Laravel, FastAPI and Node.js. <a href="${LINKEDIN}" target="_blank" rel="me noopener">LinkedIn</a></p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="sp-section sp-blue" aria-labelledby="next-title">
+      <div class="wrap sp-two">
+        <div>
+          <p class="small-caps kicker">Keep going</p>
+          <h2 id="next-title" class="sp-h2">${others.length ? "Read next" : "Related services"}</h2>
+          ${others.length ? postLinks(others) : ""}
+          <div class="sp-related sp-related-stack">${p.services.map((sl) => `<a class="sp-rel" href="/${sl}"><span>${esc(bySlug[sl].nav)}</span><em aria-hidden="true">↗</em></a>`).join("")}<a class="sp-rel" href="/blog"><span>All articles</span><em aria-hidden="true">↗</em></a></div>
+        </div>
+        <div class="sp-cta-card">
+          <p class="small-caps">Working on an app?</p>
+          <p class="sp-cta-big">Let's build it properly.</p>
+          <p>I build Flutter apps and their backends for startups and businesses. Tell me what you're working on and I'll reply with next steps.</p>
+          <a class="chip chip-big" href="/#contact">Start a project ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+${footer()}`;
+}
+
+function blogIndex() {
+  const tags = [...new Set(posts.flatMap((p) => p.tags))];
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": `${SITE}/blog#blog`,
+        name: `${NAME} — blog`,
+        description: BLOG.description,
+        url: `${SITE}/blog`,
+        inLanguage: "en",
+        author,
+        publisher: author,
+        blogPost: posts.map((p) => ({ "@type": "BlogPosting", "@id": `${SITE}${p.path}#article`, headline: p.h1, url: SITE + p.path, datePublished: p.date, image: SITE + p.cover })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
+        ],
+      },
+    ],
+  };
+  const card = (p, i) => `
+          <article class="post-card${i === 0 ? " featured" : ""}">
+            <div class="post-card-img">${blogImage(p.file, p.cover, p.coverAlt, { eager: i === 0 })}</div>
+            <div class="post-card-body">
+              <p class="small-caps post-card-meta"><time datetime="${p.date}">${fmtDate(p.date)}</time> · ${readingTime(p.rendered.words)}</p>
+              <h3><a href="${p.path}">${esc(p.h1)}</a></h3>
+              <p>${esc(p.description)}</p>
+              <ul class="mini-tags" aria-label="Topics">${p.tags.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+            </div>
+          </article>`;
+
+  return `${head({ title: BLOG.title, description: BLOG.description, path: "/blog", schema, css: ["/css/blog.css"], links: [FEED] })}${nav("blog")}
+  <main id="main">
+    <section class="sp-hero" id="top">
+      <div class="wrap">
+        <nav class="crumbs small-caps" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Blog</li></ol></nav>
+        <h1 class="sp-h1">${esc(BLOG.h1)}</h1>
+        <div class="sp-intro"><p>Step-by-step guides on Flutter, Dart, Serverpod, state management and APIs. Each one builds something real and explains why the code is shaped the way it is. They're written for students and developers who learn by building.</p></div>${tags.length ? `
+        <ul class="sp-stack" aria-label="Topics">${tags.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
+      </div>
+    </section>
+
+    <section class="paper sp-section" aria-labelledby="posts-title">
+      <div class="wrap">
+        <p class="small-caps kicker">Articles</p>
+        <h2 id="posts-title" class="sp-h2">Latest articles</h2>
+        <div class="post-grid">${posts.length ? posts.map(card).join("") : `<p>The first article is on its way.</p>`}
+        </div>
+      </div>
+    </section>
+
+    <section class="sp-final">
+      <div class="wrap">
+        <p class="sp-final-big">Got a project?</p>
+        <p class="sp-final-sub">I build Flutter apps, websites and backends for startups and businesses in India and worldwide.</p>
+        <div class="sp-ctas center"><a class="chip chip-hot chip-big" href="/#contact">Start a project ↗</a><a class="chip chip-big" href="/flutter-development">Flutter development</a></div>
+      </div>
+    </section>
+  </main>
+${footer()}`;
+}
+
+const rss = () => `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${esc(NAME)} — blog</title>
+    <link>${SITE}/blog</link>
+    <atom:link href="${SITE}/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>${esc(BLOG.description)}</description>
+    <language>en</language>
+${posts.map((p) => `    <item>
+      <title>${esc(p.h1)}</title>
+      <link>${SITE}${p.path}</link>
+      <guid>${SITE}${p.path}</guid>
+      <pubDate>${new Date(`${p.date}T00:00:00Z`).toUTCString()}</pubDate>
+      <description>${esc(p.description)}</description>
+    </item>`).join("\n")}
+  </channel>
+</rss>
+`;
 
 function notFound() {
   return `${head({ title: "Page not found | Atif", description: "This page doesn't exist. Explore web, app, backend, AI and automation development services by Atif.", path: "/404" }).replace('<meta name="robots" content="index, follow, max-image-preview:large">', '<meta name="robots" content="noindex">').replace(/\s*<link rel="canonical"[^>]*>/, "")}${nav()}
@@ -397,21 +636,37 @@ function homeSchema(index) {
 
 // ---- write pages ----
 // Google shows one title link and snippet per page: titles, descriptions and H1s must be unique.
+const allPages = [...services.map((s) => ({ ...s, id: s.slug })), ...posts.map((p) => ({ ...p, id: p.path })), { ...BLOG, id: "/blog" }];
 for (const key of ["title", "description", "h1"]) {
   const seen = new Set();
-  for (const s of services) {
-    if (seen.has(s[key])) throw new Error(`${s.slug}: duplicate ${key} "${s[key]}"`);
-    seen.add(s[key]);
+  for (const pg of allPages) {
+    if (seen.has(pg[key])) throw new Error(`${pg.id}: duplicate ${key} "${pg[key]}"`);
+    seen.add(pg[key]);
   }
+}
+for (const pg of allPages) {
+  if (pg.title.length > 70) console.warn(`! title long (${pg.title.length}): ${pg.id}`);
+  if (pg.description.length > 170) console.warn(`! description long (${pg.description.length}): ${pg.id}`);
 }
 for (const s of services) {
   for (const r of s.related) if (!bySlug[r]) throw new Error(`${s.slug}: unknown related slug ${r}`);
-  if (s.title.length > 70) console.warn(`! title long (${s.title.length}): ${s.slug}`);
-  if (s.description.length > 170) console.warn(`! description long (${s.description.length}): ${s.slug}`);
   write(`${s.slug}.html`, servicePage(s));
 }
 write("404.html", notFound());
 write("privacy-policy.html", privacyPolicy());
+
+// Blog: /blog (blog/index.html), one page per post, and an RSS feed. Old post pages are removed.
+mkdirSync(join(ROOT, "blog"), { recursive: true });
+const blogFiles = new Set(["index.html", "feed.xml"]);
+for (const p of posts) {
+  for (const sl of p.services) if (!bySlug[sl]) throw new Error(`${p.file}: unknown service ${sl}`);
+  p.rendered = render(p.body, { file: p.file, link: postLinkAttrs(p.file), image: (src, alt) => blogImage(p.file, src, alt) });
+  write(`blog/${p.slug}.html`, postPage(p));
+  blogFiles.add(`${p.slug}.html`);
+}
+write("blog/index.html", blogIndex());
+write("blog/feed.xml", rss());
+for (const f of readdirSync(join(ROOT, "blog"))) if (!blogFiles.has(f)) unlinkSync(join(ROOT, "blog", f));
 
 // ---- sync the homepage: footer service links + structured data ----
 // Runs before the sitemap so index.html's lastmod reflects these changes.
@@ -426,13 +681,16 @@ const synced = index
 if (synced !== index) writeFileSync(indexPath, synced);
 
 // ---- sitemap + robots ----
-// Every top-level .html page is included automatically unless it is the 404 page,
+// Every .html page (top level and blog/) is included automatically unless it is the 404 page,
 // carries a noindex robots tag, or declares a canonical pointing somewhere else.
-const pages = readdirSync(ROOT)
-  .filter((f) => f.endsWith(".html") && f !== "404.html")
+const htmlFiles = [
+  ...readdirSync(ROOT).filter((f) => f.endsWith(".html") && f !== "404.html"),
+  ...readdirSync(join(ROOT, "blog")).filter((f) => f.endsWith(".html")).map((f) => `blog/${f}`),
+];
+const pages = htmlFiles
   .map((file) => {
     const html = readFileSync(join(ROOT, file), "utf8");
-    const path = file === "index.html" ? "/" : `/${file.slice(0, -5)}`;
+    const path = "/" + file.replace(/(^|\/)index\.html$/, "").replace(/\.html$/, "");
     const robots = html.match(/<meta name="robots" content="([^"]*)"/)?.[1] || "";
     const canonical = html.match(/<link rel="canonical" href="([^"]*)"/)?.[1];
     return { file, loc: SITE + path, indexable: !/noindex/i.test(robots) && canonical === SITE + path };
@@ -452,9 +710,13 @@ write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`)
 if (!pages.some((p) => p.file === "index.html")) throw new Error(`index.html: canonical must be ${SITE}/`);
 // Any absolute URL to this site that isn't on the canonical origin points at a redirect.
 const hostPattern = new RegExp(`https?://(?:www\\.)?${new URL(SITE).hostname.replace(/^www\./, "").replace(/\./g, "\\.")}[^"'\\s<)]*`, "g");
-for (const file of readdirSync(ROOT).filter((f) => /\.(html|xml|txt)$/.test(f))) {
+const outputFiles = [
+  ...readdirSync(ROOT).filter((f) => /\.(html|xml|txt)$/.test(f)),
+  ...readdirSync(join(ROOT, "blog")).map((f) => `blog/${f}`),
+];
+for (const file of outputFiles) {
   const bad = (readFileSync(join(ROOT, file), "utf8").match(hostPattern) || []).filter((u) => !u.startsWith(SITE));
   if (bad.length) throw new Error(`${file}: URLs not on ${SITE}: ${[...new Set(bad)].join(", ")}`);
 }
 
-console.log(`Built ${services.length} service pages, 404.html, sitemap.xml (${pages.length} URLs), robots.txt`);
+console.log(`Built ${services.length} service pages, ${posts.length} blog post${posts.length === 1 ? "" : "s"} + /blog, 404.html, sitemap.xml (${pages.length} URLs), robots.txt`);

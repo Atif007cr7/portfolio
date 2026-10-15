@@ -1,6 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/privacypolicy", "destination": "/privacy-policy", "permanent": true },
+    { "source": "/privacy", "destination": "/privacy-policy", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(css|js|assets)/(.*)",

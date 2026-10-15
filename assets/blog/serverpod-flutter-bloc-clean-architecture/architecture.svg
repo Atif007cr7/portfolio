@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="t d">
+  <title id="t">Taskly architecture: Flutter app layers and the Serverpod server</title>
+  <desc id="d">The Flutter app has three layers. Presentation (TasksPage and TaskBloc) and data (TaskRepositoryImpl and TaskRemoteDataSource) both depend on the domain layer (TaskEntity, the TaskRepository interface and use cases). Only the data layer calls the generated taskly_client, which talks to TaskEndpoint on the Serverpod server. The endpoint uses the generated Task.db methods to read and write the task table in PostgreSQL. One task.spy.yaml model file generates the Task class for both sides.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#ffe9bd"/></marker>
+    <style>
+      text { font-family: Archivo, "Helvetica Neue", Arial, sans-serif; fill: #0b1030; }
+      .k { font-size: 13px; font-weight: 800; letter-spacing: 1.6px; }
+      .h { font-size: 23px; font-weight: 900; }
+      .l { font-size: 16px; font-weight: 600; }
+      .n { font-size: 14px; font-weight: 700; opacity: .7; }
+      .m { font-family: Menlo, Consolas, "Courier New", monospace; font-size: 15px; font-weight: 600; }
+      .c { fill: #ffe9bd; }
+      .arrow { stroke: #ffe9bd; stroke-width: 3; fill: none; marker-end: url(#a); }
+    </style>
+  </defs>
+  <rect width="1200" height="760" rx="28" fill="#1f3fd8"/>
+  <text x="40" y="44" class="k c">TASKLY · HOW THE PIECES FIT</text>
+
+  <!-- Flutter app -->
+  <rect x="40" y="64" width="1120" height="276" rx="24" fill="#0b1030" fill-opacity=".28" stroke="#ffe9bd" stroke-opacity=".55" stroke-width="2"/>
+  <text x="66" y="98" class="k c">FLUTTER APP · taskly_flutter</text>
+
+  <rect x="70" y="118" width="310" height="180" rx="18" fill="#ffe9bd"/>
+  <text x="92" y="146" class="k">PRESENTATION</text>
+  <text x="92" y="180" class="h">TasksPage</text>
+  <text x="92" y="207" class="l">TaskBloc: widgets send</text>
+  <text x="92" y="229" class="l">events, the BLoC emits</text>
+  <text x="92" y="251" class="l">states</text>
+  <text x="92" y="282" class="n">Depends on: domain</text>
+
+  <rect x="435" y="118" width="310" height="180" rx="18" fill="#ff5b2e"/>
+  <text x="457" y="146" class="k">DOMAIN</text>
+  <text x="457" y="180" class="h">TaskEntity</text>
+  <text x="457" y="207" class="l">TaskRepository (interface)</text>
+  <text x="457" y="229" class="l">Use cases: GetTasks,</text>
+  <text x="457" y="251" class="l">AddTask, ToggleTask…</text>
+  <text x="457" y="282" class="n">Depends on: nothing</text>
+
+  <rect x="800" y="118" width="310" height="180" rx="18" fill="#7fd6ff"/>
+  <text x="822" y="146" class="k">DATA</text>
+  <text x="822" y="180" class="h">TaskRepositoryImpl</text>
+  <text x="822" y="207" class="l">TaskRemoteDataSource</text>
+  <text x="822" y="229" class="l">Mapper: Task → TaskEntity</text>
+  <text x="822" y="251" class="l">Error mapping</text>
+  <text x="822" y="282" class="n">Depends on: domain + client</text>
+
+  <path class="arrow" d="M384 208 H429"/>
+  <path class="arrow" d="M796 208 H751"/>
+  <text x="66" y="326" class="n c" style="opacity:.85">Both arrows point at the domain: it is the centre, and it imports nothing from Flutter or Serverpod.</text>
+
+  <!-- shared model -->
+  <rect x="70" y="364" width="675" height="84" rx="16" fill="none" stroke="#c8ff5e" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="92" y="398" class="m" fill="#c8ff5e" style="fill:#c8ff5e">task.spy.yaml</text>
+  <text x="92" y="426" class="l c">One model file generates the Task class for the server and the app.</text>
+
+  <!-- generated client -->
+  <path class="arrow" d="M955 302 V358"/>
+  <rect x="800" y="364" width="310" height="84" rx="16" fill="#0b1030"/>
+  <text x="822" y="396" class="k c">GENERATED · NEVER EDIT</text>
+  <text x="822" y="428" class="m c">taskly_client</text>
+  <path class="arrow" d="M955 452 V518"/>
+  <text x="968" y="465" class="n c" style="opacity:.9">HTTP + JSON</text>
+
+  <!-- Server -->
+  <rect x="40" y="470" width="1120" height="250" rx="24" fill="#0b1030" fill-opacity=".28" stroke="#ffe9bd" stroke-opacity=".55" stroke-width="2"/>
+  <text x="66" y="504" class="k c">SERVERPOD SERVER · taskly_server</text>
+
+  <rect x="800" y="524" width="310" height="170" rx="18" fill="#fff4de"/>
+  <text x="822" y="552" class="k">ENDPOINT</text>
+  <text x="822" y="586" class="h">TaskEndpoint</text>
+  <text x="822" y="613" class="l">list · create</text>
+  <text x="822" y="635" class="l">toggleDone · remove</text>
+  <text x="822" y="672" class="n">Validates every input</text>
+
+  <rect x="435" y="524" width="310" height="170" rx="18" fill="#fff4de"/>
+  <text x="457" y="552" class="k">ORM (GENERATED)</text>
+  <text x="457" y="586" class="h">Task.db</text>
+  <text x="457" y="613" class="l">find · insertRow</text>
+  <text x="457" y="635" class="l">updateRow · deleteRow</text>
+  <text x="457" y="672" class="n">Type-safe queries, no SQL</text>
+
+  <path d="M70 548 C70 528 380 528 380 548 V670 C380 690 70 690 70 670 Z" fill="#c8ff5e"/>
+  <path d="M70 548 C70 568 380 568 380 548" fill="none" stroke="#0b1030" stroke-opacity=".35" stroke-width="2"/>
+  <text x="92" y="596" class="k">DATABASE</text>
+  <text x="92" y="628" class="h">PostgreSQL</text>
+  <text x="92" y="655" class="l">table: task</text>
+
+  <path class="arrow" d="M796 609 H751"/>
+  <path class="arrow" d="M431 609 H386"/>
+</svg>

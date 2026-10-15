@@ -1,4 +1,4 @@
-/* Lightweight script for service pages: menu, cursor spotlight, nav hide. */
+/* Lightweight script for service and blog pages: menu, cursor spotlight, nav hide, code copy. */
 const root = document.documentElement;
 const menu = document.getElementById("menu");
 const menuBtn = document.querySelector(".menu-open");
@@ -31,3 +31,18 @@ window.addEventListener("scroll", () => {
   nav.classList.toggle("hide", y > 400 && y > lastY);
   lastY = y;
 }, { passive: true });
+
+// Blog code blocks: the Copy button stays hidden until this script can make it work.
+for (const btn of document.querySelectorAll(".code-copy")) {
+  btn.hidden = false;
+  btn.addEventListener("click", async () => {
+    const code = btn.closest(".code").querySelector("code").textContent;
+    try {
+      await navigator.clipboard.writeText(code);
+      btn.textContent = "Copied";
+    } catch {
+      btn.textContent = "Copy failed";
+    }
+    setTimeout(() => (btn.textContent = "Copy"), 1600);
+  });
+}
