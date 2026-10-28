@@ -514,51 +514,62 @@ function notFound() {
 ${footer()}`;
 }
 
-// Privacy policy for the kids' game: no accounts, nothing collected by us, third-party ads only.
+// Privacy policy for ABC Fun Land: no accounts, nothing collected by us, child-directed AdMob ads only.
+// Google Play matches the app name, package and developer named here against the store listing, so keep them in sync.
 // Each section is [heading, blocks]; a block is a paragraph (string) or a bullet list (array).
 // Bump PRIVACY_UPDATED by hand whenever the wording changes.
-const PRIVACY_UPDATED = "10 October 2026";
+const APP_NAME = "ABC Fun Land";
+const APP_PACKAGE = "com.ansariatif.bmsutility.abcfunland";
+const PRIVACY_UPDATED = "28 October 2026";
 const PRIVACY = [
+  ["About this app", [
+    `This privacy policy applies to <strong>${APP_NAME}</strong>, a learning game for young children available on Google Play (package name <code>${APP_PACKAGE}</code>). ${APP_NAME} is developed and published by ${NAME}, an individual developer (“we”, “us”).`,
+  ]],
   ["The short version", [[
-    "The Game has no login, sign-up or account.",
+    `${APP_NAME} has no login, sign-up or account.`,
     "We do not collect, store or share personal information about players.",
-    "The Game shows ads, which are delivered by a third-party advertising network.",
+    "The app asks for no device permissions such as camera, microphone, location, contacts or photos.",
+    "The app shows child-appropriate ads from Google AdMob, configured for children.",
   ]]],
   ["Information we collect", [
-    "We do not collect any personal information. The Game does not ask for a name, email address, phone number, photos, contacts or location, and there is no account to create.",
-    "Any game progress or settings are saved only on the device and are not sent to us.",
+    `We do not collect any personal information. ${APP_NAME} does not ask for a name, email address, phone number, photos, contacts or location, and there is no account to create.`,
+    "Game settings (music and sound on or off, child lock) and progress are saved only on the device and are never sent to us. Letter and word voices are spoken by the device's built-in text-to-speech engine.",
   ]],
-  ["Advertising", [
-    "The Game is free and is supported by ads. Ads are served by a third-party advertising network, not by us. To show ads and measure how they perform, the ad network may automatically collect some technical information from the device, such as:",
-    ["IP address", "Device type, operating system and language", "An advertising or device identifier, where one is available", "Which ads were shown or tapped"],
-    "This information is collected and handled by the ad network under its own privacy policy. We do not receive it in a form that identifies a player.",
+  ["Advertising (Google AdMob)", [
+    `${APP_NAME} is free and is supported by ads from Google AdMob, operated by Google LLC. Every ad request is marked as directed to children, and ads are limited to the “G” (general audiences) content rating, so Google serves only non-personalised ads and does not use the information for interest-based advertising or remarketing. The app does not request the Android advertising ID.`,
+    "To show ads, prevent fraud and measure how ads perform, Google may automatically collect limited technical information from the device, such as:",
+    ["IP address (used to estimate a general location, such as the country)", "Device model, operating system and language", "App-instance or diagnostic information about the ads shown or tapped"],
+    `This information goes to Google, not to us, and is handled under <a href="https://policies.google.com/privacy" rel="noopener">Google's Privacy Policy</a> and <a href="https://support.google.com/admob/answer/6223431" rel="noopener">its policy for child-directed apps</a>. AdMob is a Google Play Families self-certified ads SDK. We do not receive anything that identifies a player.`,
   ]],
   ["Children's privacy", [
-    "The Game is made for children, so it is built to work without personal information: there is no account, no sign-up and nothing a child has to enter about themselves. We do not knowingly collect personal information from children.",
+    `${APP_NAME} is made for children and follows the Google Play Families policy and the US Children's Online Privacy Protection Act (COPPA). It works without personal information: there is no account, no sign-up and nothing a child has to enter about themselves. Settings and outside links are behind a grown-ups-only question. We do not knowingly collect personal information from children.`,
     `If you are a parent or guardian and believe your child's personal information has been shared with us, email <a href="mailto:${EMAIL}">${EMAIL}</a> and we will delete it.`,
   ]],
-  ["Your choices", [
-    "You can reset or delete the advertising identifier, or limit ad tracking, in the device's privacy settings. Uninstalling the Game removes anything it saved on the device.",
-  ]],
   ["Sharing and selling data", [
-    "Because we do not collect personal information, we have nothing to sell, rent or share.",
+    "Because we do not collect personal information, we have nothing to sell, rent or share. The only third party involved is Google AdMob, as described above.",
+  ]],
+  ["Data retention and deletion", [
+    `We keep no player data on our servers. Everything ${APP_NAME} saves stays on the device, and uninstalling the app or clearing its data removes it.`,
+  ]],
+  ["Security", [
+    "Because no personal information leaves the device through us, there is no player data held by us that could be exposed. Ad traffic to Google is sent over encrypted (HTTPS) connections.",
   ]],
   ["Changes to this policy", [
-    "If the Game or this policy changes, we will update this page and the date at the top.",
+    "If the app or this policy changes, we will update this page and the date at the top.",
   ]],
   ["Contact", [
-    `Questions about this policy? Email <a href="mailto:${EMAIL}">${EMAIL}</a>.`,
+    `Questions about this policy or ${APP_NAME}? Email ${NAME} at <a href="mailto:${EMAIL}">${EMAIL}</a>.`,
   ]],
 ];
 
 function privacyPolicy() {
-  return `${head({ title: "Privacy Policy | Atif", description: "Privacy policy for the kids' game by Ansari Mohd Atif: no login, no personal information collected by us, and how third-party ads work.", path: "/privacy-policy" })}${nav()}
+  return `${head({ title: `${APP_NAME} Privacy Policy | Atif`, description: `Privacy policy for ${APP_NAME} (${APP_PACKAGE}), the kids' learning game by ${NAME}: no login, no personal information collected, child-directed Google AdMob ads.`, path: "/privacy-policy" })}${nav()}
   <main id="main">
     <section class="sp-hero" id="top">
       <div class="wrap">
         <p class="small-caps kicker">Legal</p>
-        <h1 class="sp-h1">Privacy policy</h1>
-        <div class="sp-intro"><p>This policy applies to the kids' game (the “Game”) published by ${NAME} (“we”, “us”). Last updated ${PRIVACY_UPDATED}.</p></div>
+        <h1 class="sp-h1">${APP_NAME} privacy policy</h1>
+        <div class="sp-intro"><p>For the ${APP_NAME} app (<code>${APP_PACKAGE}</code>) by ${NAME}. Last updated ${PRIVACY_UPDATED}.</p></div>
       </div>
     </section>
 
