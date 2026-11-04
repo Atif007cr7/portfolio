@@ -35,6 +35,27 @@
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "WebPage",
+      "@id": "https://www.ansariatif.tech/payment-gateway-integration#webpage",
+      "url": "https://www.ansariatif.tech/payment-gateway-integration",
+      "name": "Payment Gateway Integration — Razorpay for Web & Apps | Atif",
+      "description": "Payment gateway integration for websites and Flutter apps: Razorpay checkout, UPI, subscriptions, refunds and webhook verification.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://www.ansariatif.tech/#website"
+      },
+      "about": {
+        "@id": "https://www.ansariatif.tech/payment-gateway-integration#service"
+      },
+      "author": {
+        "@id": "https://www.ansariatif.tech/#person"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ansariatif.tech/payment-gateway-integration#breadcrumb"
+      },
+      "dateModified": "2026-11-04"
+    },
+    {
       "@type": "Service",
       "@id": "https://www.ansariatif.tech/payment-gateway-integration#service",
       "name": "Payment gateway integration",
@@ -50,10 +71,95 @@
         "Saudi Arabia",
         "United Kingdom",
         "United States"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Payment work I do",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Razorpay checkout",
+              "description": "UPI, cards, net banking and wallets in your website or app."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Server-side verification",
+              "description": "Signature and webhook verification, so orders can't be faked."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Subscriptions & recurring billing",
+              "description": "Plans, renewals and failed-payment handling for SaaS and memberships."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Refunds & reconciliation",
+              "description": "Refund flows and matching payments to orders in your admin panel."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Flutter in-app payments",
+              "description": "Native payment flow in Android and iOS apps."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Fixing broken integrations",
+              "description": "Missing webhooks, duplicate orders and payment-status mismatches."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.ansariatif.tech/payment-gateway-integration#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do you integrate Razorpay in Flutter apps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. I integrate Razorpay checkout in Flutter apps and verify every payment on the backend before confirming the order."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do I need webhooks if checkout already works?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because users close apps, networks drop and callbacks fail. Webhooks let your server confirm the payment independently, which prevents unpaid orders and missing ones."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you fix my existing payment integration?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. I'll audit the flow, fix verification and status handling, and add logging so issues are traceable."
+          }
+        }
       ]
     },
     {
       "@type": "BreadcrumbList",
+      "@id": "https://www.ansariatif.tech/payment-gateway-integration#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -113,6 +219,17 @@
           <a class="chip chip-big" href="#process">How it works</a>
         </div>
         <ul class="sp-stack" aria-label="Technologies"><li>Razorpay</li><li>Webhooks</li><li>Laravel</li><li>PHP</li><li>FastAPI</li><li>Node.js</li><li>Flutter</li><li>MySQL</li><li>PostgreSQL</li></ul>
+        <aside class="sp-glance" aria-labelledby="glance-title">
+          <h2 id="glance-title" class="small-caps">Payment gateway integration at a glance</h2>
+          <p class="sp-glance-lead">Payment gateway integration for websites and Flutter apps: Razorpay checkout, UPI, subscriptions, refunds and webhook verification.</p>
+          <dl>
+            <div><dt>Who builds it</dt><dd>Ansari Mohd Atif, a freelance full-stack developer based in India</dd></div>
+            <div><dt>What you get</dt><dd>Checkout on web and/or app, backend order and payment records, webhook handling and signature checks, refunds and status updates</dd></div>
+            <div><dt>Clients</dt><dd>Startups and businesses in India and internationally, including the UAE, Saudi Arabia, the UK and the USA (remote)</dd></div>
+            <div><dt>Pricing</dt><dd>Fixed price for a clear scope, or an hourly/monthly estimate for ongoing work, quoted after a short discovery call</dd></div>
+            <div><dt>Last updated</dt><dd><time datetime="2026-11-04">4 November 2026</time></dd></div>
+          </dl>
+        </aside>
       </div>
     </section>
 

@@ -60,13 +60,23 @@
         "@type": "Person",
         "@id": "https://www.ansariatif.tech/#person",
         "name": "Ansari Mohd Atif",
-        "url": "https://www.ansariatif.tech/"
+        "url": "https://www.ansariatif.tech/",
+        "jobTitle": "Freelance Full-Stack Developer",
+        "sameAs": [
+          "https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/",
+          "https://github.com/Atif007cr7"
+        ]
       },
       "publisher": {
         "@type": "Person",
         "@id": "https://www.ansariatif.tech/#person",
         "name": "Ansari Mohd Atif",
-        "url": "https://www.ansariatif.tech/"
+        "url": "https://www.ansariatif.tech/",
+        "jobTitle": "Freelance Full-Stack Developer",
+        "sameAs": [
+          "https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/",
+          "https://github.com/Atif007cr7"
+        ]
       },
       "isPartOf": {
         "@type": "Blog",
@@ -80,7 +90,38 @@
         "BLoC",
         "Clean architecture"
       ],
+      "wordCount": 2983,
       "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Serverpod ready for production?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Serverpod is open source and on its fourth major version, with migrations, logging, health checks and test tools built in. You can host it yourself on any server that runs Dart, or use the managed Serverpod Cloud. As with any framework, check that the features you need, such as your sign-in providers and file storage, are covered before you commit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use Bloc or Cubit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Cubit exposes methods (cubit.addTask('...')) instead of events. It's less code and fine for simple screens. Use a Bloc when you want every user action recorded as an event, or need event transformers such as debounce or droppable(). The domain and data layers in this tutorial work unchanged with either."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use Riverpod or Provider instead of BLoC?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Only the presentation layer changes: the use cases, repository and data source stay exactly as they are. That's the point of keeping the layers separate."
+          }
+        }
+      ]
     },
     {
       "@type": "BreadcrumbList",

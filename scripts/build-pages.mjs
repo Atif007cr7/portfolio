@@ -17,12 +17,20 @@ const NAME = "Ansari Mohd Atif";
 const ALT_NAMES = ["Ansari Atif", "Atif"];
 // Public profiles that represent you (LinkedIn, GitHub, Upwork…). Added to Person.sameAs.
 const LINKEDIN = "https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/";
-const SAME_AS = [LINKEDIN];
+const GITHUB = "https://github.com/Atif007cr7";
+const SAME_AS = [LINKEDIN, GITHUB];
+// One-sentence entity description, reused in structured data, llms.txt and the "at a glance" boxes,
+// so search and AI engines see the same facts everywhere.
+const JOB_TITLE = "Freelance Full-Stack Developer";
+const BIO = `${NAME} (Atif) is a freelance full-stack developer based in India who builds websites, e-commerce stores, web apps, Flutter mobile apps for Android and iOS, backend APIs, AI features, business automation and cloud deployments for startups and businesses.`;
+const AREAS = ["India", "United Arab Emirates", "Saudi Arabia", "United Kingdom", "United States"];
 const OG_ALT = "Ansari Mohd Atif (Atif), freelance developer for apps, web, cloud and automation";
 const OG_IMAGE = { url: `${SITE}/assets/og-image.png`, width: 1200, height: 630, alt: OG_ALT };
 // Local date (YYYY-MM-DD), matching the git commit dates used for lastmod below.
 const TODAY = new Date().toLocaleDateString("en-CA");
 const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
+// "Last updated" for service pages: the newest change to their content or template.
+const SERVICES_UPDATED = [lastModified("content/services.mjs"), lastModified("scripts/build-pages.mjs")].sort().at(-1);
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const json = (o) => JSON.stringify(o, null, 2).replace(/</g, "\\u003c");
@@ -61,6 +69,16 @@ const rich = (s, from) => esc(s).replace(/\[([^\]]+)\]\((\/[a-z0-9/-]*)\)/g, (_,
 });
 // Plain text from a small HTML fragment (for structured data built from visible content).
 const text = (html) => html.replace(/<[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&").trim();
+// Plain text from content strings that use [link text](/slug) links.
+const plain = (s) => s.replace(/\[([^\]]+)\]\((\/[a-z0-9/-]*)\)/g, "$1");
+const faqSchema = (id, faqs) => ({ "@type": "FAQPage", "@id": id, mainEntity: faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) });
+// Questions under a "FAQ" <h2> in rendered post HTML: each <h3> and the paragraphs after it.
+const htmlFaqs = (html) => {
+  const section = html.match(/<h2[^>]*>\s*(?:FAQ|FAQs|Frequently asked questions)\s*<\/h2>([\s\S]*?)(?=<h2|$)/i)?.[1] || "";
+  return [...section.matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>([\s\S]*?)(?=<h3|$)/g)]
+    .map(([, q, rest]) => [text(q), [...rest.matchAll(/<p>([\s\S]*?)<\/p>/g)].map(([, a]) => text(a)).join(" ")])
+    .filter(([q, a]) => q && a);
+};
 
 const PROCESS = [
   ["Discovery call", "We talk through your goals, users and must-haves. You get honest advice, including when something isn't worth building."],
@@ -182,21 +200,38 @@ function servicePage(s) {
   const quote = `/?service=${encodeURIComponent(s.formValue)}#contact`;
   const work = s.work.map((k) => projects[k]);
   const reading = posts.filter((p) => p.services.includes(s.slug));
+  const url = SITE + path;
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: s.title,
+        description: s.description,
+        inLanguage: "en",
+        isPartOf: { "@id": `${SITE}/#website` },
+        about: { "@id": `${url}#service` },
+        author: { "@id": `${SITE}/#person` },
+        breadcrumb: { "@id": `${url}#breadcrumb` },
+        dateModified: SERVICES_UPDATED,
+      },
+      {
         "@type": "Service",
-        "@id": `${SITE}${path}#service`,
+        "@id": `${url}#service`,
         name: s.eyebrow,
         serviceType: s.eyebrow,
         description: s.description,
-        url: SITE + path,
+        url,
         provider: { "@id": `${SITE}/#person` },
-        areaServed: ["India", "United Arab Emirates", "Saudi Arabia", "United Kingdom", "United States"],
+        areaServed: AREAS,
+        hasOfferCatalog: { "@type": "OfferCatalog", name: s.offersTitle, itemListElement: s.offers.map(([h, p]) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: h, description: p } })) },
       },
+      faqSchema(`${url}#faq`, s.faqs.map(([q, a]) => [q, plain(a)])),
       {
         "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
           { "@type": "ListItem", position: 2, name: s.eyebrow, item: SITE + path },
@@ -217,6 +252,17 @@ function servicePage(s) {
           <a class="chip chip-big" href="#process">How it works</a>
         </div>
         <ul class="sp-stack" aria-label="Technologies">${s.stack.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+        <aside class="sp-glance" aria-labelledby="glance-title">
+          <h2 id="glance-title" class="small-caps">${esc(s.eyebrow)} at a glance</h2>
+          <p class="sp-glance-lead">${esc(s.description)}</p>
+          <dl>
+            <div><dt>Who builds it</dt><dd>${NAME}, a freelance full-stack developer based in India</dd></div>
+            <div><dt>What you get</dt><dd>${esc(s.included.slice(0, 4).map((x, i) => (i && /^[A-Z][a-z]/.test(x) ? x[0].toLowerCase() + x.slice(1) : x)).join(", "))}</dd></div>
+            <div><dt>Clients</dt><dd>Startups and businesses in India and internationally, including the UAE, Saudi Arabia, the UK and the USA (remote)</dd></div>
+            <div><dt>Pricing</dt><dd>Fixed price for a clear scope, or an hourly/monthly estimate for ongoing work, quoted after a short discovery call</dd></div>
+            <div><dt>Last updated</dt><dd><time datetime="${SERVICES_UPDATED}">${fmtDate(SERVICES_UPDATED)}</time></dd></div>
+          </dl>
+        </aside>
       </div>
     </section>
 
@@ -318,13 +364,14 @@ const postLinkAttrs = (from) => (href) => {
   return "";
 };
 const readingTime = (words) => `${Math.max(1, Math.round(words / 200))} min read`;
-const author = { "@type": "Person", "@id": `${SITE}/#person`, name: NAME, url: `${SITE}/` };
+const author = { "@type": "Person", "@id": `${SITE}/#person`, name: NAME, url: `${SITE}/`, jobTitle: JOB_TITLE, sameAs: SAME_AS };
 
 function postPage(p) {
   const r = p.rendered;
   const url = SITE + p.path;
   const [cw, ch] = imageSize(join(ROOT, p.cover));
   const others = posts.filter((o) => o !== p).slice(0, 3);
+  const faqs = htmlFaqs(r.html);
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -342,8 +389,10 @@ function postPage(p) {
         publisher: author,
         isPartOf: { "@type": "Blog", "@id": `${SITE}/blog#blog`, url: `${SITE}/blog` },
         keywords: p.tags,
+        wordCount: r.words,
         inLanguage: "en",
       },
+      ...(faqs.length ? [faqSchema(`${url}#faq`, faqs)] : []),
       {
         "@type": "BreadcrumbList",
         itemListElement: [
@@ -615,22 +664,22 @@ const KNOWS_ABOUT = [
 ];
 
 function homeSchema(index) {
-  const faqSection = index.match(/<section[^>]*\bid="faq"[^>]*>([\s\S]*?)<\/section>/)?.[1] || "";
-  const faqs = [...faqSection.matchAll(/<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g)].map(([, q, a]) => [text(q), text(a)]);
+  const faqs = homeFaqs(index);
   if (!faqs.length) throw new Error("index.html: no FAQ found in #faq");
   const person = { "@id": `${SITE}/#person` };
   return {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: NAME, alternateName: ALT_NAMES, inLanguage: "en", publisher: person },
+      { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: NAME, alternateName: ALT_NAMES, description: BIO, inLanguage: "en", publisher: person },
       {
         "@type": "Person",
         ...person,
         name: NAME,
         alternateName: ALT_NAMES,
+        description: BIO,
         url: `${SITE}/`,
         email: `mailto:${EMAIL}`,
-        jobTitle: "Freelance Full-Stack Developer",
+        jobTitle: JOB_TITLE,
         address: { "@type": "PostalAddress", addressCountry: "IN" },
         ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
         knowsAbout: KNOWS_ABOUT,
@@ -640,9 +689,116 @@ function homeSchema(index) {
           itemListElement: services.map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", "@id": `${SITE}/${s.slug}#service`, name: s.eyebrow, url: `${SITE}/${s.slug}` } })),
         },
       },
-      { "@type": "FAQPage", "@id": `${SITE}/#faq`, mainEntity: faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) },
+      faqSchema(`${SITE}/#faq`, faqs),
     ],
   };
+}
+const homeFaqs = (index) => {
+  const faqSection = index.match(/<section[^>]*\bid="faq"[^>]*>([\s\S]*?)<\/section>/)?.[1] || "";
+  return [...faqSection.matchAll(/<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g)].map(([, q, a]) => [text(q), text(a)]);
+};
+
+// ---- llms.txt (https://llmstxt.org) ----
+// A plain-Markdown map of the site for AI assistants and answer engines. llms.txt is the short index;
+// llms-full.txt holds the facts from every service page, so an assistant can answer without crawling each page.
+function llmsTxt() {
+  const live = Object.values(projects).filter((w) => w.url);
+  return `# ${NAME}
+
+> ${BIO}
+
+- Name: ${NAME} (also known as ${ALT_NAMES.join(", ")})
+- Role: ${JOB_TITLE}
+- Based in: India; works remotely with clients in India and internationally (UAE, Saudi Arabia, UK, USA)
+- Engagement: fixed price for a clear scope, or hourly/monthly for ongoing work, quoted after a discovery call
+- Contact: ${EMAIL} or ${SITE}/#contact
+- Profiles: ${SAME_AS.join(", ")}
+
+## Services
+
+${services.map((s) => `- [${s.eyebrow}](${SITE}/${s.slug}): ${s.description}`).join("\n")}
+
+## Blog
+
+- [Blog](${SITE}/blog): ${BLOG.description}
+${posts.map((p) => `- [${p.h1}](${SITE}${p.path}): ${p.description}`).join("\n")}
+
+## Published work
+
+${live.map((w) => `- [${w.name}](${w.url}): ${w.type}${w.by ? `, published by ${w.by}` : ""}`).join("\n")}
+
+## Optional
+
+- [Full service details](${SITE}/llms-full.txt): every service page as plain text, with FAQs
+- [Homepage](${SITE}/): portfolio, projects, skills and hiring FAQ
+- [Sitemap](${SITE}/sitemap.xml)
+`;
+}
+
+function llmsFullTxt(index) {
+  const work = (w) => [w.name, w.type, w.platform, w.role && `role: ${w.role}`, w.stack && `stack: ${w.stack}`, w.by && `publisher: ${w.by}`, w.url, w.ios].filter(Boolean).join(" | ");
+  return `# ${NAME} — full details
+
+> ${BIO}
+
+Source: ${SITE}/ · Last updated: ${SERVICES_UPDATED} · Contact: ${EMAIL}
+
+## About
+
+- Name: ${NAME} (also known as ${ALT_NAMES.join(", ")})
+- Role: ${JOB_TITLE}
+- Based in: India
+- Clients: startups, agencies and businesses in India and internationally, including the UAE, Saudi Arabia, the UK and the USA, on fixed-price or hourly freelance contracts
+- Skills: ${KNOWS_ABOUT.join(", ")}
+- Profiles: ${SAME_AS.join(", ")}
+
+## Hiring FAQ
+
+${homeFaqs(index).map(([q, a]) => `### ${q}\n\n${a}`).join("\n\n")}
+
+## How projects work
+
+${PROCESS.map(([h, p], i) => `${i + 1}. **${h}**: ${p}`).join("\n")}
+
+${services.map((s) => `## ${s.eyebrow}
+
+URL: ${SITE}/${s.slug}
+
+${s.intro.map(plain).join("\n\n")}
+
+### ${s.offersTitle}
+
+${s.offers.map(([h, p]) => `- **${h}**: ${p}`).join("\n")}
+
+### What's included
+
+${s.included.map((i) => `- ${i}`).join("\n")}
+
+### Technologies
+
+${s.stack.join(", ")}
+
+### What affects the cost
+
+${s.costFactors.map((i) => `- ${i}`).join("\n")}
+
+### Relevant work
+
+${s.work.map((k) => `- ${work(projects[k])}`).join("\n")}
+
+### FAQ
+
+${s.faqs.map(([q, a]) => `**${q}**\n${plain(a)}`).join("\n\n")}
+`).join("\n")}
+## Blog
+
+${posts.map((p) => `### ${p.h1}
+
+URL: ${SITE}${p.path} · Published: ${p.date}${p.updated ? ` · Updated: ${p.updated}` : ""}
+
+${p.description}
+${htmlFaqs(p.rendered.html).map(([q, a]) => `\n**${q}**\n${a}`).join("\n")}`).join("\n\n")}
+`;
 }
 
 // ---- write pages ----
@@ -714,7 +870,38 @@ write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 ${pages.map((p) => `  <url>\n    <loc>${p.loc}</loc>\n    <lastmod>${lastModified(p.file)}</lastmod>\n  </url>`).join("\n")}
 </urlset>
 `);
-write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+// Every crawler is allowed. The named groups make that explicit: a crawler that matches its own group
+// ignores the * group, so each one needs its own Allow/empty Disallow.
+const AI_CRAWLERS = [
+  "OAI-SearchBot", "ChatGPT-User", "GPTBot", // ChatGPT search, browsing, training
+  "Claude-SearchBot", "Claude-User", "ClaudeBot", // Claude search, browsing, training
+  "PerplexityBot", "Perplexity-User", // Perplexity
+  "Google-Extended", // Gemini apps and Vertex AI grounding (AI Overviews use Googlebot)
+  "Applebot", "Applebot-Extended", // Siri / Apple Intelligence
+  "Bingbot", "DuckAssistBot", // Bing / Copilot, DuckDuckGo AI answers
+];
+write("robots.txt", `# Search engines, AI search engines and AI assistants are all welcome.
+User-agent: *
+Allow: /
+
+# Google ads crawlers (app-ads.txt and AdMob/AdSense verification)
+User-agent: Google-adstxt
+Disallow:
+
+User-agent: Mediapartners-Google
+Disallow:
+
+User-agent: Googlebot
+Disallow:
+
+# AI search and assistant crawlers
+${AI_CRAWLERS.map((a) => `User-agent: ${a}`).join("\n")}
+Allow: /
+
+Sitemap: ${SITE}/sitemap.xml
+`);
+write("llms.txt", llmsTxt());
+write("llms-full.txt", llmsFullTxt(synced));
 
 // ---- checks ----
 // The homepage drops out of the sitemap silently if its canonical is wrong, so fail loudly instead.

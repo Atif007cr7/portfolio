@@ -1,0 +1,45 @@
+# Ansari Mohd Atif
+
+> Ansari Mohd Atif (Atif) is a freelance full-stack developer based in India who builds websites, e-commerce stores, web apps, Flutter mobile apps for Android and iOS, backend APIs, AI features, business automation and cloud deployments for startups and businesses.
+
+- Name: Ansari Mohd Atif (also known as Ansari Atif, Atif)
+- Role: Freelance Full-Stack Developer
+- Based in: India; works remotely with clients in India and internationally (UAE, Saudi Arabia, UK, USA)
+- Engagement: fixed price for a clear scope, or hourly/monthly for ongoing work, quoted after a discovery call
+- Contact: codewithatif@gmail.com or https://www.ansariatif.tech/#contact
+- Profiles: https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/, https://github.com/Atif007cr7
+
+## Services
+
+- [Website development](https://www.ansariatif.tech/web-development): Freelance website development: fast, mobile-first, SEO-ready business websites with Laravel, PHP or Next.js — hosted, secured and maintained.
+- [Web application development](https://www.ansariatif.tech/web-app-development): Custom web application development: dashboards, portals, internal tools and SaaS apps with Laravel, FastAPI, Node.js or Next.js.
+- [E-commerce development](https://www.ansariatif.tech/ecommerce-development): E-commerce website development: custom online stores and shopping apps with cart, checkout, Razorpay payments and an admin panel.
+- [Mobile app development](https://www.ansariatif.tech/mobile-app-development): Freelance mobile app development for Android & iOS: Flutter apps with backend, payments and Play Store & App Store publishing.
+- [Flutter development](https://www.ansariatif.tech/flutter-development): Hire a freelance Flutter developer for Android & iOS apps — clean Dart code, Firebase or API integration and a Laravel, FastAPI or Serverpod backend.
+- [Backend & API development](https://www.ansariatif.tech/backend-development): Freelance backend & API development: secure REST APIs and databases with Laravel, PHP, Python (FastAPI, Django) and Node.js.
+- [API integration](https://www.ansariatif.tech/api-integration): API integration services: connect your website, app or CRM to third-party APIs, WhatsApp, payment gateways and webhooks — reliably.
+- [Payment gateway integration](https://www.ansariatif.tech/payment-gateway-integration): Payment gateway integration for websites and Flutter apps: Razorpay checkout, UPI, subscriptions, refunds and webhook verification.
+- [AI development & integration](https://www.ansariatif.tech/ai-development): AI development & integration: LLM chatbots, smart search (RAG), document Q&A and AI automation for your website, app or internal tools.
+- [Business automation](https://www.ansariatif.tech/business-automation): Business & workflow automation with Python, Playwright and APIs: automate data entry, reports, browser tasks and notifications.
+- [DevOps & server management](https://www.ansariatif.tech/devops-server-management): DevOps & server management: deploy and maintain apps on AWS, Docker, Hostinger and cPanel with SSL, backups and monitoring.
+
+## Blog
+
+- [Blog](https://www.ansariatif.tech/blog): Hands-on tutorials on Flutter, Dart, Serverpod, BLoC and backend development, written for students and developers by freelance developer Ansari Mohd Atif.
+- [Build a full-stack Dart app with Serverpod, Flutter, BLoC and clean architecture](https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture): A step-by-step Serverpod 4 tutorial: a Dart backend on PostgreSQL and a Flutter app built with BLoC and clean architecture, tested on both sides.
+
+## Published work
+
+- [Metropolis Partner Connect](https://play.google.com/store/apps/details?id=com.metropolis.partnerportal): Healthcare partner app, published by Metropolis Healthcare Ltd.
+- [oneapp](https://play.google.com/store/apps/details?id=com.cubeone.app): Housing society & payments app, published by Futurescape Technologies Pvt Ltd
+- [StartWell Meals](https://play.google.com/store/apps/details?id=com.futurescape.startwell): School tiffin app, published by Futurescape Technologies Pvt Ltd
+- [Yummy Tiffins](https://play.google.com/store/apps/details?id=com.yummytiffins): Online tiffin service, published by Futurescape Technologies Pvt Ltd
+- [MyJobsMate](https://www.myjobsmate.com/): AI career platform
+- [ANSOFTT HRMS](https://play.google.com/store/apps/details?id=com.an.hrms): HR management app, published by AN INTL
+- [OneFoodDialer](https://play.google.com/store/apps/details?id=com.onefooddialer): Food-tech platform, published by Futurescape Technologies Pvt Ltd
+
+## Optional
+
+- [Full service details](https://www.ansariatif.tech/llms-full.txt): every service page as plain text, with FAQs
+- [Homepage](https://www.ansariatif.tech/): portfolio, projects, skills and hiring FAQ
+- [Sitemap](https://www.ansariatif.tech/sitemap.xml)

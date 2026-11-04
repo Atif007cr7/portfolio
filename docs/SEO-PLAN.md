@@ -151,3 +151,25 @@ What it means:
 - The one query Google shows is a **developer query** (`dart serverpod`), from outside India, on desktop, and it earned a click even at position 37. Technical Flutter/Dart/Serverpod content is the clearest opening: few sites cover Serverpod in depth, and those searchers are the people who hire Flutter developers or recommend them.
 - Response (2026-10-16): launched `/blog` with a Serverpod 4 + Flutter + BLoC + clean architecture tutorial targeting `serverpod flutter tutorial`, `dart serverpod`, `serverpod bloc`, `flutter clean architecture bloc`. The post links to `/flutter-development` and `/backend-development`; both pages link back (FAQ answers + "From the blog").
 - After deploying: resubmit the sitemap, then URL Inspection → Request indexing for `/blog` and the post. Recheck in 4 weeks: Performance → filter Page contains `/blog/`, and Queries containing `serverpod`, `bloc`, `clean architecture`. If the post gets impressions at positions 8–20, expand the sections those queries point at.
+
+## 11. AEO / GEO pass — 2026-11-04
+
+AEO = answer engines (featured snippets, People Also Ask, voice). GEO = generative engines (ChatGPT search, Perplexity, Claude, Gemini, Copilot, Google AI Overviews). Both reward pages that state facts plainly, in a consistent entity profile, and that AI crawlers can actually fetch.
+
+| Priority | Gap | Fix | Status |
+|---|---|---|---|
+| HIGH | `robots.txt` is generated, but the AdMob/AdSense crawler rules (commit `26f8b55`) were hand-edited, so every build silently deleted them. | Rules moved into the generator, plus an explicit group for AI search/assistant crawlers (OAI-SearchBot, ChatGPT-User, GPTBot, Claude-SearchBot, Claude-User, ClaudeBot, PerplexityBot, Perplexity-User, Google-Extended, Applebot(-Extended), Bingbot, DuckAssistBot). To opt out of AI *training* only, remove GPTBot, ClaudeBot, Google-Extended and Applebot-Extended from `AI_CRAWLERS`. | ✅ |
+| HIGH | No `llms.txt`. | `/llms.txt` (index: bio, services, blog, published apps) and `/llms-full.txt` (every service page, hiring FAQ and blog FAQs as plain Markdown), generated from `content/services.mjs`. | ✅ |
+| HIGH | Service pages had visible FAQs but no `FAQPage` markup; the blog post's FAQ section had none either. | `FAQPage` generated from the visible FAQs on all 11 service pages and from the `## FAQ` section of any post. | ✅ |
+| MEDIUM | No answer-first summary on service pages. AI answers and snippets quote short, self-contained facts. | "<Service> at a glance" box in each service hero: one-sentence summary, who builds it, what you get, clients, pricing model, last updated. | ✅ |
+| MEDIUM | No freshness signal on service pages. | Visible "Last updated" date + `WebPage.dateModified` (newest git change to `content/services.mjs` or the generator). | ✅ |
+| MEDIUM | Entity profile thin: no `description` on Person/WebSite; blog author had no `sameAs`; only LinkedIn in `sameAs`. | One `BIO` sentence used in Person, WebSite, llms.txt. Author on posts carries `jobTitle` + `sameAs`. GitHub added to `sameAs`. | ✅ |
+| MEDIUM | Service pages had no `WebPage` node tying page → service → person → website. | `WebPage` (isPartOf WebSite, about Service, author Person, breadcrumb) + `Service.hasOfferCatalog` from the visible offers. | ✅ |
+| MEDIUM | ChatGPT search and Copilot rely on Bing's index; nothing pushed changes to Bing. | IndexNow key file (`/16b47773609eac29329c718a16ef24ce.txt`) + `node scripts/indexnow.mjs` (run after each deploy). | ✅ |
+
+Still yours to do (GEO depends on the web agreeing about who you are):
+
+1. **GitHub profile** (`Atif007cr7`): set Name = Ansari Mohd Atif, Website = https://www.ansariatif.tech, a one-line bio. It's in `sameAs` now and is currently empty.
+2. **Bing Webmaster Tools** → import from Google Search Console, submit the sitemap. This is how ChatGPT search and Copilot find you.
+3. Same name, title and website link on LinkedIn, Upwork/Fiverr, Play Console developer page. Add each to `SAME_AS`.
+4. About page with a real photo (`Person.image`) and case studies with real outcomes: the first-hand facts AI engines cite.

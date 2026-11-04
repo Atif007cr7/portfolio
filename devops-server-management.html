@@ -35,6 +35,27 @@
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "WebPage",
+      "@id": "https://www.ansariatif.tech/devops-server-management#webpage",
+      "url": "https://www.ansariatif.tech/devops-server-management",
+      "name": "DevOps & Server Management — AWS, Docker & cPanel | Atif",
+      "description": "DevOps & server management: deploy and maintain apps on AWS, Docker, Hostinger and cPanel with SSL, backups and monitoring.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://www.ansariatif.tech/#website"
+      },
+      "about": {
+        "@id": "https://www.ansariatif.tech/devops-server-management#service"
+      },
+      "author": {
+        "@id": "https://www.ansariatif.tech/#person"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ansariatif.tech/devops-server-management#breadcrumb"
+      },
+      "dateModified": "2026-11-04"
+    },
+    {
       "@type": "Service",
       "@id": "https://www.ansariatif.tech/devops-server-management#service",
       "name": "DevOps & server management",
@@ -50,10 +71,95 @@
         "Saudi Arabia",
         "United Kingdom",
         "United States"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "What I set up and manage",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Cloud deployment on AWS",
+              "description": "Servers, S3 storage, environments and secure access."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Docker & deployments",
+              "description": "Containerised apps and repeatable, low-risk releases."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Shared & VPS hosting",
+              "description": "Hostinger (hPanel) and cPanel setup, migration and upkeep."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Domains, SSL & email",
+              "description": "DNS, HTTPS certificates and business email configuration."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Backups & monitoring",
+              "description": "Automated backups, uptime checks and alerts."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Performance & security",
+              "description": "Faster servers, fewer attack surfaces, safer updates."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.ansariatif.tech/devops-server-management#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can you move my website or app to AWS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. I plan the migration, move the app and database, switch DNS with minimal downtime and keep the old server as a fallback until everything is verified."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer monthly server maintenance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Updates, backups, monitoring, SSL renewals and fixes on a monthly basis."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use AWS or regular hosting?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For a business website, good shared or VPS hosting is often enough and cheaper. AWS makes sense for APIs, apps with growing traffic and more control. I'll recommend based on your needs and budget."
+          }
+        }
       ]
     },
     {
       "@type": "BreadcrumbList",
+      "@id": "https://www.ansariatif.tech/devops-server-management#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -113,6 +219,17 @@
           <a class="chip chip-big" href="#process">How it works</a>
         </div>
         <ul class="sp-stack" aria-label="Technologies"><li>AWS</li><li>S3</li><li>Docker</li><li>Hostinger</li><li>hPanel</li><li>cPanel</li><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li></ul>
+        <aside class="sp-glance" aria-labelledby="glance-title">
+          <h2 id="glance-title" class="small-caps">DevOps &amp; server management at a glance</h2>
+          <p class="sp-glance-lead">DevOps &amp; server management: deploy and maintain apps on AWS, Docker, Hostinger and cPanel with SSL, backups and monitoring.</p>
+          <dl>
+            <div><dt>Who builds it</dt><dd>Ansari Mohd Atif, a freelance full-stack developer based in India</dd></div>
+            <div><dt>What you get</dt><dd>Server or cloud setup, deployment of web app / API / database, domain, DNS and SSL, backups and restore test</dd></div>
+            <div><dt>Clients</dt><dd>Startups and businesses in India and internationally, including the UAE, Saudi Arabia, the UK and the USA (remote)</dd></div>
+            <div><dt>Pricing</dt><dd>Fixed price for a clear scope, or an hourly/monthly estimate for ongoing work, quoted after a short discovery call</dd></div>
+            <div><dt>Last updated</dt><dd><time datetime="2026-11-04">4 November 2026</time></dd></div>
+          </dl>
+        </aside>
       </div>
     </section>
 

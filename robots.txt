@@ -1,6 +1,8 @@
+# Search engines, AI search engines and AI assistants are all welcome.
 User-agent: *
 Allow: /
 
+# Google ads crawlers (app-ads.txt and AdMob/AdSense verification)
 User-agent: Google-adstxt
 Disallow:
 
@@ -9,5 +11,21 @@ Disallow:
 
 User-agent: Googlebot
 Disallow:
+
+# AI search and assistant crawlers
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: Bingbot
+User-agent: DuckAssistBot
+Allow: /
 
 Sitemap: https://www.ansariatif.tech/sitemap.xml

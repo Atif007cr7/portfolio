@@ -35,6 +35,27 @@
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "WebPage",
+      "@id": "https://www.ansariatif.tech/api-integration#webpage",
+      "url": "https://www.ansariatif.tech/api-integration",
+      "name": "API Integration Services — Third-Party & WhatsApp APIs | Atif",
+      "description": "API integration services: connect your website, app or CRM to third-party APIs, WhatsApp, payment gateways and webhooks — reliably.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://www.ansariatif.tech/#website"
+      },
+      "about": {
+        "@id": "https://www.ansariatif.tech/api-integration#service"
+      },
+      "author": {
+        "@id": "https://www.ansariatif.tech/#person"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ansariatif.tech/api-integration#breadcrumb"
+      },
+      "dateModified": "2026-11-04"
+    },
+    {
       "@type": "Service",
       "@id": "https://www.ansariatif.tech/api-integration#service",
       "name": "API integration",
@@ -50,10 +71,95 @@
         "Saudi Arabia",
         "United Kingdom",
         "United States"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Integrations I build",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Third-party API integration",
+              "description": "Connect your app or website to external services and SaaS tools."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "WhatsApp API integration",
+              "description": "Order updates, notifications and customer messages through WhatsApp APIs."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Payment integrations",
+              "description": "Razorpay payments, refunds and subscriptions with webhook verification."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Webhooks & event flows",
+              "description": "React to events from other systems in real time."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Internal system sync",
+              "description": "Keep CRM, ERP, inventory and databases in sync."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "API gateway setup",
+              "description": "Secure and monitor your APIs with Kong."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.ansariatif.tech/api-integration#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can you integrate WhatsApp with my website or app?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. I can send order updates, alerts and notifications through WhatsApp APIs, or connect incoming messages to your system."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if the third-party API is poorly documented?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "I test against their sandbox, log real responses and build defensive handling around edge cases. I'll also tell you early if an integration is risky."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you connect my app to my CRM or ERP?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If the system has an API (most do), yes. I map your data, build the sync and add monitoring."
+          }
+        }
       ]
     },
     {
       "@type": "BreadcrumbList",
+      "@id": "https://www.ansariatif.tech/api-integration#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -113,6 +219,17 @@
           <a class="chip chip-big" href="#process">How it works</a>
         </div>
         <ul class="sp-stack" aria-label="Technologies"><li>REST APIs</li><li>Webhooks</li><li>Razorpay</li><li>WhatsApp APIs</li><li>Kong</li><li>Laravel</li><li>FastAPI</li><li>Node.js</li><li>Python</li></ul>
+        <aside class="sp-glance" aria-labelledby="glance-title">
+          <h2 id="glance-title" class="small-caps">API integration at a glance</h2>
+          <p class="sp-glance-lead">API integration services: connect your website, app or CRM to third-party APIs, WhatsApp, payment gateways and webhooks — reliably.</p>
+          <dl>
+            <div><dt>Who builds it</dt><dd>Ansari Mohd Atif, a freelance full-stack developer based in India</dd></div>
+            <div><dt>What you get</dt><dd>Integration design and data mapping, secure credential handling, retries, idempotency and error handling, logging and alerting</dd></div>
+            <div><dt>Clients</dt><dd>Startups and businesses in India and internationally, including the UAE, Saudi Arabia, the UK and the USA (remote)</dd></div>
+            <div><dt>Pricing</dt><dd>Fixed price for a clear scope, or an hourly/monthly estimate for ongoing work, quoted after a short discovery call</dd></div>
+            <div><dt>Last updated</dt><dd><time datetime="2026-11-04">4 November 2026</time></dd></div>
+          </dl>
+        </aside>
       </div>
     </section>
 
