@@ -96,6 +96,8 @@ button { font: inherit; color: inherit; }
 .chip-hot:hover { background: #ff7a55; }
 .chip-big { padding: 18px 28px; font-size: 16px; }
 .chip.full { width: 100%; }
+.chip-vote { background: var(--lime); color: var(--ink); }
+.chip-vote:hover { background: #d8ff86; }
 
 /* ---------- Nav ---------- */
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 100; padding: 14px var(--pad) 0; pointer-events: none; transition: transform .5s var(--ease); }
@@ -115,6 +117,10 @@ button { font: inherit; color: inherit; }
 .emblem-a { fill: var(--cream); }
 .show-m { display: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* Laptop widths: five nav chips + the centred brand get tight, so compact the chips,
+   and below ~1060px fall back to the Menu button (same as phones). */
+@media (max-width: 1240px) { .nav .chip { padding: 12px 14px; font-size: 13px; } .nav-group { gap: 5px; } }
+@media (max-width: 1060px) { .nav .hide-m { display: none; } .nav .show-m { display: inline-flex; } }
 @media (max-width: 900px) {
   .hide-m { display: none; }
   .show-m { display: inline-flex; }
