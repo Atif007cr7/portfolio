@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bigg Boss 20 Voting Poll: Vote for Your Favourite | Live Leaderboard</title>
+  <meta name="description" content="Unofficial Bigg Boss 20 fan poll. Vote for Qazi Touqeer, ScoutOP, Yung DSA, Gullu, Aamrapali Dubey, Kanika Mann, Mahhi Vij or Manish Goel and watch the live leaderboard. One vote per mobile number every 6 hours.">
+  <meta name="author" content="Ansari Mohd Atif">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://www.ansariatif.tech/bigg-boss-20-voting">
+  <meta name="theme-color" content="#1f3fd8">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ansari Mohd Atif">
+  <meta property="og:title" content="Bigg Boss 20 Voting Poll: Live Fan Leaderboard">
+  <meta property="og:description" content="Vote for your favourite Bigg Boss 20 contestant and see the live fan leaderboard. Unofficial fan poll.">
+  <meta property="og:url" content="https://www.ansariatif.tech/bigg-boss-20-voting">
+  <meta property="og:image" content="https://www.ansariatif.tech/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bigg Boss 20 Voting Poll: Live Fan Leaderboard">
+  <meta name="twitter:description" content="Vote for your favourite Bigg Boss 20 contestant and see the live fan leaderboard. Unofficial fan poll.">
+  <meta name="twitter:image" content="https://www.ansariatif.tech/assets/og-image.png">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js">
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/page.css">
+  <link rel="stylesheet" href="/css/bb-vote.css">
+</head>
+<body class="page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="nav">
+    <div class="nav-row">
+      <nav class="nav-group" aria-label="Main navigation">
+        <a class="chip hide-m" href="/#services">Services</a>
+        <a class="chip hide-m" href="/#work">Work</a>
+        <a class="chip hide-m" href="/#gigs">Gigs</a>
+        <a class="chip hide-m" href="/#faq">FAQ</a>
+        <button class="chip show-m menu-open" aria-expanded="false" aria-controls="menu">Menu</button>
+      </nav>
+      <a href="/" class="brand" aria-label="Atif — home">
+        <span class="brand-badge" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="ring" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs><text class="emblem-ring"><textPath href="#ring">MOBILE ✦ WEB ✦ CLOUD ✦ AUTOMATION ✦</textPath></text><path class="emblem-a" d="M60 34 L77 80 H68.5 L65 70 H55 L51.5 80 H43 Z M57.5 63 H62.5 L60 56 Z"/></svg></span>
+        <span class="brand-word">ATIF<i>.</i></span>
+      </a>
+      <div class="nav-group right">
+        <a class="chip hide-m" href="/blog">Blog</a>
+        <a class="chip chip-hot" href="#vote">Vote now <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+    <div class="dots" aria-hidden="true"></div>
+  </header>
+  <div class="menu" id="menu" hidden>
+    <nav aria-label="Mobile navigation">
+      <a href="/">Home</a><a href="#leaderboard">Leaderboard</a><a href="#vote">Vote</a><a href="/blog">Blog</a><a href="/#contact">Contact</a>
+    </nav>
+    <button class="chip menu-close">Close</button>
+  </div>
+
+  <main id="main">
+    <section class="sp-hero bb-hero" id="top">
+      <div class="wrap">
+        <p class="small-caps kicker">Unofficial fan poll · Season 20</p>
+        <h1 class="sp-h1">Bigg Boss 20 fan vote</h1>
+        <div class="sp-intro">
+          <p>Pick your favourite housemate and push them up the live leaderboard. Enter your mobile number to vote. Each number gets one vote every 6 hours.</p>
+        </div>
+        <div class="sp-ctas">
+          <a class="chip chip-hot chip-big" href="#vote">Vote for a contestant</a>
+          <a class="chip chip-big" href="#leaderboard">See the leaderboard</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper bb-board-sec" id="leaderboard" aria-labelledby="board-h">
+      <div class="wrap narrow">
+        <div class="bb-board-head">
+          <h2 class="sp-h2" id="board-h">Leaderboard</h2>
+          <p class="bb-live small-caps" id="bb-live"><span class="bb-dot" aria-hidden="true"></span><span id="bb-live-text">Connecting…</span></p>
+        </div>
+        <ol class="bb-board" id="bb-board"></ol>
+        <p class="bb-board-note" id="bb-board-note">Votes update live as fans vote. Fan poll only: it has no effect on the show.</p>
+      </div>
+    </section>
+
+    <section class="sp-section bb-vote-sec" id="vote" aria-labelledby="vote-h">
+      <div class="wrap">
+        <h2 class="sp-h2" id="vote-h">Cast your vote</h2>
+        <p class="sp-lead">Tap <strong>Vote</strong> on a contestant, enter your mobile number and confirm. You can vote again 6 hours later.</p>
+        <ul class="bb-grid" id="bb-grid">
+          <li class="bb-card" data-id="qazi-touqeer" data-name="Qazi Touqeer" data-role="Singer" data-photo="/assets/bigg-boss/qazi-touqeer.jpg" data-pos="50% 8%">
+            <div class="bb-photo"><img src="/assets/bigg-boss/qazi-touqeer.jpg" alt="Qazi Touqeer" width="424" height="640" loading="lazy" style="object-position:50% 8%"><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-card-body"><h3 class="bb-name">Qazi Touqeer</h3><p class="small-caps bb-role">Qazi Ahmad Tauqeer · Singer</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
+          </li>
+          <li class="bb-card" data-id="tanmay-singh" data-name="ScoutOP" data-role="Gamer" data-initials="SO">
+            <div class="bb-photo bb-photo-none" style="--a:#ff5b2e;--b:#1f3fd8"><span class="bb-initials" aria-hidden="true">SO</span><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-card-body"><h3 class="bb-name">ScoutOP</h3><p class="small-caps bb-role">Tanmay Singh · Gamer</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
+          </li>
+          <li class="bb-card" data-id="yung-dsa" data-name="Yung DSA" data-role="Rapper" data-initials="YD">
+            <div class="bb-photo bb-photo-none" style="--a:#0b1030;--b:#7fd6ff"><span class="bb-initials" aria-hidden="true">YD</span><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-card-body"><h3 class="bb-name">Yung DSA</h3><p class="small-caps bb-role">Harsh Machare · Rapper</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
+          </li>
+          <li class="bb-card" data-id="gullu" data-name="Gullu" data-role="Creator" data-initials="G">
+            <div class="bb-photo bb-photo-none" style="--a:#c8ff5e;--b:#1f3fd8"><span class="bb-initials" aria-hidden="true">G</span><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-card-body"><h3 class="bb-name">Gullu</h3><p class="small-caps bb-role">Kushal Tanwar · Creator</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
+          </li>
+          <li class="bb-card" data-id="aamrapali-dubey" data-name="Aamrapali Dubey" data-role="Actor" data-photo="/assets/bigg-boss/aamrapali-dubey.jpg">
+            <div class="bb-photo"><img src="/assets/bigg-boss/aamrapali-dubey.jpg" alt="Aamrapali Dubey" width="329" height="460" loading="lazy"><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-card-body"><h3 class="bb-name">Aamrapali Dubey</h3><p class="small-caps bb-role">Actor</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
+          </li>
+          <li class="bb-card" data-id="kanika-mann" data-name="Kanika Mann" data-role="Actor" data-photo="/assets/bigg-boss/kanika-mann.jpg">
+            <div class="bb-photo"><img src="/assets/bigg-boss/kanika-mann.jpg" alt="Kanika Mann" width="152" height="203" loading="lazy"><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-card-body"><h3 class="bb-name">Kanika Mann</h3><p class="small-caps bb-role">Actor</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
+          </li>
+          <li class="bb-card" data-id="mahhi-vij" data-name="Mahhi Vij" data-role="Actor" data-photo="/assets/bigg-boss/mahhi-vij.jpg">
+            <div class="bb-photo"><img src="/assets/bigg-boss/mahhi-vij.jpg" alt="Mahhi Vij" width="259" height="335" loading="lazy"><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-card-body"><h3 class="bb-name">Mahhi Vij</h3><p class="small-caps bb-role">Actor</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
+          </li>
+          <li class="bb-card" data-id="manish-goel" data-name="Manish Goel" data-role="Actor · Wildcard" data-photo="/assets/bigg-boss/manish-goel.jpg">
+            <div class="bb-photo"><img src="/assets/bigg-boss/manish-goel.jpg" alt="Manish Goel" width="177" height="258" loading="lazy"><span class="bb-tag">Wildcard</span><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-card-body"><h3 class="bb-name">Manish Goel</h3><p class="small-caps bb-role">Actor · Wildcard entry</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
+          </li>
+        </ul>
+        <noscript><p class="bb-noscript">Voting needs JavaScript. Turn it on to vote and see live results.</p></noscript>
+      </div>
+    </section>
+
+    <section class="paper sp-section bb-fine" aria-labelledby="fine-h">
+      <div class="wrap narrow">
+        <h2 class="sp-h2" id="fine-h">About this poll</h2>
+        <div class="sp-legal">
+          <h3>Unofficial</h3>
+          <p>This is an independent fan poll run by Ansari Mohd Atif. It is not connected with Bigg Boss, Colors TV, JioHotstar, Banijay or any contestant, and the results have no effect on nominations, evictions or the winner. To vote on the show, use the official app.</p>
+          <h3>Your mobile number</h3>
+          <p>When you vote, we store your mobile number, the contestant you picked and the time of your vote. We use them only to allow one vote per number every 6 hours. Your number is never shown on this page, shared or used for messages or marketing. Email <a href="mailto:codewithatif@gmail.com">codewithatif@gmail.com</a> to have it deleted.</p>
+          <h3>Photo credits</h3>
+          <ul class="bb-credits">
+            <li>Qazi Touqeer: <a href="https://commons.wikimedia.org/wiki/File:Qazi_Touqeer_in_2026.jpg" rel="noopener" target="_blank">Muzamilbhattt</a>, CC0, via Wikimedia Commons (resized).</li>
+            <li>Aamrapali Dubey: <a href="https://commons.wikimedia.org/wiki/File:Amrapali_Dubey_at_Press_Conference_of_Celebrity_Cricket_League_2016_(cropped).jpg" rel="noopener" target="_blank">Bollywood Hungama</a>, <a href="https://creativecommons.org/licenses/by/3.0/" rel="noopener" target="_blank">CC BY 3.0</a>, via Wikimedia Commons.</li>
+            <li>Kanika Mann: <a href="https://commons.wikimedia.org/wiki/File:Kanika_Mann_2023.jpg" rel="noopener" target="_blank">Bollywood Hungama</a>, <a href="https://creativecommons.org/licenses/by/3.0/" rel="noopener" target="_blank">CC BY 3.0</a>, via Wikimedia Commons.</li>
+            <li>Mahhi Vij: <a href="https://commons.wikimedia.org/wiki/File:Mahhi_Vij_at_her_birthday_party_2013.jpg" rel="noopener" target="_blank">Bollywood Hungama</a>, <a href="https://creativecommons.org/licenses/by/3.0/" rel="noopener" target="_blank">CC BY 3.0</a>, via Wikimedia Commons.</li>
+            <li>Manish Goel: <a href="https://commons.wikimedia.org/wiki/File:Poonam_Goel_and_Manish_Goel_(cropped).jpg" rel="noopener" target="_blank">Bollywood Hungama</a>, <a href="https://creativecommons.org/licenses/by/3.0/" rel="noopener" target="_blank">CC BY 3.0</a>, via Wikimedia Commons.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="bb-dialog" id="bb-dialog" aria-labelledby="bb-dlg-title">
+    <form method="dialog" class="bb-dlg-close-form"><button class="bb-dlg-x" aria-label="Close" value="cancel">×</button></form>
+    <div class="bb-dlg-who">
+      <span class="bb-ava bb-ava-lg" id="bb-dlg-ava"></span>
+      <div><p class="small-caps bb-dlg-kicker">You're voting for</p><h2 class="bb-dlg-title" id="bb-dlg-title"></h2></div>
+    </div>
+    <form class="bb-form" id="bb-form" novalidate>
+      <label class="bb-label" for="bb-phone">Your mobile number</label>
+      <div class="bb-phone-field">
+        <span class="bb-cc" aria-hidden="true">+91</span>
+        <input id="bb-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="18" placeholder="98765 43210" required aria-describedby="bb-msg bb-consent">
+      </div>
+      <p class="bb-msg" id="bb-msg" role="status" aria-live="polite"></p>
+      <button class="chip chip-hot chip-big full" type="submit" id="bb-submit">Confirm vote</button>
+      <p class="bb-consent" id="bb-consent">We save your number only to allow one vote every 6 hours. It is never shown or shared.</p>
+    </form>
+    <div class="bb-done" id="bb-done" hidden>
+      <p class="bb-done-big">Vote counted <span aria-hidden="true">✓</span></p>
+      <p id="bb-done-text"></p>
+      <button class="chip chip-big full" type="button" id="bb-done-close">See the leaderboard</button>
+    </div>
+  </dialog>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="dots" aria-hidden="true"></div>
+      <div class="foot-cols foot-cols-services">
+        <div><h2 class="small-caps foot-h">Services</h2><a href="/web-development">Web development</a><a href="/web-app-development">Web app development</a><a href="/ecommerce-development">E-commerce development</a><a href="/mobile-app-development">Mobile app development</a><a href="/flutter-development">Flutter development</a><a href="/backend-development">Backend &amp; API development</a><a href="/api-integration">API integration</a><a href="/payment-gateway-integration">Payment gateway integration</a><a href="/ai-development">AI development</a><a href="/business-automation">Business automation</a><a href="/devops-server-management">DevOps &amp; server management</a></div>
+        <div><h2 class="small-caps foot-h">Work</h2><a href="/#work">Portfolio</a><a href="/#gigs">Gigs</a><a href="/#skills">Skills</a><a href="/#faq">FAQ</a><a href="/blog">Blog</a></div>
+        <div><h2 class="small-caps foot-h">Contact</h2><a href="mailto:codewithatif@gmail.com">codewithatif@gmail.com</a><a href="https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/" target="_blank" rel="me noopener">LinkedIn</a><a href="/#contact">Start a project</a></div>
+        <p class="foot-seo">This live voting page is built with Firebase Cloud Firestore by Atif (Ansari Mohd Atif), a freelance full-stack developer for websites, web apps and Flutter mobile apps.</p>
+      </div>
+      <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
+      <div class="foot-bottom small-caps"><span>© <span id="year">2026</span> Ansari Mohd Atif</span><a href="/privacy-policy">Privacy policy</a><a href="#top">Back to top ↑</a></div>
+    </div>
+  </footer>
+  <script src="/js/page.js" defer></script>
+  <script type="module" src="/js/bb-vote.js"></script>
+</body>
+</html>

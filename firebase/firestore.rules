@@ -1,0 +1,87 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Ad unit IDs and the ads on/off switch: the app may read them, nobody
+    // may write them from the app. Edit them in the Firebase console.
+    match /app_config/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ---------------------------------------------------------------------
+    // Bigg Boss 20 fan poll (www.ansariatif.tech/bigg-boss-20-voting)
+    //
+    // One vote = one batched write of three documents, all stamped with the
+    // same server time:
+    //   bb20_votes/{voteId}        new log entry: phone, contestantId, at
+    //   bb20_voters/{phone}        lastVoteAt, lastVoteId, lastContestant, totalVotes
+    //   bb20_contestants/{id}      votes + 1, lastVoteId
+    // Each rule checks the other two documents with getAfter(), so a vote only
+    // counts when all three are written together, a mobile number can vote
+    // once every 6 hours, and one write can add at most one vote.
+    // Voter and vote documents hold mobile numbers, so nobody can read them
+    // from the web; view them in the Firebase console.
+    // ---------------------------------------------------------------------
+    function bbIds() {
+      return ['qazi-touqeer', 'tanmay-singh', 'yung-dsa', 'gullu',
+              'aamrapali-dubey', 'kanika-mann', 'mahhi-vij', 'manish-goel'];
+    }
+    function bbPhone(p) { return p is string && p.matches('^[6-9][0-9]{9}$'); }
+    function bbPath(coll, id) { return /databases/$(database)/documents/$(coll)/$(id); }
+
+    match /bb20_contestants/{cid} {
+      allow read: if true;
+      // One-time setup of the vote counters. Only the known contestants, starting at 0.
+      allow create: if cid in bbIds()
+        && request.resource.data.keys().hasOnly(['name', 'votes'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 60
+        && request.resource.data.votes == 0;
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['votes', 'lastVoteId'])
+        && request.resource.data.votes == resource.data.votes + 1
+        && bbFreshVote(request.resource.data.lastVoteId, cid);
+    }
+    function bbFreshVote(voteId, cid) {
+      let vote = getAfter(bbPath('bb20_votes', voteId)).data;
+      return voteId is string
+        && vote.at == request.time
+        && vote.contestantId == cid
+        && getAfter(bbPath('bb20_voters', vote.phone)).data.lastVoteId == voteId;
+    }
+
+    match /bb20_votes/{voteId} {
+      allow read, update, delete: if false;
+      allow create: if request.resource.data.keys().hasOnly(['phone', 'contestantId', 'at'])
+        && request.resource.data.at == request.time
+        && bbPhone(request.resource.data.phone)
+        && request.resource.data.contestantId in bbIds()
+        && getAfter(bbPath('bb20_voters', request.resource.data.phone)).data.lastVoteId == voteId;
+    }
+
+    match /bb20_voters/{phone} {
+      allow read, delete: if false;
+      allow create: if bbPhone(phone)
+        && bbVoterWrite(phone)
+        && request.resource.data.totalVotes == 1;
+      // The 6-hour wait between votes from the same mobile number.
+      allow update: if bbVoterWrite(phone)
+        && request.time >= resource.data.lastVoteAt + duration.value(6, 'h')
+        && request.resource.data.totalVotes == resource.data.totalVotes + 1;
+    }
+    function bbVoterWrite(phone) {
+      let d = request.resource.data;
+      let fields = ['phone', 'lastVoteAt', 'lastVoteId', 'lastContestant', 'totalVotes'];
+      return d.keys().hasOnly(fields) && d.keys().hasAll(fields)
+        && d.phone == phone
+        && d.lastVoteAt == request.time
+        && d.lastVoteId is string
+        && d.lastContestant in bbIds()
+        && getAfter(bbPath('bb20_contestants', d.lastContestant)).data.lastVoteId == d.lastVoteId;
+    }
+
+    // Everything else stays locked.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
