@@ -24,7 +24,8 @@ service cloud.firestore {
     // ---------------------------------------------------------------------
     function bbIds() {
       return ['qazi-touqeer', 'tanmay-singh', 'yung-dsa', 'gullu',
-              'aamrapali-dubey', 'kanika-mann', 'mahhi-vij', 'manish-goel'];
+              'aamrapali-dubey', 'kanika-mann', 'mahhi-vij', 'manish-goel',
+              'arishfa-khan', 'uditi-singh', 'love-gill'];
     }
     function bbPhone(p) { return p is string && p.matches('^[6-9][0-9]{9}$'); }
     function bbPath(coll, id) { return /databases/$(database)/documents/$(coll)/$(id); }
