@@ -190,7 +190,9 @@ if (motion) {
   intro
     .from(".hero-giant .ch", { yPercent: 115, duration: 1.3, stagger: 0.035 })
     .from(".hero-sub .ch", { yPercent: 115, duration: 1, stagger: 0.02 }, 0.35)
-    .from([".hero-kicker", ".hero-foot", ".scroll-cue", ".nav-row"], { autoAlpha: 0, y: 20, duration: 1, stagger: 0.08 }, 0.5)
+    // Transform only for the hero text: the kicker and the hero-foot line are LCP candidates, so they must paint before GSAP runs.
+    .from([".hero-kicker", ".hero-foot"], { y: 20, duration: 1, stagger: 0.08 }, 0.5)
+    .from([".scroll-cue", ".nav-row"], { autoAlpha: 0, y: 20, duration: 1, stagger: 0.08 }, 0.66)
     .from(".hero .dots", { scaleX: 0, transformOrigin: "left", duration: 1.4 }, 0.2)
     .from(".phone-intro", { y: () => window.innerHeight, rotation: -18, duration: 1.8 }, 0.25);
 

@@ -59,7 +59,8 @@ function avatar(p) {
 // ---------- leaderboard ----------
 const board = $("bb-board");
 const rows = {};
-for (let i = 0; i < people.length; i++) {
+// Skeleton rows ship in the HTML so the note below doesn't shift when the module loads; add them only if missing.
+for (let i = board.children.length; i < people.length; i++) {
   const li = document.createElement("li");
   li.className = "bb-row skeleton";
   li.setAttribute("aria-hidden", "true");

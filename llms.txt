@@ -8,6 +8,7 @@
 - Engagement: fixed price for a clear scope, or hourly/monthly for ongoing work, quoted after a discovery call
 - Contact: codewithatif@gmail.com or https://www.ansariatif.tech/#contact
 - Profiles: https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/, https://github.com/Atif007cr7
+- Last updated: 2026-11-13
 
 ## Services
 
@@ -30,13 +31,13 @@
 
 ## Published work
 
-- [Metropolis Partner Connect](https://play.google.com/store/apps/details?id=com.metropolis.partnerportal): Healthcare partner app, published by Metropolis Healthcare Ltd.
-- [oneapp](https://play.google.com/store/apps/details?id=com.cubeone.app): Housing society & payments app, published by Futurescape Technologies Pvt Ltd
-- [StartWell Meals](https://play.google.com/store/apps/details?id=com.futurescape.startwell): School tiffin app, published by Futurescape Technologies Pvt Ltd
-- [Yummy Tiffins](https://play.google.com/store/apps/details?id=com.yummytiffins): Online tiffin service, published by Futurescape Technologies Pvt Ltd
-- [MyJobsMate](https://www.myjobsmate.com/): AI career platform
-- [ANSOFTT HRMS](https://play.google.com/store/apps/details?id=com.an.hrms): HR management app, published by AN INTL
-- [OneFoodDialer](https://play.google.com/store/apps/details?id=com.onefooddialer): Food-tech platform, published by Futurescape Technologies Pvt Ltd
+- [Metropolis Partner Connect](https://play.google.com/store/apps/details?id=com.metropolis.partnerportal): Healthcare partner app; published by Metropolis Healthcare Ltd.
+- [oneapp](https://play.google.com/store/apps/details?id=com.cubeone.app): Housing society & payments app; published by Futurescape Technologies Pvt Ltd
+- [StartWell Meals](https://play.google.com/store/apps/details?id=com.futurescape.startwell): School tiffin app; published by Futurescape Technologies Pvt Ltd
+- [Yummy Tiffins](https://play.google.com/store/apps/details?id=com.yummytiffins): Online tiffin service; published by Futurescape Technologies Pvt Ltd
+- [MyJobsMate](https://www.myjobsmate.com/): AI career platform; stack: Next.js
+- [ANSOFTT HRMS](https://play.google.com/store/apps/details?id=com.an.hrms): HR management app; published by AN INTL
+- [OneFoodDialer](https://play.google.com/store/apps/details?id=com.onefooddialer): Food-tech platform; my role: App, backend, payments, API gateway; stack: Flutter · Laravel · Razorpay · Kong; published by Futurescape Technologies Pvt Ltd
 
 ## Optional
 

@@ -35,7 +35,7 @@
 .post-layout { max-width: 760px; margin: 0 auto; }
 
 .toc { margin-bottom: 48px; padding: 22px 26px; border-radius: 22px; background: #fff; border: 2px solid rgba(11,16,48,.07); }
-.toc p { opacity: .55; margin-bottom: 10px; }
+.toc p { opacity: .78; margin-bottom: 10px; }
 .toc ol { margin: 0; padding-left: 1.5em; columns: 2 240px; column-gap: 36px; font-size: 15.5px; line-height: 1.4; }
 .toc li { break-inside: avoid; padding: 4px 0; }
 .toc li::marker { color: var(--orange); font-weight: 800; }

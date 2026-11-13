@@ -40,12 +40,12 @@
 .bb-row.lead .bb-bar i { background: var(--orange); }
 .bb-num { text-align: right; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .bb-num b { display: block; font-family: var(--display); font-stretch: 100%; font-weight: 900; font-size: 20px; }
-.bb-num small { font-size: 13px; font-weight: 700; opacity: .6; }
+.bb-num small { font-size: 13px; font-weight: 700; opacity: .8; }
 .bb-row.bump .bb-num b { animation: bb-bump .6s var(--ease); }
 @keyframes bb-bump { 30% { transform: scale(1.25); color: var(--orange); } }
 .bb-row.skeleton { height: 74px; background: linear-gradient(90deg, #fff 30%, #f6ecd8 50%, #fff 70%) 0 0 / 300% 100%; animation: bb-shimmer 1.4s linear infinite; }
 @keyframes bb-shimmer { to { background-position: -150% 0; } }
-.bb-board-note { margin-top: 18px; font-size: 14px; opacity: .6; }
+.bb-board-note { margin-top: 18px; font-size: 14px; opacity: .8; }
 
 /* ---------- Contestant cards ---------- */
 .bb-vote-sec .sp-h2 { margin-bottom: 14px; }

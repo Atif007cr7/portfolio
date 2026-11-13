@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bigg Boss 20 Voting Poll: Vote for Your Favourite | Live Leaderboard</title>
-  <meta name="description" content="Unofficial Bigg Boss 20 fan poll. Vote for Qazi Touqeer, ScoutOP, Yung DSA, Gullu, Aamrapali Dubey, Kanika Mann, Mahhi Vij, Arishfa Khan, Uditi Singh, Love Gill or Manish Goel and watch the live leaderboard. One vote per mobile number every 6 hours.">
+  <title>Bigg Boss 20 Voting Poll — Live Fan Leaderboard</title>
+  <meta name="description" content="Unofficial Bigg Boss 20 fan poll: vote for your favourite contestant and watch the live leaderboard. One vote per mobile number every 6 hours.">
   <meta name="author" content="Ansari Mohd Atif">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://www.ansariatif.tech/bigg-boss-20-voting">
@@ -17,21 +17,26 @@
   <meta property="og:image" content="https://www.ansariatif.tech/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bigg Boss 20 fan vote with a live leaderboard, on ansariatif.tech">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bigg Boss 20 Voting Poll: Live Fan Leaderboard">
   <meta name="twitter:description" content="Vote for your favourite Bigg Boss 20 contestant and see the live fan leaderboard. Unofficial fan poll.">
   <meta name="twitter:image" content="https://www.ansariatif.tech/assets/og-image.png">
+  <meta name="twitter:image:alt" content="Bigg Boss 20 fan vote with a live leaderboard, on ansariatif.tech">
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
-  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js">
-  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/page.css">
   <link rel="stylesheet" href="/css/bb-vote.css">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebPage","@id":"https://www.ansariatif.tech/bigg-boss-20-voting#webpage","url":"https://www.ansariatif.tech/bigg-boss-20-voting","name":"Bigg Boss 20 Voting Poll — Live Fan Leaderboard","description":"Unofficial Bigg Boss 20 fan poll: vote for your favourite contestant and watch the live leaderboard. One vote per mobile number every 6 hours.","inLanguage":"en","isPartOf":{"@id":"https://www.ansariatif.tech/#website"},"author":{"@id":"https://www.ansariatif.tech/#person"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://www.ansariatif.tech/assets/og-image.png","width":1200,"height":630},"breadcrumb":{"@id":"https://www.ansariatif.tech/bigg-boss-20-voting#breadcrumb"}},
+{"@type":"BreadcrumbList","@id":"https://www.ansariatif.tech/bigg-boss-20-voting#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.ansariatif.tech/"},{"@type":"ListItem","position":2,"name":"Bigg Boss 20 fan vote","item":"https://www.ansariatif.tech/bigg-boss-20-voting"}]}]}
+  </script>
 </head>
 <body class="page">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -44,9 +49,9 @@
         <a class="chip hide-m" href="/#faq">FAQ</a>
         <button class="chip show-m menu-open" aria-expanded="false" aria-controls="menu">Menu</button>
       </nav>
-      <a href="/" class="brand" aria-label="Atif — home">
+      <a href="/" class="brand">
         <span class="brand-badge" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="ring" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs><text class="emblem-ring"><textPath href="#ring">MOBILE ✦ WEB ✦ CLOUD ✦ AUTOMATION ✦</textPath></text><path class="emblem-a" d="M60 34 L77 80 H68.5 L65 70 H55 L51.5 80 H43 Z M57.5 63 H62.5 L60 56 Z"/></svg></span>
-        <span class="brand-word">ATIF<i>.</i></span>
+        <span class="brand-word">ATIF<i>.</i></span><span class="sr-only"> home</span>
       </a>
       <div class="nav-group right">
         <a class="chip hide-m" href="/blog">Blog</a>
@@ -83,7 +88,7 @@
           <h2 class="sp-h2" id="board-h">Leaderboard</h2>
           <p class="bb-live small-caps" id="bb-live"><span class="bb-dot" aria-hidden="true"></span><span id="bb-live-text">Connecting…</span></p>
         </div>
-        <ol class="bb-board" id="bb-board"></ol>
+        <ol class="bb-board" id="bb-board"><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li><li class="bb-row skeleton" aria-hidden="true"></li></ol>
         <p class="bb-board-note" id="bb-board-note">Votes update live as fans vote. Fan poll only: it has no effect on the show.</p>
       </div>
     </section>
@@ -94,7 +99,7 @@
         <p class="sp-lead">Tap <strong>Vote</strong> on a contestant, enter your mobile number and confirm. You can vote again 6 hours later.</p>
         <ul class="bb-grid" id="bb-grid">
           <li class="bb-card" data-id="qazi-touqeer" data-name="Qazi Touqeer" data-role="Singer" data-photo="/assets/bigg-boss/qazi-touqeer.jpg" data-pos="50% 8%">
-            <div class="bb-photo"><img src="/assets/bigg-boss/qazi-touqeer.jpg" alt="Qazi Touqeer" width="424" height="640" loading="lazy" style="object-position:50% 8%"><span class="bb-rank-chip" hidden></span></div>
+            <div class="bb-photo"><img src="/assets/bigg-boss/qazi-touqeer.jpg" alt="Qazi Touqeer" width="424" height="640" fetchpriority="high" style="object-position:50% 8%"><span class="bb-rank-chip" hidden></span></div>
             <div class="bb-card-body"><h3 class="bb-name">Qazi Touqeer</h3><p class="small-caps bb-role">Qazi Ahmad Tauqeer · Singer</p><p class="bb-card-votes"><b data-votes>–</b> votes</p><button class="chip chip-hot full bb-vote-btn" type="button" disabled>Vote</button></div>
           </li>
           <li class="bb-card" data-id="tanmay-singh" data-name="ScoutOP" data-role="Gamer" data-photo="/assets/bigg-boss/tanmay-singh.jpg">
@@ -197,7 +202,7 @@
         <p class="foot-seo">This live voting page is built with Firebase Cloud Firestore by Atif (Ansari Mohd Atif), a freelance full-stack developer for websites, web apps and Flutter mobile apps.</p>
       </div>
       <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
-      <div class="foot-bottom small-caps"><span>© <span id="year">2026</span> Ansari Mohd Atif</span><a href="/privacy-policy">Privacy policy</a><a href="#top">Back to top ↑</a></div>
+      <div class="foot-bottom small-caps"><span>© <span id="year">2026</span> Ansari Mohd Atif</span><a href="/privacy-policy">ABC Fun Land app privacy policy</a><a href="#top">Back to top ↑</a></div>
     </div>
   </footer>
   <script src="/js/page.js" defer></script>

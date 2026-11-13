@@ -53,7 +53,7 @@
       "breadcrumb": {
         "@id": "https://www.ansariatif.tech/payment-gateway-integration#breadcrumb"
       },
-      "dateModified": "2026-11-04"
+      "dateModified": "2026-11-13"
     },
     {
       "@type": "Service",
@@ -80,6 +80,7 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "@id": "https://www.ansariatif.tech/payment-gateway-integration#offer-1",
               "name": "Razorpay checkout",
               "description": "UPI, cards, net banking and wallets in your website or app."
             }
@@ -88,6 +89,7 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "@id": "https://www.ansariatif.tech/payment-gateway-integration#offer-2",
               "name": "Server-side verification",
               "description": "Signature and webhook verification, so orders can't be faked."
             }
@@ -96,6 +98,7 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "@id": "https://www.ansariatif.tech/payment-gateway-integration#offer-3",
               "name": "Subscriptions & recurring billing",
               "description": "Plans, renewals and failed-payment handling for SaaS and memberships."
             }
@@ -104,6 +107,7 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "@id": "https://www.ansariatif.tech/payment-gateway-integration#offer-4",
               "name": "Refunds & reconciliation",
               "description": "Refund flows and matching payments to orders in your admin panel."
             }
@@ -112,6 +116,7 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "@id": "https://www.ansariatif.tech/payment-gateway-integration#offer-5",
               "name": "Flutter in-app payments",
               "description": "Native payment flow in Android and iOS apps."
             }
@@ -120,6 +125,7 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "@id": "https://www.ansariatif.tech/payment-gateway-integration#offer-6",
               "name": "Fixing broken integrations",
               "description": "Missing webhooks, duplicate orders and payment-status mismatches."
             }
@@ -190,9 +196,9 @@
         <a class="chip hide-m" href="/#faq">FAQ</a>
         <button class="chip show-m menu-open" aria-expanded="false" aria-controls="menu">Menu</button>
       </nav>
-      <a href="/" class="brand" aria-label="Atif — home">
+      <a href="/" class="brand">
         <span class="brand-badge" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="ring" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs><text class="emblem-ring"><textPath href="#ring">MOBILE ✦ WEB ✦ CLOUD ✦ AUTOMATION ✦</textPath></text><path class="emblem-a" d="M60 34 L77 80 H68.5 L65 70 H55 L51.5 80 H43 Z M57.5 63 H62.5 L60 56 Z"/></svg></span>
-        <span class="brand-word">ATIF<i>.</i></span>
+        <span class="brand-word">ATIF<i>.</i></span><span class="sr-only"> home</span>
       </a>
       <div class="nav-group right">
         <a class="chip hide-m" href="/blog">Blog</a>
@@ -213,13 +219,13 @@
       <div class="wrap">
         <nav class="crumbs small-caps" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Payment gateway integration</li></ol></nav>
         <h1 class="sp-h1">Payment gateway integration for websites and apps</h1>
-        <div class="sp-intro"><p>Payments have to be correct every time. I integrate payment gateways into websites, <a href="/web-app-development">web apps</a> and <a href="/flutter-development">Flutter mobile apps</a>, including the server-side part many integrations get wrong: verifying payments with signatures and webhooks before an order is marked as paid.</p><p>I've integrated Razorpay in a production food-ordering platform, from app checkout to backend order updates.</p></div>
+        <div class="sp-intro"><p class="sp-answer">To integrate Razorpay, create the order on your server, open Razorpay Checkout in the website or Flutter app, then verify the razorpay_signature on the server with your key secret before marking the order paid. Add a payment.captured webhook as a backup, so orders still update when the user closes the app mid-payment.</p><p>Payments have to be correct every time. I integrate payment gateways into websites, <a href="/web-app-development">web apps</a> and <a href="/flutter-development">Flutter mobile apps</a>, including the server-side part many integrations get wrong: verifying payments with signatures and webhooks before an order is marked as paid.</p><p>I've integrated Razorpay in a production food-ordering platform, from app checkout to backend order updates.</p></div>
         <div class="sp-ctas">
           <a class="chip chip-hot chip-big" href="/?service=Payment%20gateway%20%2F%20API%20integration#contact">Request a quote ↗</a>
           <a class="chip chip-big" href="#process">How it works</a>
         </div>
         <ul class="sp-stack" aria-label="Technologies"><li>Razorpay</li><li>Webhooks</li><li>Laravel</li><li>PHP</li><li>FastAPI</li><li>Node.js</li><li>Flutter</li><li>MySQL</li><li>PostgreSQL</li></ul>
-        <aside class="sp-glance" aria-labelledby="glance-title">
+        <section class="sp-glance" aria-labelledby="glance-title">
           <h2 id="glance-title" class="small-caps">Payment gateway integration at a glance</h2>
           <p class="sp-glance-lead">Payment gateway integration for websites and Flutter apps: Razorpay checkout, UPI, subscriptions, refunds and webhook verification.</p>
           <dl>
@@ -227,9 +233,9 @@
             <div><dt>What you get</dt><dd>Checkout on web and/or app, backend order and payment records, webhook handling and signature checks, refunds and status updates</dd></div>
             <div><dt>Clients</dt><dd>Startups and businesses in India and internationally, including the UAE, Saudi Arabia, the UK and the USA (remote)</dd></div>
             <div><dt>Pricing</dt><dd>Fixed price for a clear scope, or an hourly/monthly estimate for ongoing work, quoted after a short discovery call</dd></div>
-            <div><dt>Last updated</dt><dd><time datetime="2026-11-04">4 November 2026</time></dd></div>
+            <div><dt>Last updated</dt><dd><time datetime="2026-11-13">13 November 2026</time></dd></div>
           </dl>
-        </aside>
+        </section>
       </div>
     </section>
 
@@ -278,13 +284,13 @@
       <div class="wrap sp-two">
         <div>
           <p class="small-caps kicker">Payment gateway integration pricing</p>
-          <h2 id="price-title" class="sp-h2">Pricing approach</h2>
+          <h2 id="price-title" class="sp-h2">How is payment gateway integration priced?</h2>
           <p class="sp-lead">Every project is quoted after a short discovery call, as a fixed price for a clear scope or an hourly/monthly estimate for ongoing work. The main things that affect payment gateway integration cost:</p>
           <ul class="sp-checks dark"><li>One-time payments vs subscriptions</li><li>Web, app, or both</li><li>Existing backend or new</li><li>Refund and reconciliation needs</li><li>Number of payment flows (orders, wallets, payouts)</li></ul>
         </div>
         <div>
           <p class="small-caps kicker">Payment gateway integration FAQ</p>
-          <h2 class="sp-h2">Common questions</h2>
+          <h2 class="sp-h2">Payment gateway integration questions</h2>
           <div class="faq sp-faq"><details><summary>Do you integrate Razorpay in Flutter apps?</summary><p>Yes. I integrate Razorpay checkout in Flutter apps and verify every payment on the backend before confirming the order.</p></details><details><summary>Why do I need webhooks if checkout already works?</summary><p>Because users close apps, networks drop and callbacks fail. Webhooks let your server confirm the payment independently, which prevents unpaid orders and missing ones.</p></details><details><summary>Can you fix my existing payment integration?</summary><p>Yes. I'll audit the flow, fix verification and status handling, and add logging so issues are traceable.</p></details></div>
         </div>
       </div>
@@ -317,7 +323,7 @@
         <p class="foot-seo">Atif (Ansari Mohd Atif) is a freelance full-stack developer for websites, web apps, e-commerce, Flutter mobile apps, backend APIs, databases, AI, automation and DevOps, working with clients in India and internationally.</p>
       </div>
       <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
-      <div class="foot-bottom small-caps"><span>© <span id="year">2026</span> Ansari Mohd Atif</span><a href="/privacy-policy">Privacy policy</a><a href="#top">Back to top ↑</a></div>
+      <div class="foot-bottom small-caps"><span>© <span id="year">2026</span> Ansari Mohd Atif</span><a href="/privacy-policy">ABC Fun Land app privacy policy</a><a href="#top">Back to top ↑</a></div>
     </div>
   </footer>
   <div class="fabs">

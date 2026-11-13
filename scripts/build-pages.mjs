@@ -138,9 +138,9 @@ const nav = (current) => `
         <a class="chip hide-m" href="/#faq">FAQ</a>
         <button class="chip show-m menu-open" aria-expanded="false" aria-controls="menu">Menu</button>
       </nav>
-      <a href="/" class="brand" aria-label="Atif — home">
+      <a href="/" class="brand">
         <span class="brand-badge" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="ring" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs><text class="emblem-ring"><textPath href="#ring">MOBILE ✦ WEB ✦ CLOUD ✦ AUTOMATION ✦</textPath></text><path class="emblem-a" d="M60 34 L77 80 H68.5 L65 70 H55 L51.5 80 H43 Z M57.5 63 H62.5 L60 56 Z"/></svg></span>
-        <span class="brand-word">ATIF<i>.</i></span>
+        <span class="brand-word">ATIF<i>.</i></span><span class="sr-only"> home</span>
       </a>
       <div class="nav-group right">
         <a class="chip hide-m" href="/blog"${current === "blog" ? ' aria-current="page"' : ""}>Blog</a>
@@ -160,7 +160,7 @@ const nav = (current) => `
 // Project facts in display order. A row is only rendered when the project has that field.
 const PROJECT_FACTS = [["Platform", "platform"], ["My role", "role"], ["Stack", "stack"], ["Publisher", "by"]];
 const projectLinks = (w) => {
-  const links = [[w.url, w.url?.includes("play.google.com") ? "Google Play" : "Website"], [w.ios, "App Store"]].filter(([href]) => href);
+  const links = [[w.url, w.url?.includes("play.google.com") ? "Google Play" : `${esc(w.name)} website`], [w.ios, "App Store"]].filter(([href]) => href);
   return links.length ? `<div class="proj-links">${links.map(([href, label]) => `<a class="proj-link" href="${esc(href)}" target="_blank" rel="noopener">${label} <span aria-hidden="true">↗</span></a>`).join("")}</div>` : "";
 };
 
@@ -180,7 +180,7 @@ const footer = () => `
         <p class="foot-seo">Atif (Ansari Mohd Atif) is a freelance full-stack developer for websites, web apps, e-commerce, Flutter mobile apps, backend APIs, databases, AI, automation and DevOps, working with clients in India and internationally.</p>
       </div>
       <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
-      <div class="foot-bottom small-caps"><span>© <span id="year">${TODAY.slice(0, 4)}</span> ${NAME}</span><a href="/privacy-policy">Privacy policy</a><a href="#top">Back to top ↑</a></div>
+      <div class="foot-bottom small-caps"><span>© <span id="year">${TODAY.slice(0, 4)}</span> ${NAME}</span><a href="/privacy-policy">ABC Fun Land app privacy policy</a><a href="#top">Back to top ↑</a></div>
     </div>
   </footer>
   <div class="fabs">
@@ -226,7 +226,7 @@ function servicePage(s) {
         url,
         provider: { "@id": `${SITE}/#person` },
         areaServed: AREAS,
-        hasOfferCatalog: { "@type": "OfferCatalog", name: s.offersTitle, itemListElement: s.offers.map(([h, p]) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: h, description: p } })) },
+        hasOfferCatalog: { "@type": "OfferCatalog", name: s.offersTitle, itemListElement: s.offers.map(([h, p], i) => ({ "@type": "Offer", itemOffered: { "@type": "Service", "@id": `${url}#offer-${i + 1}`, name: h, description: p } })) },
       },
       faqSchema(`${url}#faq`, s.faqs.map(([q, a]) => [q, plain(a)])),
       {
@@ -246,13 +246,13 @@ function servicePage(s) {
       <div class="wrap">
         <nav class="crumbs small-caps" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">${esc(s.eyebrow)}</li></ol></nav>
         <h1 class="sp-h1">${esc(s.h1)}</h1>
-        <div class="sp-intro">${s.intro.map((p) => `<p>${rich(p, s.slug)}</p>`).join("")}</div>
+        <div class="sp-intro">${s.answer ? `<p class="sp-answer">${rich(s.answer, s.slug)}</p>` : ""}${s.intro.map((p) => `<p>${rich(p, s.slug)}</p>`).join("")}</div>
         <div class="sp-ctas">
           <a class="chip chip-hot chip-big" href="${quote}">Request a quote ↗</a>
           <a class="chip chip-big" href="#process">How it works</a>
         </div>
         <ul class="sp-stack" aria-label="Technologies">${s.stack.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
-        <aside class="sp-glance" aria-labelledby="glance-title">
+        <section class="sp-glance" aria-labelledby="glance-title">
           <h2 id="glance-title" class="small-caps">${esc(s.eyebrow)} at a glance</h2>
           <p class="sp-glance-lead">${esc(s.description)}</p>
           <dl>
@@ -262,7 +262,7 @@ function servicePage(s) {
             <div><dt>Pricing</dt><dd>Fixed price for a clear scope, or an hourly/monthly estimate for ongoing work, quoted after a short discovery call</dd></div>
             <div><dt>Last updated</dt><dd><time datetime="${SERVICES_UPDATED}">${fmtDate(SERVICES_UPDATED)}</time></dd></div>
           </dl>
-        </aside>
+        </section>
       </div>
     </section>
 
@@ -311,13 +311,13 @@ ${work.length ? `
       <div class="wrap sp-two">
         <div>
           <p class="small-caps kicker">${esc(s.eyebrow)} pricing</p>
-          <h2 id="price-title" class="sp-h2">Pricing approach</h2>
+          <h2 id="price-title" class="sp-h2">How is ${esc(lower(s.eyebrow))} priced?</h2>
           <p class="sp-lead">Every project is quoted after a short discovery call, as a fixed price for a clear scope or an hourly/monthly estimate for ongoing work. The main things that affect ${esc(lower(s.eyebrow))} cost:</p>
           <ul class="sp-checks dark">${s.costFactors.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>
         </div>
         <div>
           <p class="small-caps kicker">${esc(s.eyebrow)} FAQ</p>
-          <h2 class="sp-h2">Common questions</h2>
+          <h2 class="sp-h2">${esc(s.eyebrow)} questions</h2>
           <div class="faq sp-faq">${s.faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${rich(a, s.slug)}</p></details>`).join("")}</div>
         </div>
       </div>
@@ -395,6 +395,7 @@ function postPage(p) {
       ...(faqs.length ? [faqSchema(`${url}#faq`, faqs)] : []),
       {
         "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
           { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
@@ -433,7 +434,7 @@ ${r.html}
               <aside class="post-author" aria-label="About the author">
                 <p class="small-caps">Written by</p>
                 <p class="post-author-name"><a href="/">${NAME}</a></p>
-                <p>Atif is a freelance full-stack developer from India. He builds Flutter apps and the backends behind them with Serverpod, Laravel, FastAPI and Node.js. <a href="${LINKEDIN}" target="_blank" rel="me noopener">LinkedIn</a></p>
+                <p>Ansari Mohd Atif (Atif) is a freelance full-stack developer from India. He builds Flutter apps and the backends behind them with Serverpod, Laravel, FastAPI and Node.js. <a href="${LINKEDIN}" target="_blank" rel="me noopener">LinkedIn</a></p>
               </aside>
             </div>
           </div>
@@ -474,11 +475,12 @@ function blogIndex() {
         url: `${SITE}/blog`,
         inLanguage: "en",
         author,
-        publisher: author,
-        blogPost: posts.map((p) => ({ "@type": "BlogPosting", "@id": `${SITE}${p.path}#article`, headline: p.h1, url: SITE + p.path, datePublished: p.date, image: SITE + p.cover })),
+        publisher: { "@id": `${SITE}/#person` },
+        blogPost: posts.map((p) => ({ "@type": "BlogPosting", "@id": `${SITE}${p.path}#article`, headline: p.h1, url: SITE + p.path, datePublished: p.date, dateModified: p.updated || p.date, image: SITE + p.cover, author: { "@id": `${SITE}/#person` } })),
       },
       {
         "@type": "BreadcrumbList",
+        "@id": `${SITE}/blog#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
           { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
@@ -612,7 +614,7 @@ const PRIVACY = [
 ];
 
 function privacyPolicy() {
-  return `${head({ title: `${APP_NAME} Privacy Policy | Atif`, description: `Privacy policy for ${APP_NAME} (${APP_PACKAGE}), the kids' learning game by ${NAME}: no login, no personal information collected, child-directed Google AdMob ads.`, path: "/privacy-policy" })}${nav()}
+  return `${head({ title: `${APP_NAME} Privacy Policy | Atif`, description: `Privacy policy for ${APP_NAME}, the kids' learning game by ${NAME}: no login, no personal data collected, child-directed AdMob ads only.`, path: "/privacy-policy" })}${nav()}
   <main id="main">
     <section class="sp-hero" id="top">
       <div class="wrap">
@@ -671,6 +673,8 @@ function homeSchema(index) {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: NAME, alternateName: ALT_NAMES, description: BIO, inLanguage: "en", publisher: person },
+      // The homepage is the portfolio of one person, so it is typed as that person's profile page.
+      { "@type": "ProfilePage", "@id": `${SITE}/#profilepage`, url: `${SITE}/`, name: `${NAME} — ${JOB_TITLE}`, inLanguage: "en", isPartOf: { "@id": `${SITE}/#website` }, mainEntity: person, dateModified: SERVICES_UPDATED },
       {
         "@type": "Person",
         ...person,
@@ -713,6 +717,7 @@ function llmsTxt() {
 - Engagement: fixed price for a clear scope, or hourly/monthly for ongoing work, quoted after a discovery call
 - Contact: ${EMAIL} or ${SITE}/#contact
 - Profiles: ${SAME_AS.join(", ")}
+- Last updated: ${SERVICES_UPDATED}
 
 ## Services
 
@@ -725,7 +730,7 @@ ${posts.map((p) => `- [${p.h1}](${SITE}${p.path}): ${p.description}`).join("\n")
 
 ## Published work
 
-${live.map((w) => `- [${w.name}](${w.url}): ${w.type}${w.by ? `, published by ${w.by}` : ""}`).join("\n")}
+${live.map((w) => `- [${w.name}](${w.url}): ${w.type}${w.role ? `; my role: ${w.role}` : ""}${w.stack ? `; stack: ${w.stack}` : ""}${w.by ? `; published by ${w.by}` : ""}`).join("\n")}
 
 ## Optional
 

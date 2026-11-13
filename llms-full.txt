@@ -2,7 +2,7 @@
 
 > Ansari Mohd Atif (Atif) is a freelance full-stack developer based in India who builds websites, e-commerce stores, web apps, Flutter mobile apps for Android and iOS, backend APIs, AI features, business automation and cloud deployments for startups and businesses.
 
-Source: https://www.ansariatif.tech/ · Last updated: 2026-11-04 · Contact: codewithatif@gmail.com
+Source: https://www.ansariatif.tech/ · Last updated: 2026-11-13 · Contact: codewithatif@gmail.com
 
 ## About
 
@@ -14,6 +14,10 @@ Source: https://www.ansariatif.tech/ · Last updated: 2026-11-04 · Contact: cod
 - Profiles: https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/, https://github.com/Atif007cr7
 
 ## Hiring FAQ
+
+### Who is Ansari Mohd Atif?
+
+Ansari Mohd Atif (Atif) is a freelance full-stack developer based in India. He builds Flutter apps for Android and iOS, websites, web apps, backend APIs, AI features and business automation for startups and businesses. His portfolio lists 11 projects, including 6 apps live on Google Play and 4 on the App Store. Profiles: LinkedIn and GitHub.
 
 ### Can you build both the Android and iOS app for my business?
 
