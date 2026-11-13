@@ -8,7 +8,7 @@
 - Engagement: fixed price for a clear scope, or hourly/monthly for ongoing work, quoted after a discovery call
 - Contact: codewithatif@gmail.com or https://www.ansariatif.tech/#contact
 - Profiles: https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/, https://github.com/Atif007cr7
-- Last updated: 2026-11-13
+- Last updated: 2026-11-14
 
 ## Services
 
@@ -27,6 +27,7 @@
 ## Blog
 
 - [Blog](https://www.ansariatif.tech/blog): Hands-on tutorials on Flutter, Dart, Serverpod, BLoC and backend development, written for students and developers by freelance developer Ansari Mohd Atif.
+- [Razorpay in Flutter: orders, checkout, signature verification and webhooks](https://www.ansariatif.tech/blog/razorpay-flutter-integration): Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.
 - [Build a full-stack Dart app with Serverpod, Flutter, BLoC and clean architecture](https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture): A step-by-step Serverpod 4 tutorial: a Dart backend on PostgreSQL and a Flutter app built with BLoC and clean architecture, tested on both sides.
 
 ## Published work

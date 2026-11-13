@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Razorpay Flutter Integration: Step-by-Step Tutorial | Atif</title>
+  <meta name="description" content="Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.">
+  <meta name="author" content="Ansari Mohd Atif">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://www.ansariatif.tech/blog/razorpay-flutter-integration">
+  <meta name="theme-color" content="#1f3fd8">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Ansari Mohd Atif">
+  <meta property="og:title" content="Razorpay Flutter Integration: Step-by-Step Tutorial | Atif">
+  <meta property="og:description" content="Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.">
+  <meta property="og:url" content="https://www.ansariatif.tech/blog/razorpay-flutter-integration">
+  <meta property="og:image" content="https://www.ansariatif.tech/assets/blog/razorpay-flutter-integration/cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Razorpay × Flutter tutorial cover showing the payment flow: create the order on the server, open Checkout in the app, verify the signature, then confirm with the payment.captured webhook">
+  <meta property="article:published_time" content="2026-11-14">
+  <meta property="article:modified_time" content="2026-11-14">
+  <meta property="article:author" content="https://www.ansariatif.tech/">
+  <meta property="article:tag" content="Flutter">
+  <meta property="article:tag" content="Razorpay">
+  <meta property="article:tag" content="Payments">
+  <meta property="article:tag" content="FastAPI">
+  <meta property="article:tag" content="Dart">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Razorpay Flutter Integration: Step-by-Step Tutorial | Atif">
+  <meta name="twitter:description" content="Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.">
+  <meta name="twitter:image" content="https://www.ansariatif.tech/assets/blog/razorpay-flutter-integration/cover.png">
+  <meta name="twitter:image:alt" content="Razorpay × Flutter tutorial cover showing the payment flow: create the order on the server, open Checkout in the app, verify the signature, then confirm with the payment.captured webhook">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="alternate" type="application/rss+xml" title="Ansari Mohd Atif — blog" href="/blog/feed.xml">
+  <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/page.css">
+  <link rel="stylesheet" href="/css/blog.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.ansariatif.tech/blog/razorpay-flutter-integration#article",
+      "headline": "Razorpay in Flutter: orders, checkout, signature verification and webhooks",
+      "description": "Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.",
+      "url": "https://www.ansariatif.tech/blog/razorpay-flutter-integration",
+      "mainEntityOfPage": "https://www.ansariatif.tech/blog/razorpay-flutter-integration",
+      "image": [
+        "https://www.ansariatif.tech/assets/blog/razorpay-flutter-integration/cover.png"
+      ],
+      "datePublished": "2026-11-14",
+      "dateModified": "2026-11-14",
+      "author": {
+        "@type": "Person",
+        "@id": "https://www.ansariatif.tech/#person",
+        "name": "Ansari Mohd Atif",
+        "url": "https://www.ansariatif.tech/",
+        "jobTitle": "Freelance Full-Stack Developer",
+        "sameAs": [
+          "https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/",
+          "https://github.com/Atif007cr7"
+        ]
+      },
+      "publisher": {
+        "@type": "Person",
+        "@id": "https://www.ansariatif.tech/#person",
+        "name": "Ansari Mohd Atif",
+        "url": "https://www.ansariatif.tech/",
+        "jobTitle": "Freelance Full-Stack Developer",
+        "sameAs": [
+          "https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/",
+          "https://github.com/Atif007cr7"
+        ]
+      },
+      "isPartOf": {
+        "@type": "Blog",
+        "@id": "https://www.ansariatif.tech/blog#blog",
+        "url": "https://www.ansariatif.tech/blog"
+      },
+      "keywords": [
+        "Flutter",
+        "Razorpay",
+        "Payments",
+        "FastAPI",
+        "Dart"
+      ],
+      "wordCount": 925,
+      "inLanguage": "en"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ansariatif.tech/blog/razorpay-flutter-integration#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ansariatif.tech/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://www.ansariatif.tech/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Razorpay in Flutter: orders, checkout, signature verification and webhooks",
+          "item": "https://www.ansariatif.tech/blog/razorpay-flutter-integration"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="nav">
+    <div class="nav-row">
+      <nav class="nav-group" aria-label="Main navigation">
+        <a class="chip hide-m" href="/#services">Services</a>
+        <a class="chip hide-m" href="/#work">Work</a>
+        <a class="chip hide-m" href="/#gigs">Gigs</a>
+        <a class="chip hide-m" href="/#faq">FAQ</a>
+        <button class="chip show-m menu-open" aria-expanded="false" aria-controls="menu">Menu</button>
+      </nav>
+      <a href="/" class="brand">
+        <span class="brand-badge" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="ring" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs><text class="emblem-ring"><textPath href="#ring">MOBILE ✦ WEB ✦ CLOUD ✦ AUTOMATION ✦</textPath></text><path class="emblem-a" d="M60 34 L77 80 H68.5 L65 70 H55 L51.5 80 H43 Z M57.5 63 H62.5 L60 56 Z"/></svg></span>
+        <span class="brand-word">ATIF<i>.</i></span><span class="sr-only"> home</span>
+      </a>
+      <div class="nav-group right">
+        <a class="chip hide-m" href="/blog" aria-current="page">Blog</a>
+        <a class="chip chip-hot" href="/#contact">Hire me <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="dots" aria-hidden="true"></div>
+  </header>
+  <div class="menu" id="menu" hidden>
+    <nav aria-label="Mobile navigation">
+      <a href="/">Home</a><a href="/#services">Services</a><a href="/#work">Work</a><a href="/#gigs">Gigs</a><a href="/blog">Blog</a><a href="/#contact">Contact</a>
+    </nav>
+    <button class="chip menu-close">Close</button>
+  </div>
+
+  <main id="main">
+    <article class="post">
+      <header class="sp-hero post-hero" id="top">
+        <div class="wrap">
+          <nav class="crumbs small-caps" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/blog">Blog</a></li></ol></nav>
+          <p class="small-caps post-kicker">Flutter · Razorpay · Payments · FastAPI · Dart</p>
+          <h1 class="post-h1">Razorpay in Flutter: orders, checkout, signature verification and webhooks</h1>
+          <p class="post-dek">Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.</p>
+          <p class="post-meta small-caps"><span>By <a href="/" rel="author">Ansari Mohd Atif</a></span><span><time datetime="2026-11-14">14 November 2026</time></span><span>5 min read</span></p>
+        </div>
+      </header>
+
+      <div class="paper post-body">
+        <div class="wrap">
+          <figure class="post-cover"><img src="/assets/blog/razorpay-flutter-integration/cover.png" alt="Razorpay × Flutter tutorial cover showing the payment flow: create the order on the server, open Checkout in the app, verify the signature, then confirm with the payment.captured webhook" width="1200" height="630" fetchpriority="high"></figure>
+          <div class="post-layout">
+            <nav class="toc" aria-labelledby="toc-title"><p class="small-caps" id="toc-title">On this page</p><ol><li><a href="#why-the-server-has-to-be-involved">Why the server has to be involved</a></li><li><a href="#the-flow-at-a-glance">The flow at a glance</a></li><li><a href="#step-1-create-the-order-on-the-server">Step 1: create the order on the server</a></li><li><a href="#step-2-open-checkout-in-flutter">Step 2: open Checkout in Flutter</a></li><li><a href="#step-3-verify-the-signature-on-the-server">Step 3: verify the signature on the server</a></li><li><a href="#step-4-confirm-with-a-webhook">Step 4: confirm with a webhook</a></li><li><a href="#authorized-vs-captured">Authorized vs captured</a></li><li><a href="#testing-checklist">Testing checklist</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></nav>
+            <div class="prose">
+<p>To integrate Razorpay in Flutter, create the order on your server, open Razorpay Checkout in the app with that order ID, then send the payment ID, order ID and signature back to your server and verify the signature with your key secret before you mark the order paid. Add a <code>payment.captured</code> webhook as a backup, so orders still update when the user closes the app mid-payment.</p>
+<p>This tutorial builds that flow end to end: a small FastAPI backend and a Flutter screen that pays for an order. The same steps apply if your backend is Laravel, Node.js or Serverpod; only the server syntax changes.</p>
+<h2 id="why-the-server-has-to-be-involved">Why the server has to be involved</h2>
+<p>The Razorpay Checkout opens inside your app, so it's tempting to do everything there. Don't. Three things must happen on a server you control:</p>
+<ul><li><strong>Creating the order.</strong> The amount has to come from your database, not from the app. Otherwise anyone can change the price in a modified build.</li><li><strong>Verifying the signature.</strong> Verification uses your key secret, and a secret shipped inside an app is not a secret.</li><li><strong>Receiving webhooks.</strong> Razorpay calls a public URL when a payment is captured, even if the phone has lost its connection.</li></ul>
+<p>The app only ever sees your <strong>key ID</strong>, which is public by design.</p>
+<h2 id="the-flow-at-a-glance">The flow at a glance</h2>
+<ol><li>The app asks your server to create an order for a cart or a plan.</li><li>The server calls the Razorpay Orders API with the amount in paise and returns the <code>order_id</code>.</li><li>The app opens Razorpay Checkout with the key ID and <code>order_id</code>.</li><li>On success, Checkout returns <code>razorpay_payment_id</code>, <code>razorpay_order_id</code> and <code>razorpay_signature</code>.</li><li>The app sends those three values to your server, which verifies the signature and marks the order paid.</li><li>Razorpay also sends a webhook (<code>payment.captured</code> or <code>order.paid</code>), which your server verifies and handles idempotently.</li></ol>
+<h2 id="step-1-create-the-order-on-the-server">Step 1: create the order on the server</h2>
+<p>Install the Razorpay Python SDK and keep your keys in environment variables. Use test keys (<code>rzp_test_…</code>) until everything works.</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Terminal</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="bash"><code><span class="tok-fn">pip</span> install fastapi uvicorn razorpay</code></pre></div>
+<div class="code"><div class="code-bar"><span class="code-lang">python</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="python"><code>import os
+import razorpay
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+client = razorpay.Client(auth=(os.environ[&quot;RAZORPAY_KEY_ID&quot;], os.environ[&quot;RAZORPAY_KEY_SECRET&quot;]))
+app = FastAPI()
+
+class CreateOrder(BaseModel):
+    cart_id: str
+
+@app.post(&quot;/orders&quot;)
+def create_order(body: CreateOrder):
+    amount_paise = price_for_cart(body.cart_id)  # read the price from YOUR database
+    order = client.order.create({
+        &quot;amount&quot;: amount_paise,        # ₹499.00 is 49900 paise
+        &quot;currency&quot;: &quot;INR&quot;,
+        &quot;receipt&quot;: body.cart_id,
+        &quot;notes&quot;: {&quot;cart_id&quot;: body.cart_id},
+    })
+    save_pending_order(body.cart_id, order[&quot;id&quot;], amount_paise)
+    return {&quot;order_id&quot;: order[&quot;id&quot;], &quot;amount&quot;: amount_paise, &quot;key_id&quot;: os.environ[&quot;RAZORPAY_KEY_ID&quot;]}</code></pre></div>
+<p>Amounts are always in the smallest currency unit, so rupees are sent as paise. Saving the pending order with Razorpay's <code>order_id</code> is what lets you match the payment and the webhook later.</p>
+<h2 id="step-2-open-checkout-in-flutter">Step 2: open Checkout in Flutter</h2>
+<p>Add the official plugin with <code>flutter pub add razorpay_flutter</code>, and check its README for the current minimum Android and iOS versions.</p>
+<div class="code"><div class="code-bar"><span class="code-lang">Dart</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="dart"><code><span class="tok-kw">import</span> <span class="tok-str">'package:flutter/material.dart'</span>;
+<span class="tok-kw">import</span> <span class="tok-str">'package:razorpay_flutter/razorpay_flutter.dart'</span>;
+
+<span class="tok-kw">class</span> <span class="tok-type">PayButton</span> <span class="tok-kw">extends</span> <span class="tok-type">StatefulWidget</span> {
+  <span class="tok-kw">const</span> <span class="tok-type">PayButton</span>({<span class="tok-kw">super</span>.key, <span class="tok-kw">required</span> <span class="tok-kw">this</span>.cartId});
+  <span class="tok-kw">final</span> <span class="tok-type">String</span> cartId;
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">State</span>&lt;<span class="tok-type">PayButton</span>&gt; <span class="tok-fn">createState</span>() =&gt; <span class="tok-type">_PayButtonState</span>();
+}
+
+<span class="tok-kw">class</span> <span class="tok-type">_PayButtonState</span> <span class="tok-kw">extends</span> <span class="tok-type">State</span>&lt;<span class="tok-type">PayButton</span>&gt; {
+  <span class="tok-kw">final</span> _razorpay = <span class="tok-type">Razorpay</span>();
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-kw">void</span> <span class="tok-fn">initState</span>() {
+    <span class="tok-kw">super</span>.<span class="tok-fn">initState</span>();
+    _razorpay.<span class="tok-kw">on</span>(<span class="tok-type">Razorpay</span>.<span class="tok-type">EVENT_PAYMENT_SUCCESS</span>, _onSuccess);
+    _razorpay.<span class="tok-kw">on</span>(<span class="tok-type">Razorpay</span>.<span class="tok-type">EVENT_PAYMENT_ERROR</span>, _onError);
+    _razorpay.<span class="tok-kw">on</span>(<span class="tok-type">Razorpay</span>.<span class="tok-type">EVENT_EXTERNAL_WALLET</span>, _onWallet);
+  }
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-kw">void</span> <span class="tok-fn">dispose</span>() {
+    _razorpay.<span class="tok-fn">clear</span>(); <span class="tok-com">// removes the listeners</span>
+    <span class="tok-kw">super</span>.<span class="tok-fn">dispose</span>();
+  }
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">_pay</span>() <span class="tok-kw">async</span> {
+    <span class="tok-kw">final</span> order = <span class="tok-kw">await</span> api.<span class="tok-fn">createOrder</span>(widget.cartId); <span class="tok-com">// POST /orders</span>
+    _razorpay.<span class="tok-fn">open</span>({
+      <span class="tok-str">'key'</span>: order.keyId,
+      <span class="tok-str">'order_id'</span>: order.orderId,
+      <span class="tok-str">'amount'</span>: order.amount,
+      <span class="tok-str">'currency'</span>: <span class="tok-str">'INR'</span>,
+      <span class="tok-str">'name'</span>: <span class="tok-str">'Your business name'</span>,
+      <span class="tok-str">'description'</span>: <span class="tok-str">'Order ${widget.cartId}'</span>,
+      <span class="tok-str">'prefill'</span>: {<span class="tok-str">'contact'</span>: user.phone, <span class="tok-str">'email'</span>: user.email},
+    });
+  }
+
+  <span class="tok-type">Future</span>&lt;<span class="tok-kw">void</span>&gt; <span class="tok-fn">_onSuccess</span>(<span class="tok-type">PaymentSuccessResponse</span> r) <span class="tok-kw">async</span> {
+    <span class="tok-com">// Not paid yet: the server decides.</span>
+    <span class="tok-kw">await</span> api.<span class="tok-fn">verifyPayment</span>(
+      orderId: r.orderId!,
+      paymentId: r.paymentId!,
+      signature: r.signature!,
+    );
+  }
+
+  <span class="tok-kw">void</span> <span class="tok-fn">_onError</span>(<span class="tok-type">PaymentFailureResponse</span> r) {
+    <span class="tok-com">// r.code and r.message: user cancelled, network error, bank declined…</span>
+  }
+
+  <span class="tok-kw">void</span> <span class="tok-fn">_onWallet</span>(<span class="tok-type">ExternalWalletResponse</span> r) {
+    <span class="tok-com">// The user picked an external wallet such as r.walletName.</span>
+  }
+
+  <span class="tok-meta">@override</span>
+  <span class="tok-type">Widget</span> <span class="tok-fn">build</span>(<span class="tok-type">BuildContext</span> context) =&gt;
+      <span class="tok-type">FilledButton</span>(onPressed: _pay, child: <span class="tok-kw">const</span> <span class="tok-type">Text</span>(<span class="tok-str">'Pay now'</span>));
+}</code></pre></div>
+<p><code>api</code> and <code>user</code> stand in for your own API client and signed-in user. Two details matter here:</p>
+<ul><li><code>EVENT_PAYMENT_SUCCESS</code> means Checkout finished, <strong>not</strong> that you've been paid. Treat it as &quot;please verify&quot;.</li><li>Always call <code>clear()</code> in <code>dispose()</code>, or a second screen can receive events meant for the first.</li></ul>
+<h2 id="step-3-verify-the-signature-on-the-server">Step 3: verify the signature on the server</h2>
+<p>Razorpay signs <code>order_id + &quot;|&quot; + payment_id</code> with HMAC-SHA256 using your key secret. The SDK checks it for you:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">python</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="python"><code>from razorpay.errors import SignatureVerificationError
+
+class VerifyPayment(BaseModel):
+    razorpay_order_id: str
+    razorpay_payment_id: str
+    razorpay_signature: str
+
+@app.post(&quot;/payments/verify&quot;)
+def verify_payment(body: VerifyPayment):
+    try:
+        client.utility.verify_payment_signature(body.model_dump())
+    except SignatureVerificationError:
+        raise HTTPException(status_code=400, detail=&quot;Invalid payment signature&quot;)
+    mark_order_paid(body.razorpay_order_id, body.razorpay_payment_id)  # idempotent
+    return {&quot;status&quot;: &quot;paid&quot;}</code></pre></div>
+<p>Only after this check passes should the app show the success screen and your system ship the order.</p>
+<h2 id="step-4-confirm-with-a-webhook">Step 4: confirm with a webhook</h2>
+<p>The app can die between Checkout and your verify call: a dead battery, a killed process, a lost network. The webhook is how the order still gets marked paid.</p>
+<p>In the Razorpay Dashboard, add a webhook pointing at <code>https://your-api.example/webhooks/razorpay</code>, choose a webhook secret, and subscribe to <code>payment.captured</code>, <code>payment.failed</code> and <code>order.paid</code>.</p>
+<div class="code"><div class="code-bar"><span class="code-lang">python</span><button class="code-copy" type="button" hidden>Copy</button></div><pre data-lang="python"><code>from fastapi import Request
+
+@app.post(&quot;/webhooks/razorpay&quot;)
+async def razorpay_webhook(request: Request):
+    raw = (await request.body()).decode()  # verify the RAW body, before parsing
+    signature = request.headers.get(&quot;X-Razorpay-Signature&quot;, &quot;&quot;)
+    try:
+        client.utility.verify_webhook_signature(raw, signature, os.environ[&quot;RAZORPAY_WEBHOOK_SECRET&quot;])
+    except SignatureVerificationError:
+        raise HTTPException(status_code=400)
+
+    event = await request.json()
+    if event[&quot;event&quot;] == &quot;payment.captured&quot;:
+        payment = event[&quot;payload&quot;][&quot;payment&quot;][&quot;entity&quot;]
+        mark_order_paid(payment[&quot;order_id&quot;], payment[&quot;id&quot;])  # same idempotent function
+    return {&quot;ok&quot;: True}</code></pre></div>
+<p><code>mark_order_paid</code> must be <strong>idempotent</strong>: the verify call and the webhook will usually both arrive, and Razorpay retries webhooks that don't get a 2xx response. Store the payment ID with a unique constraint and ignore duplicates.</p>
+<h2 id="authorized-vs-captured">Authorized vs captured</h2>
+<p>A payment is <strong>authorized</strong> when the bank approves it, and <strong>captured</strong> when the money is actually settled to you. If a payment stays authorized and is never captured, Razorpay refunds it to the customer automatically after a few days.</p>
+<p>For most apps, turn on automatic capture in the Dashboard's payment capture settings. Capture manually only when you need to confirm stock or a booking first, and then capture through the Payments API once you have.</p>
+<h2 id="testing-checklist">Testing checklist</h2>
+<ul><li>Use test-mode keys, and the test cards and UPI IDs from Razorpay's documentation.</li><li>Pay successfully, then check that your database shows the order as paid exactly once.</li><li>Cancel Checkout and check that the order stays pending.</li><li>Kill the app right after paying and check that the webhook still marks the order paid.</li><li>Send a webhook with a wrong signature and check that it's rejected with a 400.</li><li>Switch to live keys only after all of the above pass, and register a separate live-mode webhook.</li></ul>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul><li><strong>Sending the amount from the app.</strong> Always price the order on the server.</li><li><strong>Putting the key secret in the Flutter app.</strong> Only the key ID belongs there.</li><li><strong>Trusting <code>EVENT_PAYMENT_SUCCESS</code>.</strong> Verify the signature on the server first.</li><li><strong>Verifying a parsed and re-serialised webhook body.</strong> The signature is over the raw bytes.</li><li><strong>Not handling duplicates.</strong> Webhooks retry; the app may also call verify twice.</li></ul>
+<p>If you'd rather have this built and tested for you, I do <a href="/payment-gateway-integration">payment gateway integration</a> for websites and <a href="/flutter-development">Flutter apps</a>, including the backend and webhooks.</p>
+              <aside class="post-author" aria-label="About the author">
+                <p class="small-caps">Written by</p>
+                <p class="post-author-name"><a href="/">Ansari Mohd Atif</a></p>
+                <p>Ansari Mohd Atif (Atif) is a freelance full-stack developer from India. He builds Flutter apps and the backends behind them with Serverpod, Laravel, FastAPI and Node.js. <a href="https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/" target="_blank" rel="me noopener">LinkedIn</a></p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="sp-section sp-blue" aria-labelledby="next-title">
+      <div class="wrap sp-two">
+        <div>
+          <p class="small-caps kicker">Keep going</p>
+          <h2 id="next-title" class="sp-h2">Read next</h2>
+          <div class="sp-posts"><a class="sp-post" href="/blog/serverpod-flutter-bloc-clean-architecture"><span class="small-caps">Serverpod · Flutter · Dart</span><strong>Build a full-stack Dart app with Serverpod, Flutter, BLoC and clean architecture</strong><em aria-hidden="true">↗</em></a></div>
+          <div class="sp-related sp-related-stack"><a class="sp-rel" href="/payment-gateway-integration"><span>Payment gateway integration</span><em aria-hidden="true">↗</em></a><a class="sp-rel" href="/flutter-development"><span>Flutter development</span><em aria-hidden="true">↗</em></a><a class="sp-rel" href="/blog"><span>All articles</span><em aria-hidden="true">↗</em></a></div>
+        </div>
+        <div class="sp-cta-card">
+          <p class="small-caps">Working on an app?</p>
+          <p class="sp-cta-big">Let's build it properly.</p>
+          <p>I build Flutter apps and their backends for startups and businesses. Tell me what you're working on and I'll reply with next steps.</p>
+          <a class="chip chip-big" href="/#contact">Start a project ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="dots" aria-hidden="true"></div>
+      <div class="foot-cols foot-cols-services">
+        <div><h2 class="small-caps foot-h">Services</h2><a href="/web-development">Web development</a><a href="/web-app-development">Web app development</a><a href="/ecommerce-development">E-commerce development</a><a href="/mobile-app-development">Mobile app development</a><a href="/flutter-development">Flutter development</a><a href="/backend-development">Backend &amp; API development</a><a href="/api-integration">API integration</a><a href="/payment-gateway-integration">Payment gateway integration</a><a href="/ai-development">AI development</a><a href="/business-automation">Business automation</a><a href="/devops-server-management">DevOps &amp; server management</a></div>
+        <div><h2 class="small-caps foot-h">Work</h2><a href="/#work">Portfolio</a><a href="/#gigs">Gigs</a><a href="/#skills">Skills</a><a href="/#faq">FAQ</a><a href="/blog">Blog</a></div>
+        <div><h2 class="small-caps foot-h">Contact</h2><a href="mailto:codewithatif@gmail.com">codewithatif@gmail.com</a><a href="https://www.linkedin.com/in/mohd-ansari-atif-56512a20b/" target="_blank" rel="me noopener">LinkedIn</a><a href="/#contact">Start a project</a></div>
+        <p class="foot-seo">Atif (Ansari Mohd Atif) is a freelance full-stack developer for websites, web apps, e-commerce, Flutter mobile apps, backend APIs, databases, AI, automation and DevOps, working with clients in India and internationally.</p>
+      </div>
+      <p class="wordmark" aria-hidden="true">ATIF<i>.</i></p>
+      <div class="foot-bottom small-caps"><span>© <span id="year">2026</span> Ansari Mohd Atif</span><a href="/privacy-policy">ABC Fun Land app privacy policy</a><a href="#top">Back to top ↑</a></div>
+    </div>
+  </footer>
+  <div class="fabs">
+    <a class="fab" href="mailto:codewithatif@gmail.com" aria-label="Email me">✉</a>
+    <a class="fab" href="/#contact" aria-label="Start a project">↗</a>
+  </div>
+  <script src="/js/page.js" defer></script>
+</body>
+</html>

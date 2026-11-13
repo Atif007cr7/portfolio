@@ -7,6 +7,13 @@
     <description>Hands-on tutorials on Flutter, Dart, Serverpod, BLoC and backend development, written for students and developers by freelance developer Ansari Mohd Atif.</description>
     <language>en</language>
     <item>
+      <title>Razorpay in Flutter: orders, checkout, signature verification and webhooks</title>
+      <link>https://www.ansariatif.tech/blog/razorpay-flutter-integration</link>
+      <guid>https://www.ansariatif.tech/blog/razorpay-flutter-integration</guid>
+      <pubDate>Sat, 14 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.</description>
+    </item>
+    <item>
       <title>Build a full-stack Dart app with Serverpod, Flutter, BLoC and clean architecture</title>
       <link>https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture</link>
       <guid>https://www.ansariatif.tech/blog/serverpod-flutter-bloc-clean-architecture</guid>

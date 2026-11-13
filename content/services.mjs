@@ -280,7 +280,7 @@ export const services = [
     work: ["food"],
     costFactors: ["One-time payments vs subscriptions", "Web, app, or both", "Existing backend or new", "Refund and reconciliation needs", "Number of payment flows (orders, wallets, payouts)"],
     faqs: [
-      ["Do you integrate Razorpay in Flutter apps?", "Yes. I integrate Razorpay checkout in Flutter apps and verify every payment on the backend before confirming the order."],
+      ["Do you integrate Razorpay in Flutter apps?", "Yes. I integrate Razorpay checkout in Flutter apps and verify every payment on the backend before confirming the order. The full flow, with code, is in my [Razorpay Flutter integration tutorial](/blog/razorpay-flutter-integration)."],
       ["Why do I need webhooks if checkout already works?", "Because users close apps, networks drop and callbacks fail. Webhooks let your server confirm the payment independently, which prevents unpaid orders and missing ones."],
       ["Can you fix my existing payment integration?", "Yes. I'll audit the flow, fix verification and status handling, and add logging so issues are traceable."],
     ],

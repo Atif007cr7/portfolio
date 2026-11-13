@@ -2,12 +2,11 @@
 title: Razorpay Flutter Integration: Step-by-Step Tutorial | Atif
 h1: Razorpay in Flutter: orders, checkout, signature verification and webhooks
 description: Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.
-date: 2026-11-13
+date: 2026-11-14
 tags: Flutter, Razorpay, Payments, FastAPI, Dart
 cover: /assets/blog/razorpay-flutter-integration/cover.png
-coverAlt: Razorpay payment flow in a Flutter app: the app, a FastAPI backend and Razorpay exchanging order, payment and webhook events
+coverAlt: Razorpay × Flutter tutorial cover showing the payment flow: create the order on the server, open Checkout in the app, verify the signature, then confirm with the payment.captured webhook
 services: payment-gateway-integration, flutter-development
-draft: true
 ---
 
 To integrate Razorpay in Flutter, create the order on your server, open Razorpay Checkout in the app with that order ID, then send the payment ID, order ID and signature back to your server and verify the signature with your key secret before you mark the order paid. Add a `payment.captured` webhook as a backup, so orders still update when the user closes the app mid-payment.

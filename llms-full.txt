@@ -2,7 +2,7 @@
 
 > Ansari Mohd Atif (Atif) is a freelance full-stack developer based in India who builds websites, e-commerce stores, web apps, Flutter mobile apps for Android and iOS, backend APIs, AI features, business automation and cloud deployments for startups and businesses.
 
-Source: https://www.ansariatif.tech/ · Last updated: 2026-11-13 · Contact: codewithatif@gmail.com
+Source: https://www.ansariatif.tech/ · Last updated: 2026-11-14 · Contact: codewithatif@gmail.com
 
 ## About
 
@@ -498,7 +498,7 @@ Razorpay, Webhooks, Laravel, PHP, FastAPI, Node.js, Flutter, MySQL, PostgreSQL
 ### FAQ
 
 **Do you integrate Razorpay in Flutter apps?**
-Yes. I integrate Razorpay checkout in Flutter apps and verify every payment on the backend before confirming the order.
+Yes. I integrate Razorpay checkout in Flutter apps and verify every payment on the backend before confirming the order. The full flow, with code, is in my Razorpay Flutter integration tutorial.
 
 **Why do I need webhooks if checkout already works?**
 Because users close apps, networks drop and callbacks fail. Webhooks let your server confirm the payment independently, which prevents unpaid orders and missing ones.
@@ -667,6 +667,13 @@ Yes. Updates, backups, monitoring, SSL renewals and fixes on a monthly basis.
 For a business website, good shared or VPS hosting is often enough and cheaper. AWS makes sense for APIs, apps with growing traffic and more control. I'll recommend based on your needs and budget.
 
 ## Blog
+
+### Razorpay in Flutter: orders, checkout, signature verification and webhooks
+
+URL: https://www.ansariatif.tech/blog/razorpay-flutter-integration · Published: 2026-11-14
+
+Add Razorpay to a Flutter app the safe way: create the order on your server, open Checkout, verify the signature server-side and confirm with webhooks.
+
 
 ### Build a full-stack Dart app with Serverpod, Flutter, BLoC and clean architecture
 

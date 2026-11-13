@@ -92,7 +92,7 @@
 .table td:first-child { font-weight: 700; }
 
 .prose .post-author { margin-top: 3em; padding: 24px 26px; border-radius: 22px; background: var(--blue); color: var(--cream-2); }
-.post-author .small-caps { opacity: .7; }
+.post-author .small-caps { opacity: .85; }
 .post-author-name { margin: 6px 0 10px; font-family: var(--display); font-stretch: 120%; font-weight: 900; text-transform: uppercase; font-size: 26px; line-height: 1; }
 .prose .post-author a { color: inherit; }
 .post-author p:last-child { font-size: 16px; line-height: 1.55; }
